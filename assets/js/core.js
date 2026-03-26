@@ -7,6 +7,13 @@ const OmniCore = {
         this.initLogic();
         this.registerSW();
         OmniSEO.init();
+        
+        // Elite Splash Screen Logic
+        setTimeout(() => {
+            const loader = document.getElementById('loading-overlay');
+            if (loader) loader.classList.add('fade-out');
+        }, 1800);
+
         console.log('OmniToolbox Elite Loaded');
     },
 

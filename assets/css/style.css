@@ -294,6 +294,25 @@ html { scroll-behavior: smooth; }
 }
 .voice-btn:hover { color: var(--primary); background: rgba(255,255,255,0.05); }
 
+/* Elite Splash Screen */
+#loading-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--bg); z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.8s ease, visibility 0.8s;
+}
+.loader-content { text-align: center; }
+.loader-bar { width: 200px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 0 auto; overflow: hidden; }
+.loader-progress { width: 0%; height: 100%; background: var(--primary); box-shadow: 0 0 15px var(--primary); animation: load 1.5s ease-in-out forwards; }
+
+@keyframes load {
+    0% { width: 0%; }
+    50% { width: 70%; }
+    100% { width: 100%; }
+}
+
+.fade-out { opacity: 0; visibility: hidden; }
+
 @keyframes rainbow-text {
     0% { filter: hue-rotate(0deg); }
     100% { filter: hue-rotate(360deg); }
