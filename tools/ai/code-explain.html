@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Code Explainer | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Code Explainer</h1>
+                    <p>Paste any code snippet and get a detailed explanation from ChatGPT-4.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="code-in" class="tool-input" style="height:250px; font-family:monospace;" placeholder="// Paste code here..."></textarea>
+                    <button class="btn w-full mt-4" onclick="explain()">Explain Logic</button>
+
+                    <div id="explain-res" class="card mt-6" style="display:none; background:var(--glass-heavy); border-left: 4px solid #a855f7;">
+                        <div id="res-val" style="line-height:1.6; white-space: pre-wrap;"></div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function explain() {
+            const code = document.getElementById('code-in').value;
+            const res = document.getElementById('explain-res');
+            const val = document.getElementById('res-val');
+
+            if(!code) return;
+            res.style.display = 'block';
+            val.textContent = "Consulting Senior Engineer AI...";
+
+            try {
+                const prompt = `Explain this code precisely: ${code}`;
+                const url = `https://vern-rest-api.vercel.app/api/chatgpt4?prompt=${encodeURIComponent(prompt)}`;
+                const data = await OmniAPI.fetch(url);
+                val.textContent = data.response || "No explanation found.";
+            } catch(e) {
+                val.textContent = "Explanation timed out.";
+            }
+        }
+    </script>
+</body>
+</html>

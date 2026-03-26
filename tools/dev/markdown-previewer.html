@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Previewer | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Markdown Previewer</h1>
+                    <p>Write Markdown on the left, see the HTML preview on the right.</p>
+                </div>
+
+                <div class="tool-body" style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+                    <textarea id="md-input" class="tool-input" placeholder="# Type Markdown here..." style="min-height:400px;"></textarea>
+                    <div id="md-preview" class="card" style="min-height:400px; overflow:auto; background:#fdfdfd;"></div>
+                </div>
+                <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const input = document.getElementById('md-input');
+        const preview = document.getElementById('md-preview');
+
+        input.addEventListener('input', () => {
+            preview.innerHTML = marked.parse(input.value);
+        });
+    </script>
+</body>
+</html>

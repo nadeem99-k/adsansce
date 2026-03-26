@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Currency Converter</h1>
+                    <p>Get real-time exchange rates and convert between world currencies.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom: 2rem;">
+                        <div>
+                            <input type="number" id="cur-val" value="1" class="tool-input" style="min-height:unset;" oninput="convert()">
+                            <select id="cur-from" class="tool-input" style="min-height:unset;" onchange="convert()">
+                                <option value="USD">USD - US Dollar</option>
+                                <option value="EUR">EUR - Euro</option>
+                                <option value="GBP">GBP - British Pound</option>
+                                <option value="INR">INR - Indian Rupee</option>
+                            </select>
+                        </div>
+                        <div>
+                            <input type="number" id="cur-result" class="tool-input" style="min-height:unset;" readonly>
+                            <select id="cur-to" class="tool-input" style="min-height:unset;" onchange="convert()">
+                                <option value="EUR">EUR - Euro</option>
+                                <option value="USD">USD - US Dollar</option>
+                                <option value="GBP">GBP - British Pound</option>
+                                <option value="INR">INR - Indian Rupee</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p id="cur-status" style="font-size:0.8rem; color:var(--text-dim); text-align:center;">Fetching real-time rates...</p>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function convert() {
+            const val = document.getElementById('cur-val').value;
+            const from = document.getElementById('cur-from').value;
+            const to = document.getElementById('cur-to').value;
+            
+            try {
+                const res = await fetch(`https://open.er-api.com/v6/latest/${from}`);
+                const data = await res.json();
+                const rate = data.rates[to];
+                document.getElementById('cur-result').value = (val * rate).toFixed(2);
+                document.getElementById('cur-status').textContent = `1 ${from} = ${rate.toFixed(4)} ${to}`;
+            } catch(e) {
+                document.getElementById('cur-status').textContent = 'Error fetching rates.';
+            }
+        }
+        convert();
+    </script>
+</body>
+</html>

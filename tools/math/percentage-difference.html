@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Percentage Difference Calculator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Percentage Difference</h1>
+                    <p>Calculate the percentage difference between two values.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom: 2rem;">
+                        <div>
+                            <label>Value 1</label>
+                            <input type="number" id="v1" value="100" class="tool-input" style="min-height:unset;" oninput="calcDiff()">
+                        </div>
+                        <div>
+                            <label>Value 2</label>
+                            <input type="number" id="v2" value="150" class="tool-input" style="min-height:unset;" oninput="calcDiff()">
+                        </div>
+                    </div>
+
+                    <div id="diff-result" class="card" style="margin-top:2rem; text-align:center;">
+                        <h3 style="font-size:2rem; color:var(--primary);" id="diff-val">40%</h3>
+                        <p id="diff-status">Increase</p>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function calcDiff() {
+            const v1 = parseFloat(document.getElementById('v1').value);
+            const v2 = parseFloat(document.getElementById('v2').value);
+            
+            if(v1 && v2) {
+                const diff = ((v2 - v1) / v1) * 100;
+                document.getElementById('diff-val').textContent = Math.abs(diff).toFixed(2) + '%';
+                document.getElementById('diff-status').textContent = diff >= 0 ? 'Increase' : 'Decrease';
+            }
+        }
+        calcDiff();
+    </script>
+</body>
+</html>

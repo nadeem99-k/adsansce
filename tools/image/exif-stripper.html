@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image EXIF Stripper (Privacy Only) | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>EXIF Data Stripper</h1>
+                    <p>Clean your photos of hidden metadata (location, device info, time) through Canvas processing.</p>
+                </div>
+
+                <div class="tool-body">
+                    <input type="file" id="img-in" class="tool-input" style="min-height:unset;" accept="image/jpeg, image/png">
+                    
+                    <div id="work-area" style="display:none; margin-top:2rem; text-align:center;">
+                        <p style="color:#10b981; margin-bottom:1rem;">✓ Metadata has been stripped by re-rendering the image.</p>
+                        <canvas id="cvs" style="max-width:100%; border-radius:8px; display:none;"></canvas>
+                        <button class="btn" onclick="save()">Download Clean Image</button>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const input = document.getElementById('img-in');
+        const cvs = document.getElementById('cvs');
+        const ctx = cvs.getContext('2d');
+
+        input.onchange = (e) => {
+            const file = e.target.files[0];
+            const img = new Image();
+            img.onload = () => {
+                cvs.width = img.width;
+                cvs.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                document.getElementById('work-area').style.display = 'block';
+            };
+            img.src = URL.createObjectURL(file);
+        };
+
+        function save() {
+            const link = document.createElement('a');
+            link.download = 'cleaned-photo.jpg';
+            link.href = cvs.toDataURL('image/jpeg', 0.9);
+            link.click();
+        }
+    </script>
+</body>
+</html>

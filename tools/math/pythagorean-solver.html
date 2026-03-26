@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pythagorean Theorem Solver | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Pythagorean Solver</h1>
+                    <p>Find the missing side of a right-angled triangle (a² + b² = c²).</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom: 2rem;">
+                        <input type="number" id="side-a" placeholder="Side A" class="tool-input" style="min-height:unset;" oninput="calc()">
+                        <input type="number" id="side-b" placeholder="Side B" class="tool-input" style="min-height:unset;" oninput="calc()">
+                    </div>
+
+                    <div class="card" style="background:var(--bg-alt); text-align:center;">
+                        <div style="font-size:0.8rem; color:var(--text-dim);">Hypotenuse (Side C)</div>
+                        <h2 id="side-c" style="font-size:2.5rem; color:var(--primary);">0.00</h2>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function calc() {
+            const a = parseFloat(document.getElementById('side-a').value);
+            const b = parseFloat(document.getElementById('side-b').value);
+            if(!isNaN(a) && !isNaN(b)) {
+                document.getElementById('side-c').textContent = Math.sqrt(a * a + b * b).toFixed(2);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Stopwatch | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Stopwatch</h1>
+                    <p>A simple, high-precision online stopwatch.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div class="card" style="text-align:center; padding: 3rem 1rem;">
+                        <h1 id="timer" style="font-size:4rem; font-family:monospace; margin-bottom:2rem;">00:00:00.00</h1>
+                        <div style="display:flex; gap:1rem; justify-content:center;">
+                            <button class="btn" id="startBtn" onclick="toggle()">Start</button>
+                            <button class="btn" style="background:#ef4444;" onclick="reset()">Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        let startTime, timerId, running = false, elapsed = 0;
+        const display = document.getElementById('timer');
+
+        function toggle() {
+            if(running) {
+                clearInterval(timerId);
+                elapsed += Date.now() - startTime;
+                document.getElementById('startBtn').textContent = 'Resume';
+            } else {
+                startTime = Date.now();
+                timerId = setInterval(update, 10);
+                document.getElementById('startBtn').textContent = 'Pause';
+            }
+            running = !running;
+        }
+
+        function reset() {
+            clearInterval(timerId);
+            running = false;
+            elapsed = 0;
+            display.textContent = '00:00:00.00';
+            document.getElementById('startBtn').textContent = 'Start';
+        }
+
+        function update() {
+            let time = (Date.now() - startTime) + elapsed;
+            let ms = Math.floor((time % 1000) / 10);
+            let s = Math.floor((time / 1000) % 60);
+            let m = Math.floor((time / 60000) % 60);
+            let h = Math.floor(time / 3600000);
+            display.textContent = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}.${ms.toString().padStart(2, '0')}`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Link & Intent Generator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Deep Link Generator</h1>
+                    <p>Create mobile intent URLs for apps like WhatsApp, Telegram, and Phone dialers.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="margin-bottom:2rem;">
+                        <label>Target Phone / Username</label>
+                        <input type="text" id="target" class="tool-input" style="min-height:unset;" placeholder="1234567890 or @username">
+                    </div>
+
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem;">
+                        <button class="btn" onclick="gen('wa')">WhatsApp Link</button>
+                        <button class="btn" onclick="gen('tg')">Telegram Link</button>
+                        <button class="btn" onclick="gen('tel')">Dialer (tel:)</button>
+                        <button class="btn" onclick="gen('sms')">SMS (sms:)</button>
+                    </div>
+
+                    <div id="link-res" class="card mt-6" style="display:none; background:var(--glass-heavy); margin-top:2rem;">
+                        <div style="font-size:0.75rem; color:var(--text-dim);">GENERATED DEEP LINK</div>
+                        <a id="res-href" href="#" style="color:var(--primary); word-break: break-all;"></a>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function gen(type) {
+            const val = document.getElementById('target').value;
+            const resArea = document.getElementById('link-res');
+            const resHref = document.getElementById('res-href');
+            resArea.style.display = 'block';
+
+            let link = "";
+            switch(type) {
+                case 'wa': link = `https://wa.me/${val}`; break;
+                case 'tg': link = `https://t.me/${val.replace('@','')}`; break;
+                case 'tel': link = `tel:${val}`; break;
+                case 'sms': link = `sms:${val}`; break;
+            }
+            resHref.href = link;
+            resHref.textContent = link;
+        }
+    </script>
+</body>
+</html>

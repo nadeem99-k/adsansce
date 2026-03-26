@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Mood Detector | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <style>
+        .mood-box { text-align: center; padding: 2rem; border-radius: 12px; background: var(--glass-heavy); margin-top: 2rem; }
+        .mood-emoji { font-size: 4rem; margin-bottom: 1rem; }
+        .mood-label { font-size: 1.5rem; font-weight: bold; color: var(--primary); text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Mood Detector</h1>
+                    <p>Detect facial expressions and mood from your webcam or an uploaded photo. All processing happens in the browser.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="position:relative; max-width: 500px; margin: 0 auto;">
+                        <video id="video" autoplay muted playsinline style="width:100%; border-radius:12px; display:none;"></video>
+                        <canvas id="cvs" style="display:none;"></canvas>
+                    </div>
+
+                    <div style="display:flex; justify-content:center; gap:1rem; margin-top:2rem;">
+                        <button class="btn" onclick="startCamera()">Live Camera</button>
+                        <button class="btn" style="background:var(--bg-accent);" onclick="document.getElementById('img-in').click()">Upload Photo</button>
+                    </div>
+                    <input type="file" id="img-in" style="display:none;" accept="image/*" onchange="detectImg(event)">
+
+                    <div id="mood-res" class="mood-box" style="display:none;">
+                        <div id="emoji" class="mood-emoji">?</div>
+                        <div id="label" class="mood-label">Detecting...</div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const MODEL_URL = 'https://justadudewhohacks.github.io/face-api.js/models';
+        const video = document.getElementById('video');
+        const res = document.getElementById('mood-res');
+        const emoji = document.getElementById('emoji');
+        const label = document.getElementById('label');
+
+        async function init() {
+            await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+            await faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL);
+        }
+        init();
+
+        const moods = {
+            neutral: '😐', happy: '😊', sad: '😢', angry: '😠', fearful: '😨', disgusted: '🤢', surprised: '😲'
+        };
+
+        async function startCamera() {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
+            video.style.display = 'block';
+            video.onplay = () => {
+                const loop = async () => {
+                    const detections = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions()).withFaceExpressions();
+                    if(detections) updateMood(detections.expressions);
+                    requestAnimationFrame(loop);
+                };
+                loop();
+            };
+        }
+
+        function updateMood(expressions) {
+            res.style.display = 'block';
+            let main = 'neutral';
+            let max = 0;
+            for(let m in expressions) {
+                if(expressions[m] > max) { max = expressions[m]; main = m; }
+            }
+            emoji.textContent = moods[main] || '🤔';
+            label.textContent = main;
+        }
+
+        async function detectImg(e) {
+            const file = e.target.files[0];
+            const img = await faceapi.bufferToImage(file);
+            const detections = await faceapi.detectSingleFace(img, new faceapi.TinyFaceDetectorOptions()).withFaceExpressions();
+            if(detections) updateMood(detections.expressions);
+            video.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

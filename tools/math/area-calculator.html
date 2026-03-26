@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Calculator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Shape Area Calculator</h1>
+                    <p>Calculate the area of circles, squares, and rectangles.</p>
+                </div>
+
+                <div class="tool-body">
+                    <select id="shape" class="tool-input" style="margin-bottom:1rem;" onchange="updateUI()">
+                        <option value="circle">Circle</option>
+                        <option value="square">Square</option>
+                        <option value="rect">Rectangle</option>
+                    </select>
+
+                    <div id="circle-ui" style="display:block;">
+                        <input type="number" id="radius" class="tool-input" placeholder="Radius" oninput="solve()">
+                    </div>
+                    <div id="rect-ui" style="display:none; grid-template-columns:1fr 1fr; gap:1rem;">
+                        <input type="number" id="base" class="tool-input" placeholder="Base" oninput="solve()">
+                        <input type="number" id="height" class="tool-input" placeholder="Height" oninput="solve()">
+                    </div>
+
+                    <div class="card mt-8" style="background:var(--bg-alt); text-align:center; margin-top:2rem;">
+                        <h2 id="area-val" style="font-size:2.5rem; color:var(--primary);">0.00</h2>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function updateUI() {
+            const shape = document.getElementById('shape').value;
+            document.getElementById('circle-ui').style.display = shape === 'circle' ? 'block' : 'none';
+            document.getElementById('rect-ui').style.display = shape !== 'circle' ? 'grid' : 'none';
+            solve();
+        }
+
+        function solve() {
+            const shape = document.getElementById('shape').value;
+            let area = 0;
+            if(shape === 'circle') {
+                const r = parseFloat(document.getElementById('radius').value);
+                area = Math.PI * r * r;
+            } else if(shape === 'square') {
+                const s = parseFloat(document.getElementById('base').value);
+                area = s * s;
+            } else {
+                const b = parseFloat(document.getElementById('base').value);
+                const h = parseFloat(document.getElementById('height').value);
+                area = b * h;
+            }
+            document.getElementById('area-val').textContent = isNaN(area) ? "0.00" : area.toFixed(2);
+        }
+    </script>
+</body>
+</html>

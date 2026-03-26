@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Root Calculator (Square & Cube) | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Root Calculator</h1>
+                    <p>Calculate square roots and cube roots of any number.</p>
+                </div>
+
+                <div class="tool-body">
+                    <input type="number" id="val" value="16" class="tool-input" style="min-height:unset;" oninput="calc()">
+                    
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-top:1rem;">
+                        <div class="card" style="background:var(--bg-alt); text-align:center;">
+                            <div style="font-size:0.8rem; color:var(--text-dim);">Square Root (√)</div>
+                            <h2 id="sqrt-res" style="font-size:2rem; color:var(--primary);">4.00</h2>
+                        </div>
+                        <div class="card" style="background:var(--bg-alt); text-align:center;">
+                            <div style="font-size:0.8rem; color:var(--text-dim);">Cube Root (∛)</div>
+                            <h2 id="cbrt-res" style="font-size:2rem; color:var(--primary);">2.52</h2>
+                        </div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function calc() {
+            const v = parseFloat(document.getElementById('val').value);
+            if(!isNaN(v)) {
+                document.getElementById('sqrt-res').textContent = Math.sqrt(v).toFixed(2);
+                document.getElementById('cbrt-res').textContent = Math.cbrt(v).toFixed(2);
+            }
+        }
+        calc();
+    </script>
+</body>
+</html>

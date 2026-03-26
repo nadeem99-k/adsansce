@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hex to Text Converter | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Hex to Text</h1>
+                    <p>Convert Hexadecimal strings back into readable plain text.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="hex-input" class="tool-input" placeholder="48 65 6C 6C 6F..."></textarea>
+                    
+                    <div style="display:flex; gap:0.5rem; margin-bottom: 2rem;">
+                        <button class="btn" onclick="toText()">Convert to Text</button>
+                        <button class="btn" onclick="copyResult()" style="background:#10b981;">Copy Result</button>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const input = document.getElementById('hex-input');
+
+        function toText() {
+            try {
+                const hex = input.value.replace(/\s/g, '');
+                let str = '';
+                for (let i = 0; i < hex.length; i += 2) {
+                    str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+                }
+                input.value = str;
+            } catch(e) {
+                alert('Invalid Hex format');
+            }
+        }
+
+        function copyResult() {
+            input.select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>

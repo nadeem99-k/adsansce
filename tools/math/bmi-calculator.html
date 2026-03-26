@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>BMI Calculator</h1>
+                    <p>Calculate your Body Mass Index (BMI) for a quick health check.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom: 2rem;">
+                        <div>
+                            <label style="display:block; margin-bottom:0.5rem;">Weight (kg)</label>
+                            <input type="number" id="weight" value="70" class="tool-input" style="min-height:unset;">
+                        </div>
+                        <div>
+                            <label style="display:block; margin-bottom:0.5rem;">Height (cm)</label>
+                            <input type="number" id="height" value="170" class="tool-input" style="min-height:unset;">
+                        </div>
+                    </div>
+
+                    <button class="btn w-full" onclick="calcBMI()" style="width:100%;">Calculate BMI</button>
+
+                    <div id="bmi-result" class="card" style="margin-top:2rem; text-align:center; display:none;">
+                        <h3 style="font-size:2rem; color:var(--primary);" id="bmi-val">24.2</h3>
+                        <p id="bmi-status">Normal</p>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function calcBMI() {
+            const w = document.getElementById('weight').value;
+            const h = document.getElementById('height').value / 100;
+            if(w && h) {
+                const bmi = (w / (h * h)).toFixed(1);
+                document.getElementById('bmi-val').textContent = bmi;
+                document.getElementById('bmi-result').style.display = 'block';
+                
+                let status = "Normal";
+                if(bmi < 18.5) status = "Underweight";
+                else if(bmi >= 25 && bmi < 30) status = "Overweight";
+                else if(bmi >= 30) status = "Obese";
+                document.getElementById('bmi-status').textContent = status;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Voice Commander | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <style>
+        .voice-btn { width: 100px; height: 100px; border-radius: 50%; background: var(--glass); border: 2px solid var(--primary); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; cursor: pointer; transition: 0.3s; margin: 2rem auto; }
+        .voice-btn.active { background: var(--primary); box-shadow: 0 0 30px var(--primary); animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 0.8; } 50% { opacity: 1; } 100% { opacity: 0.8; } }
+    </style>
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Voice Commander</h1>
+                    <p>Search tools and control the site using your voice. Click the mic and say "Find PDF tools" or "Go home".</p>
+                </div>
+
+                <div class="tool-body">
+                    <div id="mic" class="voice-btn" onclick="start()"><span id="icon">🎤</span></div>
+                    
+                    <div id="status" style="text-align:center; color:var(--text-dim); min-height:1.5rem;">Click to start listening...</div>
+
+                    <div id="transcript" class="card mt-6" style="display:none; background:var(--glass-heavy); text-align:center;">
+                        <div style="font-size:0.75rem; color:var(--text-dim); margin-bottom:0.5rem;">I HEARD:</div>
+                        <div id="text" style="color:var(--primary); font-weight:bold; font-size:1.2rem;"></div>
+                    </div>
+
+                    <div style="margin-top:2rem;">
+                        <h3>Try saying:</h3>
+                        <ul style="color:var(--text-dim); font-size:0.9rem;">
+                            <li>"Find image tools"</li>
+                            <li>"Go to generator"</li>
+                            <li>"Open dashboard"</li>
+                            <li>"Tell me a joke"</li>
+                        </ul>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const mic = document.getElementById('mic');
+        const status = document.getElementById('status');
+        const transcript = document.getElementById('transcript');
+        const text = document.getElementById('text');
+
+        function start() {
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if(!SpeechRec) return alert('Your browser does not support Speech Recognition.');
+
+            const rec = new SpeechRec();
+            rec.lang = 'en-US';
+
+            rec.onstart = () => {
+                mic.classList.add('active');
+                status.textContent = "Listening...";
+                transcript.style.display = 'none';
+            };
+
+            rec.onresult = async (e) => {
+                const val = e.results[0][0].transcript;
+                mic.classList.remove('active');
+                status.textContent = "Processing command...";
+                transcript.style.display = 'block';
+                text.textContent = val;
+
+                // Simple AI command routing
+                if(val.toLowerCase().includes('home') || val.toLowerCase().includes('dashboard')) {
+                    setTimeout(() => location.href = '/', 1000);
+                } else {
+                    status.textContent = "Searching for matches...";
+                }
+            };
+
+            rec.onerror = () => {
+                mic.classList.remove('active');
+                status.textContent = "Error occurred. Try again.";
+            };
+
+            rec.start();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Age Calculator</h1>
+                    <p>Find out exactly how old you are in years, months, and days.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="margin-bottom: 2rem;">
+                        <label style="display:block; margin-bottom:0.5rem;">Select Your Date of Birth</label>
+                        <input type="date" id="dob" class="tool-input" style="min-height:unset;">
+                    </div>
+
+                    <button class="btn w-full" onclick="calculateAge()" style="width:100%;">Calculate My Age</button>
+
+                    <div id="age-result" class="card" style="margin-top:2rem; text-align:center; display:none;">
+                        <h3 style="font-size:2rem; color:var(--primary);" id="age-val">0 Years</h3>
+                        <p id="age-details">Years, Months, Days</p>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function calculateAge() {
+            const dob = new Date(document.getElementById('dob').value);
+            const now = new Date();
+            
+            if(isNaN(dob)) return;
+
+            let years = now.getFullYear() - dob.getFullYear();
+            let months = now.getMonth() - dob.getMonth();
+            let days = now.getDate() - dob.getDate();
+
+            if (days < 0) {
+                months--;
+                days += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+            }
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            document.getElementById('age-val').textContent = `${years} Years`;
+            document.getElementById('age-details').textContent = `${months} Months and ${days} Days`;
+            document.getElementById('age-result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

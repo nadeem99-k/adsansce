@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Fingerprinter | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Browser Fingerprinter</h1>
+                    <p>Your browser creates a unique digital signature based on hardware and software traits. View yours below.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div class="card" style="background:var(--glass-heavy); text-align:center; padding: 3rem;">
+                        <div style="font-size:0.8rem; color:var(--text-dim); margin-bottom: 1rem;">YOUR UNIQUE FINGERPRINT ID</div>
+                        <h2 id="fingerprint-id" style="font-size: clamp(1rem, 5vw, 2.5rem); font-family:monospace; color:var(--primary); word-break: break-all;">Generating...</h2>
+                    </div>
+
+                    <div style="margin-top: 2rem;">
+                        <h3>How it works:</h3>
+                        <p style="color:var(--text-dim);">We combine Canvas rendering data, WebGL descriptors, installed fonts, and screen resolution to create a hash. This remains mostly consistent even in Incognito mode.</p>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function generateFingerprint() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.textBaseline = "top";
+            ctx.font = "14px 'Arial'";
+            ctx.textBaseline = "alphabetic";
+            ctx.fillStyle = "#f60";
+            ctx.fillRect(125, 1, 62, 20);
+            ctx.fillStyle = "#069";
+            ctx.fillText("OmniToolbox, <canvas> 1.0", 2, 15);
+            ctx.fillStyle = "rgba(102, 204, 0, 0.7)";
+            ctx.fillText("OmniToolbox, <canvas> 1.0", 4, 17);
+            
+            const b64 = canvas.toDataURL();
+            let hash = 0;
+            for (let i = 0; i < b64.length; i++) {
+                const char = b64.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            
+            const finalHash = Math.abs(hash).toString(16) + "-" + navigator.hardwareConcurrency + "-" + screen.width + "x" + screen.height;
+            document.getElementById('fingerprint-id').textContent = finalHash.toUpperCase();
+        }
+        window.onload = generateFingerprint;
+    </script>
+</body>
+</html>

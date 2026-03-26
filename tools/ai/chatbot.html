@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Buddy Chatbot | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <style>
+        .chat-box { height: 400px; overflow-y: auto; padding: 1rem; background: var(--glass-heavy); border-radius: 12px; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.75rem; }
+        .msg { max-width: 80%; padding: 0.75rem 1rem; border-radius: 12px; font-size: 0.95rem; line-height: 1.4; }
+        .msg.bot { align-self: flex-start; background: var(--bg-alt); color: var(--text); border-bottom-left-radius: 2px; }
+        .msg.user { align-self: flex-end; background: var(--primary); color: #fff; border-bottom-right-radius: 2px; }
+        .input-area { display: flex; gap: 1rem; margin-top: 1.5rem; }
+    </style>
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Buddy Chatbot</h1>
+                    <p>Chat with a friendly AI powered by ChatGPT-4. High accuracy and real-time responses.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div id="chat-box" class="chat-box">
+                        <div class="msg bot">Hello! I'm your upgraded AI Buddy. How can I help you today?</div>
+                    </div>
+
+                    <div class="input-area">
+                        <input type="text" id="user-input" class="tool-input" style="min-height:unset;" placeholder="Type your message..." onkeypress="if(event.key==='Enter') send()">
+                        <button class="btn" onclick="send()">Send</button>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function send() {
+            const input = document.getElementById('user-input');
+            const box = document.getElementById('chat-box');
+            const text = input.value.trim();
+            if(!text) return;
+
+            box.innerHTML += `<div class="msg user">${text}</div>`;
+            input.value = "";
+            box.scrollTop = box.scrollHeight;
+
+            const botMsg = document.createElement('div');
+            botMsg.className = "msg bot shimmer";
+            botMsg.style.minWidth = "120px";
+            botMsg.style.minHeight = "45px";
+            box.appendChild(botMsg);
+
+            try {
+                const url = `https://vern-rest-api.vercel.app/api/chatgpt4?prompt=${encodeURIComponent(text)}`;
+                const data = await OmniAPI.fetch(url);
+                const response = (data.response || "No response found.").replace(/'/g, "\\'");
+                
+                botMsg.classList.remove('shimmer');
+                botMsg.innerHTML = `
+                    <div style="margin-bottom:0.8rem;">${data.response || "No response found."}</div>
+                    <button class="pill" style="font-size:0.75rem; padding:0.3rem 0.8rem; background:rgba(255,255,255,0.05);" onclick="OmniUI.copyToClipboard('${response}', this)">Copy Text 📋</button>
+                `;
+            } catch(e) {
+                botMsg.classList.remove('shimmer');
+                botMsg.textContent = "Connection error. Please check your internet.";
+            }
+            box.scrollTop = box.scrollHeight;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Countdown Timer | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Countdown Timer</h1>
+                    <p>Set a custom countdown timer for your tasks.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:flex; gap:1rem; margin-bottom:2rem; justify-content:center;">
+                        <input type="number" id="mins" placeholder="Mins" class="tool-input" style="min-height:unset; width:80px; text-align:center;">
+                        <input type="number" id="secs" placeholder="Secs" class="tool-input" style="min-height:unset; width:80px; text-align:center;">
+                        <button class="btn" onclick="start()">Start</button>
+                    </div>
+
+                    <div class="card" style="text-align:center; padding: 2rem;">
+                        <h1 id="timer-out" style="font-size:4rem; font-family:monospace; color:var(--primary);">00:00</h1>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        let timerId;
+        function start() {
+            clearInterval(timerId);
+            let m = parseInt(document.getElementById('mins').value) || 0;
+            let s = parseInt(document.getElementById('secs').value) || 0;
+            let total = m * 60 + s;
+            
+            if(total <= 0) return;
+
+            timerId = setInterval(() => {
+                total--;
+                let dm = Math.floor(total / 60);
+                let ds = total % 60;
+                document.getElementById('timer-out').textContent = `${dm.toString().padStart(2, '0')}:${ds.toString().padStart(2, '0')}`;
+                
+                if(total <= 0) {
+                    clearInterval(timerId);
+                    alert('Time is up!');
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

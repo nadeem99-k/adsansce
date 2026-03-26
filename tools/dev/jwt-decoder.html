@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT Decoder | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>JWT (JSON Web Token) Decoder</h1>
+                    <p>Decode your JWTs to see header and payload data instantly.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="jwt-input" class="tool-input" placeholder="Paste your JWT here..."></textarea>
+                    
+                    <div id="jwt-header" class="card mt-8" style="margin-top:2rem;">
+                        <h3 style="margin-bottom:0.5rem;">Header</h3>
+                        <pre id="header-out" style="background:#f1f5f9; padding:1rem; border-radius:4px; overflow:auto;"></pre>
+                    </div>
+                    <div id="jwt-payload" class="card mt-4" style="margin-top:1rem;">
+                        <h3 style="margin-bottom:0.5rem;">Payload</h3>
+                        <pre id="payload-out" style="background:#f1f5f9; padding:1rem; border-radius:4px; overflow:auto;"></pre>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const input = document.getElementById('jwt-input');
+        input.addEventListener('input', () => {
+            const parts = input.value.split('.');
+            if(parts.length === 3) {
+                try {
+                    const header = JSON.parse(atob(parts[0]));
+                    const payload = JSON.parse(atob(parts[1]));
+                    document.getElementById('header-out').textContent = JSON.stringify(header, null, 2);
+                    document.getElementById('payload-out').textContent = JSON.stringify(payload, null, 2);
+                } catch(e) {
+                    console.log('Decode error');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake Identity Generator Plus | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Fake Identity Generator</h1>
+                    <p>Generate high-fidelity test identities including names, addresses, and credit card placeholders.</p>
+                </div>
+
+                <div class="tool-body">
+                    <button class="btn w-full" onclick="generate()" style="width:100%; margin-bottom:2rem;">Generate New Identity</button>
+
+                    <div id="id-res" class="grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; display:none;">
+                        <div class="card" style="background:var(--glass-heavy);">
+                            <div style="font-size:0.75rem; color:var(--text-dim);">FULL NAME</div>
+                            <div id="res-name" class="info-value" style="color:var(--primary); font-weight:bold; font-size:1.2rem;"></div>
+                        </div>
+                        <div class="card" style="background:var(--glass-heavy);">
+                            <div style="font-size:0.75rem; color:var(--text-dim);">IP ADDRESS</div>
+                            <div id="res-ip" class="info-value" style="color:var(--primary); font-weight:bold; font-size:1.2rem;"></div>
+                        </div>
+                        <div class="card" style="background:var(--glass-heavy);">
+                            <div style="font-size:0.75rem; color:var(--text-dim);">STREET ADDRESS</div>
+                            <div id="res-addr" class="info-value" style="color:var(--primary); font-size:1rem;"></div>
+                        </div>
+                        <div class="card" style="background:var(--glass-heavy);">
+                            <div style="font-size:0.75rem; color:var(--text-dim);">CREDIT CARD (TEST)</div>
+                            <div id="res-cc" class="info-value" style="color:var(--primary); font-size:1rem;"></div>
+                        </div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const firsts = ["James", "Mary", "Robert", "Patricia", "John", "Jennifer", "Michael", "Linda"];
+        const lasts = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis"];
+        const streets = ["Maple St", "Oak Ave", "Washington Blvd", "Main St", "Highland Dr"];
+        
+        function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+        function rndInt(min, max) { return Math.floor(Math.random() * (max - min) + min); }
+
+        function generate() {
+            document.getElementById('id-res').style.display = 'grid';
+            document.getElementById('res-name').textContent = rnd(firsts) + " " + rnd(lasts);
+            document.getElementById('res-ip').textContent = `192.168.${rndInt(1,255)}.${rndInt(1,255)}`;
+            document.getElementById('res-addr').textContent = `${rndInt(100, 9999)} ${rnd(streets)}, NY ${rndInt(10001, 11000)}`;
+            document.getElementById('res-cc').textContent = `4539 ${rndInt(1000,9999)} ${rndInt(1000,9999)} ${rndInt(1000,9999)}`;
+        }
+    </script>
+</body>
+</html>

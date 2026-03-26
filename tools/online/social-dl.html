@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Video Downloader | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Social Video Downloader</h1>
+                    <p>Download videos from Facebook and TikTok instantly. Just paste the link below.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:flex; gap:1rem; margin-bottom:1.5rem;">
+                        <select id="platform" class="tool-input" style="min-height:unset; width:150px;">
+                            <option value="fb">Facebook</option>
+                            <option value="tik">TikTok</option>
+                        </select>
+                        <input type="text" id="url" class="tool-input" style="min-height:unset;" placeholder="https://www.tiktok.com/@user/video/...">
+                        <button class="btn" onclick="download()">Get Video</button>
+                    </div>
+
+                    <div id="status" class="mt-4" style="text-align:center; color:var(--text-dim); display:none;">Fetching video info...</div>
+
+                    <div id="res-area" class="card mt-6" style="display:none; text-align:center; background:var(--glass-heavy);">
+                        <div id="video-preview" style="margin-bottom:1rem; font-weight:bold;">Video Found!</div>
+                        <a id="dl-link" href="#" class="btn" target="_blank" download>Download Video MP4</a>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function download() {
+            const platform = document.getElementById('platform').value;
+            const url = document.getElementById('url').value;
+            const status = document.getElementById('status');
+            const res = document.getElementById('res-area');
+            const dlLink = document.getElementById('dl-link');
+
+            if(!url) return alert('Please enter a URL');
+
+            status.style.display = 'block';
+            res.style.display = 'none';
+
+            try {
+                const endpoint = platform === 'fb' ? 'fbdl' : 'tikdl';
+                const api = `https://vern-rest-api.vercel.app/api/${endpoint}?url=${encodeURIComponent(url)}`;
+                const response = await fetch(api);
+                const data = await response.json();
+
+                if(data.url || data.video_url) {
+                    dlLink.href = data.url || data.video_url;
+                    status.style.display = 'none';
+                    res.style.display = 'block';
+                } else {
+                    status.textContent = "Could not find video. Private or invalid link?";
+                }
+            } catch(e) {
+                status.textContent = "Error fetching video.";
+            }
+        }
+    </script>
+</body>
+</html>

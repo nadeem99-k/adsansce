@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modulo Calculator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Modulo Calculator</h1>
+                    <p>Find the remainder of a division (X mod Y).</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom: 2rem;">
+                        <input type="number" id="mod-x" placeholder="Number (X)" class="tool-input" style="min-height:unset;" oninput="calc()">
+                        <input type="number" id="mod-y" placeholder="Divisor (Y)" class="tool-input" style="min-height:unset;" oninput="calc()">
+                    </div>
+
+                    <div class="card" style="background:var(--bg-alt); text-align:center;">
+                        <div style="font-size:0.8rem; color:var(--text-dim);">Remainder</div>
+                        <h2 id="mod-res" style="font-size:2.5rem; color:var(--primary);">0</h2>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function calc() {
+            const x = parseFloat(document.getElementById('mod-x').value);
+            const y = parseFloat(document.getElementById('mod-y').value);
+            if(!isNaN(x) && !isNaN(y)) {
+                document.getElementById('mod-res').textContent = x % y;
+            }
+        }
+    </script>
+</body>
+</html>

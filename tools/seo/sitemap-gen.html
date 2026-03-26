@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitemap Generator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>XML Sitemap Generator</h1>
+                    <p>Create a basic XML sitemap for your website manually.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="urls-input" class="tool-input" placeholder="Enter URLs (one per line)..."></textarea>
+                    
+                    <button class="btn" onclick="genSitemap()">Generate XML</button>
+                    <textarea id="xml-output" class="tool-input" style="margin-top:2rem; font-family:monospace;" readonly></textarea>
+                    <button class="btn" onclick="copyResult()" style="background:#10b981;">Copy XML</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const input = document.getElementById('urls-input');
+        const output = document.getElementById('xml-output');
+
+        function genSitemap() {
+            const urls = input.value.split('\n').filter(u => u.trim() !== '');
+            let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+            
+            urls.forEach(u => {
+                xml += `  <url>\n    <loc>${u.trim()}</loc>\n  </url>\n`;
+            });
+            
+            xml += `</urlset>`;
+            output.value = xml;
+        }
+
+        function copyResult() {
+            output.select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>

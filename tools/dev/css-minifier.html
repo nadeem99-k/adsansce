@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Minifier | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>CSS Minifier</h1>
+                    <p>Reduce the size of your CSS files by removing comments and extra spaces.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="css-input" class="tool-input" placeholder="Paste CSS here..." style="font-family:monospace;"></textarea>
+                    
+                    <div style="display:flex; gap:0.5rem; margin-bottom: 2rem;">
+                        <button class="btn" onclick="minifyCSS()">Minify CSS</button>
+                        <button class="btn" onclick="copyResult()" style="background:#10b981;">Copy Result</button>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const input = document.getElementById('css-input');
+
+        function minifyCSS() {
+            input.value = input.value
+                .replace(/\/\*[\s\S]*?\*\//g, '') // remove comments
+                .replace(/\s+/g, ' ') 
+                .replace(/\s*{\s*/g, '{')
+                .replace(/\s*}\s*/g, '}')
+                .replace(/\s*;\s*/g, ';')
+                .replace(/\s*:\s*/g, ':')
+                .trim();
+        }
+
+        function copyResult() {
+            input.select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>

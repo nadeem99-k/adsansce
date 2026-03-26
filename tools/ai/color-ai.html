@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Color Picker & Palette | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Color Artist</h1>
+                    <p>Describe a theme and let ChatGPT-4 design a perfect HEX color palette for you.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:flex; gap:1rem; margin-bottom:1.5rem;">
+                        <input type="text" id="theme" class="tool-input" style="min-height:unset;" placeholder="Cyberpunk Night...">
+                        <button class="btn" onclick="gen()">Generate</button>
+                    </div>
+
+                    <div id="res-area" style="display:grid; grid-template-columns: repeat(5, 1fr); gap:1rem; display:none;">
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function gen() {
+            const theme = document.getElementById('theme').value;
+            const res = document.getElementById('res-area');
+            if(!theme) return;
+            
+            res.style.display = 'grid';
+            res.innerHTML = "Consulting the palette...";
+
+            try {
+                const prompt = `Generate a 5-color hex palette for: ${theme}. Return ONLY a comma separated list of HEX codes.`;
+                const url = `https://vern-rest-api.vercel.app/api/chatgpt4?prompt=${encodeURIComponent(prompt)}`;
+                const resp = await fetch(url);
+                const data = await resp.json();
+                
+                const hexes = data.response.match(/#[A-Fa-f0-9]{6}/g);
+                res.innerHTML = hexes.map(hex => `
+                    <div style="text-align:center;">
+                        <div style="height:80px; background:${hex}; border-radius:8px; border:1px solid var(--border);" onclick="navigator.clipboard.writeText('${hex}'); alert('Copied!')"></div>
+                        <div style="font-size:0.8rem; margin-top:0.5rem;">${hex}</div>
+                    </div>
+                `).join('');
+            } catch(e) {
+                res.textContent = "Error.";
+            }
+        }
+    </script>
+</body>
+</html>

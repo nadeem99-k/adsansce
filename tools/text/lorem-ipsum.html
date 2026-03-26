@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lorem Ipsum Generator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Lorem Ipsum Generator</h1>
+                    <p>Generate placeholder text for your designs and layouts.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:flex; gap:1rem; align-items:center; margin-bottom:1.5rem;">
+                        <input type="number" id="para-count" value="3" min="1" max="10" style="width:60px; padding:0.5rem; border:1px solid var(--border); border-radius:4px;">
+                        <span>Paragraphs</span>
+                        <button class="btn" onclick="genLorem()">Generate</button>
+                    </div>
+
+                    <textarea id="lorem-output" class="tool-input" readonly></textarea>
+                    
+                    <button class="btn" onclick="copyLorem()" style="background:#10b981;">Copy Text</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const output = document.getElementById('lorem-output');
+        const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ";
+
+        function genLorem() {
+            const count = document.getElementById('para-count').value;
+            let result = "";
+            for(let i=0; i<count; i++) result += text + "\n\n";
+            output.value = result.trim();
+        }
+
+        function copyLorem() {
+            output.select();
+            document.execCommand('copy');
+        }
+
+        genLorem(); // Initial
+    </script>
+</body>
+</html>

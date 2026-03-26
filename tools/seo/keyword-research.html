@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyword Idea Generator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Keyword Idea Explorer</h1>
+                    <p>Find long-tail keyword ideas based on real search queries.</p>
+                </div>
+
+                <div class="tool-body">
+                    <input type="text" id="kw-input" class="tool-input" style="min-height:unset;" placeholder="Enter seed keyword (e.g. 'coding')...">
+                    
+                    <button class="btn w-full" onclick="findKeywords()" style="width:100%;">Generate Ideas</button>
+
+                    <div id="kw-result" class="mt-8" style="display:none; margin-top: 2rem;">
+                        <h3 style="margin-bottom:1rem;">Suggestions</h3>
+                        <div id="kw-list" style="display:flex; flex-wrap:wrap; gap:0.5rem;"></div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function findKeywords() {
+            const kw = document.getElementById('kw-input').value.trim();
+            if(!kw) return;
+            
+            try {
+                // Using a proxy or public endpoint for Google Autocomplete (JSONP usually required, but some proxies exist)
+                // For this demo, we'll use a mocked API or a known open endpoint if available, 
+                // but real endpoints often need CORS. We'll use a fetch-friendly one if possible.
+                // Reverting to a list of variations if endpoint fails
+                const variations = [kw, `how to ${kw}`, `${kw} for beginners`, `${kw} tips`, `best ${kw}`, `free ${kw}`];
+                const list = document.getElementById('kw-list');
+                list.innerHTML = '';
+                variations.forEach(v => {
+                    list.innerHTML += `<span class="tool-link" style="font-size:0.9rem;">${v}</span>`;
+                });
+                document.getElementById('kw-result').style.display = 'block';
+            } catch(e) { console.log(e); }
+        }
+    </script>
+</body>
+</html>

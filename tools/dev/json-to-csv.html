@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON to CSV Converter | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>JSON to CSV Converter</h1>
+                    <p>Flat JSON arrays converted into standard CSV format.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="json-input" class="tool-input" placeholder="[{'name':'John', 'age':30}, ...]"></textarea>
+                    
+                    <button class="btn" onclick="toJSON()">Convert to CSV</button>
+                    <button class="btn" onclick="copyResult()" style="background:#10b981;">Copy Result</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const input = document.getElementById('json-input');
+
+        function toJSON() {
+            try {
+                const arr = JSON.parse(input.value);
+                const header = Object.keys(arr[0]).join(',');
+                const rows = arr.map(obj => Object.values(obj).join(',')).join('\n');
+                input.value = header + '\n' + rows;
+            } catch(e) {
+                alert('Invalid JSON array');
+            }
+        }
+
+        function copyResult() {
+            input.select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>

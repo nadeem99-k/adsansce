@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quadratic Equation Solver | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Quadratic Solver</h1>
+                    <p>Find the roots of any quadratic equation (ax² + bx + c = 0).</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:1rem; margin-bottom: 2rem;">
+                        <input type="number" id="qa" placeholder="a" class="tool-input" style="min-height:unset;">
+                        <input type="number" id="qb" placeholder="b" class="tool-input" style="min-height:unset;">
+                        <input type="number" id="qc" placeholder="c" class="tool-input" style="min-height:unset;">
+                    </div>
+
+                    <button class="btn w-full" onclick="solve()">Solve Equation</button>
+
+                    <div id="res-box" class="card mt-8" style="display:none; text-align:center; margin-top:2rem; background: var(--bg-alt);">
+                        <h2 id="res-val" style="color:var(--primary);">x = 0, y = 0</h2>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function solve() {
+            const a = parseFloat(document.getElementById('qa').value);
+            const b = parseFloat(document.getElementById('qb').value);
+            const c = parseFloat(document.getElementById('qc').value);
+            
+            if(isNaN(a) || isNaN(b) || isNaN(c)) return;
+
+            const disc = b * b - 4 * a * c;
+            if(disc < 0) {
+                document.getElementById('res-val').textContent = "No real roots";
+            } else {
+                const x1 = (-b + Math.sqrt(disc)) / (2 * a);
+                const x2 = (-b - Math.sqrt(disc)) / (2 * a);
+                document.getElementById('res-val').textContent = `x1 = ${x1.toFixed(2)}, x2 = ${x2.toFixed(2)}`;
+            }
+            document.getElementById('res-box').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

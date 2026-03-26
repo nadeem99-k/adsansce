@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Parser & Analyzer | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>URL Parser</h1>
+                    <p>Break down a complex URL into its constituent parts (Protocol, Host, Path, Params).</p>
+                </div>
+
+                <div class="tool-body">
+                    <input type="text" id="url-input" class="tool-input" placeholder="https://example.com/path?query=1" oninput="parse()">
+                    
+                    <div id="parse-res" class="mt-8" style="display:none; margin-top:2rem;">
+                        <table style="width:100%; border-collapse: collapse; margin-top:1rem;">
+                            <tbody id="url-table-body"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function parse() {
+            try {
+                const url = new URL(document.getElementById('url-input').value);
+                const results = [
+                    { k: "Protocol", v: url.protocol },
+                    { k: "Hostname", v: url.hostname },
+                    { k: "Pathname", v: url.pathname },
+                    { k: "Search", v: url.search },
+                    { k: "Hash", v: url.hash }
+                ];
+                let html = '';
+                results.forEach(r => {
+                    html += `<tr style="border-bottom:1px solid var(--border);"><td style="padding:10px; font-weight:bold;">${r.k}</td><td style="padding:10px; color:var(--primary); word-break:break-all;">${r.v}</td></tr>`;
+                });
+                document.getElementById('url-table-body').innerHTML = html;
+                document.getElementById('parse-res').style.display = 'block';
+            } catch(e) {
+                document.getElementById('parse-res').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

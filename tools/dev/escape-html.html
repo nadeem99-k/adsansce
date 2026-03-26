@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Entity Escape | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>HTML Escape</h1>
+                    <p>Safely escape HTML special characters for code snippets.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="esc-input" class="tool-input" placeholder="<div>Hello World</div>"></textarea>
+                    
+                    <button class="btn" onclick="esc()">Escape HTML</button>
+                    <button class="btn" onclick="copyResult()" style="background:#10b981;">Copy Result</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const input = document.getElementById('esc-input');
+        function esc() {
+            const div = document.createElement('div');
+            div.textContent = input.value;
+            input.value = div.innerHTML;
+        }
+        function copyResult() {
+            input.select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>

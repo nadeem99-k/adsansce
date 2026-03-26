@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 to Image | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Base64 to Image</h1>
+                    <p>Convert Base64 strings back into viewable and downloadable images.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="b64-input" class="tool-input" placeholder="Paste Base64 string here (data:image/png;base64,...)"></textarea>
+                    
+                    <button class="btn w-full" onclick="preview()">Preview Image</button>
+
+                    <div id="img-area" style="margin-top:2rem; text-align:center; display:none;">
+                        <img id="res-img" style="max-width:100%; border:1px solid var(--border); border-radius:8px;">
+                        <div style="margin-top:1rem;">
+                            <a id="down-link" class="btn" style="background:#10b981; text-decoration:none;" download="image.png">Download Image</a>
+                        </div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function preview() {
+            const val = document.getElementById('b64-input').value.trim();
+            if(val) {
+                const img = document.getElementById('res-img');
+                img.src = val;
+                document.getElementById('down-link').href = val;
+                document.getElementById('img-area').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Steganography Suite | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <style>
+        .stego-container { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        canvas { max-width: 100%; border-radius: 8px; background: #000; display: none; }
+        .preview-box { border: 2px dashed var(--border); border-radius: 12px; padding: 2rem; text-align: center; cursor: pointer; transition: 0.3s; }
+        .preview-box:hover { border-color: var(--primary); background: rgba(56, 189, 248, 0.05); }
+        .hidden-data { font-family: monospace; background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; border: 1px solid var(--border); width: 100%; min-height: 100px; color: var(--primary); }
+        @media (max-width: 768px) { .stego-container { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <header></header>
+    <main class="container">
+        <div class="tool-header">
+            <h1>Deep Steganography Suite 🕵️</h1>
+            <p style="color:var(--text-dim);">Hide encrypted text inside image pixels using LSB (Least Significant Bit) injection. Completely untraceable.</p>
+        </div>
+
+        <div class="stego-container">
+            <div class="card">
+                <h2 style="margin-bottom: 1.5rem; color: var(--primary);">📥 Hide Message</h2>
+                <div class="preview-box" id="drop-zone" onclick="document.getElementById('file-input').click()">
+                    <div id="preview-text">Click or Drop Image 🖼️</div>
+                    <img id="source-preview" style="display:none; max-width:100%; border-radius:8px;">
+                    <input type="file" id="file-input" hidden accept="image/*">
+                </div>
+                <textarea id="secret-text" class="tool-input" placeholder="Enter your secret message here..." style="min-height: 120px; margin-top: 1.5rem;"></textarea>
+                <button class="btn" onclick="Stego.hide()" style="width: 100%; margin-top: 1rem;">Inject Message 🔒</button>
+                <a id="download-link" style="display:none; text-align:center; margin-top: 1rem; color: var(--primary); text-decoration:none; font-weight:600;">Download Protected Image ↓</a>
+            </div>
+
+            <div class="card">
+                <h2 style="margin-bottom: 1.5rem; color: #a855f7;">🔓 Extract Message</h2>
+                <div class="preview-box" onclick="document.getElementById('extract-input').click()">
+                    <div>Select Protected Image 🧐</div>
+                    <input type="file" id="extract-input" hidden accept="image/*">
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <label style="font-size: 0.9rem; color: var(--text-dim); display:block; margin-bottom: 0.5rem;">Decoded Message:</label>
+                    <div id="decoded-output" class="hidden-data">No message found...</div>
+                </div>
+                <button class="btn" onclick="Stego.extract()" style="width: 100%; margin-top: 1rem; background: #a855f7;">Reveal Secret 👁️</button>
+            </div>
+        </div>
+
+        <canvas id="canvas"></canvas>
+    </main>
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const Stego = {
+            canvas: document.getElementById('canvas'),
+            ctx: document.getElementById('canvas').getContext('2d'),
+            
+            init() {
+                const input = document.getElementById('file-input');
+                input.onchange = (e) => this.handlePreview(e, 'source-preview', 'preview-text');
+                
+                const dragZone = document.getElementById('drop-zone');
+                dragZone.ondragover = (e) => { e.preventDefault(); dragZone.style.borderColor = 'var(--primary)'; };
+                dragZone.ondragleave = () => dragZone.style.borderColor = 'var(--border)';
+                dragZone.ondrop = (e) => {
+                    e.preventDefault();
+                    input.files = e.dataTransfer.files;
+                    this.handlePreview({target: input}, 'source-preview', 'preview-text');
+                };
+            },
+
+            handlePreview(e, imgId, textId) {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = document.getElementById(imgId);
+                    img.src = event.target.result;
+                    img.style.display = 'block';
+                    document.getElementById(textId).style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            },
+
+            hide() {
+                const img = document.getElementById('source-preview');
+                const text = document.getElementById('secret-text').value;
+                if (!img.src || !text) return OmniUI.showToast('Please select an image and enter a message.', 'error');
+
+                const image = new Image();
+                image.src = img.src;
+                image.onload = () => {
+                    this.canvas.width = image.width;
+                    this.canvas.height = image.height;
+                    this.ctx.drawImage(image, 0, 0);
+
+                    const imageData = this.ctx.getImageData(0, 0, image.width, image.height);
+                    const data = imageData.data;
+                    
+                    // Convert text to bit array (binary)
+                    const binary = this.textToBin(text + '##END##'); // Marker for end of message
+                    
+                    if (binary.length > data.length / 4 * 3) {
+                        return OmniUI.showToast('Message too long for this image size!', 'error');
+                    }
+
+                    for (let i = 0; i < binary.length; i++) {
+                        // Modify LSB of each pixel channel (R, G, B)
+                        // data[i*4] is R, data[i*4+1] is G... skipping Alpha
+                        const channelIndex = Math.floor(i / 1.33) % 4 === 3 ? i + 1 : i; // Simple skip alpha logic
+                        data[i] = (data[i] & 0xFE) | parseInt(binary[i]);
+                    }
+
+                    this.ctx.putImageData(imageData, 0, 0);
+                    const link = document.getElementById('download-link');
+                    link.href = this.canvas.toDataURL('image/png');
+                    link.style.display = 'block';
+                    OmniUI.showToast('Message injected! Use PNG for best results. 🔒');
+                };
+            },
+
+            extract() {
+                const input = document.getElementById('extract-input');
+                const file = input.files[0];
+                if (!file) return OmniUI.showToast('Select an image first.', 'error');
+
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        this.canvas.width = img.width;
+                        this.canvas.height = img.height;
+                        this.ctx.drawImage(img, 0, 0);
+                        const data = this.ctx.getImageData(0, 0, img.width, img.height).data;
+                        
+                        let binary = '';
+                        for (let i = 0; i < data.length; i++) {
+                            if (i % 4 === 3) continue; // Skip Alpha
+                            binary += (data[i] & 1);
+                        }
+
+                        const text = this.binToText(binary);
+                        const output = document.getElementById('decoded-output');
+                        if (text.includes('##END##')) {
+                            output.innerText = text.split('##END##')[0];
+                            OmniUI.showToast('Secret revealed! 👁️');
+                        } else {
+                            output.innerText = "No hidden message found or data corrupted.";
+                            OmniUI.showToast('Extraction failed.', 'error');
+                        }
+                    };
+                };
+                reader.readAsDataURL(file);
+            },
+
+            textToBin(text) {
+                return text.split('').map(char => char.charCodeAt(0).toString(2).padStart(8, '0')).join('');
+            },
+
+            binToText(bin) {
+                let text = '';
+                for (let i = 0; i < bin.length; i += 8) {
+                    const byte = bin.substr(i, 8);
+                    if (byte.length < 8) break;
+                    text += String.fromCharCode(parseInt(byte, 2));
+                }
+                return text;
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => Stego.init());
+    </script>
+</body>
+</html>

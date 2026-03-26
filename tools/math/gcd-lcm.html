@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCD & LCM Calculator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>GCD & LCM Finder</h1>
+                    <p>Find the Greatest Common Divisor and Least Common Multiple of two numbers.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom: 2rem;">
+                        <input type="number" id="n1" value="12" class="tool-input" style="min-height:unset;">
+                        <input type="number" id="n2" value="18" class="tool-input" style="min-height:unset;">
+                    </div>
+
+                    <button class="btn w-full" onclick="calc()">Calculate</button>
+
+                    <div id="math-result" class="mt-8" style="display:none; margin-top:2rem; display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+                        <div class="card" style="text-align:center;">
+                            <div style="font-size:0.8rem; color:var(--text-dim);">GCD</div>
+                            <h3 id="gcd-val" style="font-size:1.5rem; color:var(--primary);">0</h3>
+                        </div>
+                        <div class="card" style="text-align:center;">
+                            <div style="font-size:0.8rem; color:var(--text-dim);">LCM</div>
+                            <h3 id="lcm-val" style="font-size:1.5rem; color:var(--primary);">0</h3>
+                        </div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
+        function lcm(a, b) { return (a * b) / gcd(a, b); }
+
+        function calc() {
+            const a = parseInt(document.getElementById('n1').value);
+            const b = parseInt(document.getElementById('n2').value);
+            if(!isNaN(a) && !isNaN(b)) {
+                document.getElementById('gcd-val').textContent = gcd(a, b);
+                document.getElementById('lcm-val').textContent = lcm(a, b);
+                document.getElementById('math-result').style.display = 'grid';
+            }
+        }
+    </script>
+</body>
+</html>

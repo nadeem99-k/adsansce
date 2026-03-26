@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Slug Generator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Text to Slug Generator</h1>
+                    <p>Convert any string into an SEO-friendly URL slug.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="slug-input" class="tool-input" placeholder="Enter headline or title..."></textarea>
+                    
+                    <div style="display:flex; gap:0.5rem; margin-bottom: 2rem;">
+                        <button class="btn" onclick="generateSlug()">Make Slug</button>
+                        <button class="btn" onclick="copyResult()" style="background:#10b981;">Copy Slug</button>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const input = document.getElementById('slug-input');
+
+        function generateSlug() {
+            input.value = input.value
+                .toLowerCase()
+                .trim()
+                .replace(/[^\w\s-]/g, '')
+                .replace(/[\s_-]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+        }
+
+        function copyResult() {
+            input.select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>

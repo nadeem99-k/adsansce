@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Line & Word Counter (Detailed) | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Line Counter</h1>
+                    <p>Get a detailed breakdown of lines, words, and characters.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="text-input" class="tool-input" placeholder="Paste your text here..." oninput="count()"></textarea>
+                    
+                    <div id="count-result" class="mt-8" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:1rem; margin-top:2rem;">
+                        <div class="card" style="text-align:center;">
+                            <div style="font-size:0.8rem; color:var(--text-dim);">Lines</div>
+                            <h3 id="c-lines" style="font-size:1.5rem; color:var(--primary);">0</h3>
+                        </div>
+                        <div class="card" style="text-align:center;">
+                            <div style="font-size:0.8rem; color:var(--text-dim);">Words</div>
+                            <h3 id="c-words" style="font-size:1.5rem; color:var(--primary);">0</h3>
+                        </div>
+                        <div class="card" style="text-align:center;">
+                            <div style="font-size:0.8rem; color:var(--text-dim);">Chars</div>
+                            <h3 id="c-chars" style="font-size:1.5rem; color:var(--primary);">0</h3>
+                        </div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function count() {
+            const text = document.getElementById('text-input').value;
+            document.getElementById('c-lines').textContent = text.split('\n').filter(l => l.length > 0).length;
+            document.getElementById('c-words').textContent = text.trim() ? text.trim().split(/\s+/).length : 0;
+            document.getElementById('c-chars').textContent = text.length;
+        }
+    </script>
+</body>
+</html>

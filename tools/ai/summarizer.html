@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Text Summarizer | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Text Summarizer</h1>
+                    <p>Condense long text into key points using ChatGPT-4. Fast, accurate, and insightful.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="sum-in" class="tool-input" style="height:250px;" placeholder="Paste long text here..."></textarea>
+                    <button class="btn w-full mt-4" onclick="summarize()">Summarize Text</button>
+
+                    <div id="sum-res" class="card mt-6" style="display:none; background:var(--glass-heavy); border-left: 4px solid var(--primary);">
+                        <div id="res-val" style="line-height:1.6; white-space: pre-wrap;"></div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function summarize() {
+            const input = document.getElementById('sum-in').value;
+            const res = document.getElementById('sum-res');
+            const val = document.getElementById('res-val');
+
+            if(!input) return;
+            res.style.display = 'block';
+            try {
+                val.classList.add('shimmer');
+                val.style.minHeight = "100px";
+                
+                const prompt = `Summarize this text into clean bullet points: ${input}`;
+                const url = `https://vern-rest-api.vercel.app/api/chatgpt4?prompt=${encodeURIComponent(prompt)}`;
+                const data = await OmniAPI.fetch(url);
+                const response = data.response || "No summary found.";
+                
+                val.classList.remove('shimmer');
+                val.innerHTML = `
+                    <div style="margin-bottom:1.5rem;">${response}</div>
+                    <button class="btn" onclick="OmniUI.copyToClipboard(\`${response.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`, this)">Copy Summary 📋</button>
+                `;
+            } catch(e) {
+                val.classList.remove('shimmer');
+                val.textContent = "Unable to summarize.";
+            }
+        }
+    </script>
+</body>
+</html>

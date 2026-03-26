@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Palette Generator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Color Palette Gen</h1>
+                    <p>Generate beautiful, random color schemes for your designs.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div id="palette" style="display:grid; grid-template-columns: repeat(5, 1fr); height:300px; border-radius:12px; overflow:hidden; margin-bottom:2rem;">
+                        <!-- colors -->
+                    </div>
+                    
+                    <button class="btn w-full" onclick="gen()" style="width:100%;">Generate New Palette</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function gen() {
+            const pal = document.getElementById('palette');
+            pal.innerHTML = '';
+            for(let i=0; i<5; i++) {
+                const color = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+                pal.innerHTML += `<div style="background:${color}; display:flex; align-items:end; justify-content:center; padding-bottom:1rem; color:#fff; text-shadow:0 1px 2px rgba(0,0,0,0.5); font-weight:700; font-family:monospace;">${color.toUpperCase()}</div>`;
+            }
+        }
+        gen();
+    </script>
+</body>
+</html>

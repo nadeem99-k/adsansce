@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMS Simulator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <style>
+        .phone-mockup { width: 300px; height: 500px; background: #000; border-radius: 40px; border: 8px solid #333; margin: 2rem auto; padding: 20px; position: relative; overflow: hidden; }
+        .screen { background: #fff; height: 100%; border-radius: 20px; color: #000; padding: 10px; font-family: sans-serif; }
+        .msg-bubble { background: #e5e5ea; padding: 8px 12px; border-radius: 12px; margin-bottom: 8px; font-size: 0.8rem; align-self: flex-start; }
+    </style>
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>SMS Simulator</h1>
+                    <p>Simulate receiving SMS on a virtual phone. Useful for testing UI flows or prank mockups.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
+                        <input type="text" id="phone" class="tool-input" placeholder="Phone Number">
+                        <input type="number" id="count" class="tool-input" placeholder="Count (1-10)">
+                    </div>
+
+                    <button class="btn w-full" onclick="simulate()">Run Simulation</button>
+
+                    <div id="status" class="mt-4" style="text-align:center; color:var(--text-dim); display:none;">Connecting to network...</div>
+
+                    <div class="phone-mockup">
+                        <div class="screen" id="screen">
+                            <div style="font-weight:bold; text-align:center; border-bottom: 1px solid #ddd; margin-bottom:10px; padding-bottom:5px;">Messages</div>
+                            <div id="msg-list" style="display:flex; flex-direction:column;"></div>
+                        </div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function simulate() {
+            const phone = document.getElementById('phone').value;
+            const count = document.getElementById('count').value;
+            const status = document.getElementById('status');
+            const list = document.getElementById('msg-list');
+
+            if(!phone) return alert('Enter a phone number');
+
+            status.style.display = 'block';
+            list.innerHTML = "";
+
+            try {
+                const api = `https://vern-rest-api.vercel.app/api/smssimulator?phone=${phone}&amount=${count}`;
+                const response = await fetch(api);
+                const data = await response.json();
+
+                status.style.display = 'none';
+                if(data.status) {
+                    const bubble = document.createElement('div');
+                    bubble.className = "msg-bubble";
+                    bubble.textContent = data.msg || "Stimulation started successfully.";
+                    list.appendChild(bubble);
+                } else {
+                    status.textContent = "Simulation failed.";
+                }
+            } catch(e) {
+                status.textContent = "Network error.";
+            }
+        }
+    </script>
+</body>
+</html>

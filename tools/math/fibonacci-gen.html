@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fibonacci Sequence Generator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Fibonacci Generator</h1>
+                    <p>Generate a mathematical Fibonacci sequence up to N numbers.</p>
+                </div>
+
+                <div class="tool-body">
+                    <input type="number" id="fib-count" value="10" class="tool-input" style="min-height:unset;" placeholder="Number of items...">
+                    
+                    <button class="btn w-full" onclick="gen()">Generate Sequence</button>
+
+                    <div id="fib-out" class="card mt-8" style="display:none; font-family:monospace; white-space:pre-wrap; margin-top:2rem; background: var(--bg-alt);"></div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function gen() {
+            const n = parseInt(document.getElementById('fib-count').value);
+            if(n > 0) {
+                let seq = [0, 1];
+                for (let i = 2; i < n; i++) seq.push(seq[i - 1] + seq[i - 2]);
+                document.getElementById('fib-out').textContent = seq.slice(0, n).join(', ');
+                document.getElementById('fib-out').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

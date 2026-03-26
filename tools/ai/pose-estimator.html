@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Pose Estimator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Pose Estimator</h1>
+                    <p>Track your body skeleton in real-time using your webcam. Detects keypoints like shoulders, elbows, and knees.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="position:relative; max-width: 600px; margin: 0 auto;">
+                        <video id="video" autoplay muted playsinline style="width:100%; border-radius:12px; display:none;"></video>
+                        <canvas id="cvs" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;"></canvas>
+                    </div>
+
+                    <div style="display:flex; justify-content:center; gap:1rem; margin-top:2rem;">
+                        <button class="btn" onclick="startCamera()">Start Live Tracking</button>
+                    </div>
+
+                    <div id="status" class="mt-4" style="text-align:center; color:var(--text-dim);">Loading Pose Model...</div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection"></script>
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        let detector;
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('cvs');
+        const ctx = canvas.getContext('2d');
+        const status = document.getElementById('status');
+
+        async function init() {
+            detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet);
+            status.textContent = "AI Model Ready.";
+        }
+        init();
+
+        async function startCamera() {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
+            video.style.display = 'block';
+            video.onloadedmetadata = () => {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                trackLoop();
+            };
+        }
+
+        async function trackLoop() {
+            const poses = await detector.estimatePoses(video);
+            drawPoses(poses);
+            requestAnimationFrame(trackLoop);
+        }
+
+        function drawPoses(poses) {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            poses.forEach(pose => {
+                pose.keypoints.filter(kp => kp.score > 0.5).forEach(kp => {
+                    ctx.fillStyle = "#a855f7";
+                    ctx.beginPath();
+                    ctx.arc(kp.x, kp.y, 6, 0, 2*Math.PI);
+                    ctx.fill();
+                });
+            });
+        }
+    </script>
+</body>
+</html>

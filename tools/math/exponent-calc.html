@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exponent Calculator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Exponent Calculator</h1>
+                    <p>Calculate powers of numbers easily (Base ^ Exponent).</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom: 2rem;">
+                        <input type="number" id="base" placeholder="Base (X)" class="tool-input" style="min-height:unset;" oninput="calc()">
+                        <input type="number" id="exp" placeholder="Exponent (Y)" class="tool-input" style="min-height:unset;" oninput="calc()">
+                    </div>
+
+                    <div class="card" style="background:var(--bg-alt); text-align:center;">
+                        <div style="font-size:0.8rem; color:var(--text-dim);">Result</div>
+                        <h2 id="exp-res" style="font-size:2.5rem; color:var(--primary);">1</h2>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function calc() {
+            const b = parseFloat(document.getElementById('base').value);
+            const e = parseFloat(document.getElementById('exp').value);
+            if(!isNaN(b) && !isNaN(e)) {
+                document.getElementById('exp-res').textContent = Math.pow(b, e).toLocaleString();
+            }
+        }
+    </script>
+</body>
+</html>

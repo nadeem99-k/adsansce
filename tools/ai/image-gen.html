@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Generator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <style>
+        .ai-result { display: flex; flex-direction: column; align-items: center; margin-top: 2rem; }
+        .ai-img { max-width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 2px solid var(--primary); display: none; }
+        .loader { width: 40px; height: 40px; border: 4px solid var(--glass); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1 style="background: linear-gradient(90deg, #38bdf8, #a855f7); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">AI Image Generator</h1>
+                    <p>Enter a prompt and watch the AI bring your imagination to life. Powered by Vern Art API.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:flex; gap:1rem; margin-bottom:1.5rem;">
+                        <input type="text" id="prompt" class="tool-input" style="min-height:unset;" placeholder="A futuristic cyberpunk city with neon lights...">
+                        <button class="btn" onclick="generate()">Generate</button>
+                    </div>
+
+                    <div class="ai-result">
+                        <div id="loader" class="loader"></div>
+                        <img id="res-img" class="ai-img" src="" alt="AI Generated">
+                        <button id="dl-btn" class="btn mt-4" style="display:none;" onclick="downloadImg()">Download Image</button>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function generate() {
+            const prompt = document.getElementById('prompt').value;
+            if(!prompt) return alert('Please enter a prompt');
+
+            const loader = document.getElementById('loader');
+            const img = document.getElementById('res-img');
+            const dlBtn = document.getElementById('dl-btn');
+
+            loader.style.display = 'block';
+            img.style.display = 'none';
+            dlBtn.style.display = 'none';
+
+            // Direct URL loading is more robust for binary image responses
+            const url = `https://vern-rest-api.vercel.app/api/art?prompt=${encodeURIComponent(prompt)}`;
+            
+            img.onload = () => {
+                loader.style.display = 'none';
+                img.style.display = 'block';
+                dlBtn.style.display = 'block';
+            };
+
+            img.onerror = () => {
+                loader.style.display = 'none';
+                alert('Generation failed or took too long. Please try a different prompt.');
+            };
+
+            img.src = url;
+        }
+
+        function downloadImg() {
+            const img = document.getElementById('res-img');
+            const link = document.createElement('a');
+            link.href = img.src;
+            link.download = 'ai-generated-image.jpg';
+            link.click();
+        }
+    </script>
+</body>
+</html>

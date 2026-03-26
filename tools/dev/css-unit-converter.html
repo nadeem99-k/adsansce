@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Unit Converter | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>CSS Unit Converter</h1>
+                    <p>Convert Pixels (px) to REM based on your root font size.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom: 2rem;">
+                        <div>
+                            <label>Pixels (px)</label>
+                            <input type="number" id="px-v" value="16" class="tool-input" style="min-height:unset;" oninput="toRem()">
+                        </div>
+                        <div>
+                            <label>Base Size (px)</label>
+                            <input type="number" id="base-v" value="16" class="tool-input" style="min-height:unset;" oninput="toRem()">
+                        </div>
+                    </div>
+
+                    <div class="card" style="background:var(--bg-alt); text-align:center;">
+                        <h2 id="rem-val" style="font-size:2.5rem; color:var(--primary);">1.00 rem</h2>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function toRem() {
+            const px = parseFloat(document.getElementById('px-v').value);
+            const base = parseFloat(document.getElementById('base-v').value);
+            if(px && base) {
+                document.getElementById('rem-val').textContent = (px / base).toFixed(3) + " rem";
+            }
+        }
+    </script>
+</body>
+</html>

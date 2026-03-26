@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Border & Frame Generator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Image Border Generator</h1>
+                    <p>Add custom borders and padding to your images instantly.</p>
+                </div>
+
+                <div class="tool-body">
+                    <input type="file" id="img-input" class="tool-input" style="min-height:unset;" accept="image/*">
+                    
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-top:1rem;">
+                        <div>
+                            <label>Border Size (px)</label>
+                            <input type="number" id="b-size" value="20" class="tool-input" style="min-height:unset;" oninput="update()">
+                        </div>
+                        <div>
+                            <label>Border Color</label>
+                            <input type="color" id="b-color" value="#ffffff" class="tool-input" style="min-height:unset; padding:0;" oninput="update()">
+                        </div>
+                    </div>
+
+                    <div id="res-area" style="margin-top:2rem; text-align:center; display:none;">
+                        <canvas id="canvas" style="max-width:100%; border:1px solid var(--border); border-radius:8px;"></canvas>
+                        <div style="margin-top:1rem;">
+                            <button class="btn" onclick="download()" style="background:#10b981;">Download Img</button>
+                        </div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const input = document.getElementById('img-input');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let currentImg = null;
+
+        input.onchange = (e) => {
+            const file = e.target.files[0];
+            const img = new Image();
+            img.onload = () => {
+                currentImg = img;
+                update();
+                document.getElementById('res-area').style.display = 'block';
+            };
+            img.src = URL.createObjectURL(file);
+        };
+
+        function update() {
+            if(!currentImg) return;
+            const bSize = parseInt(document.getElementById('b-size').value) || 0;
+            const bColor = document.getElementById('b-color').value;
+            
+            canvas.width = currentImg.width + (bSize * 2);
+            canvas.height = currentImg.height + (bSize * 2);
+            
+            ctx.fillStyle = bColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(currentImg, bSize, bSize);
+        }
+
+        function download() {
+            const link = document.createElement('a');
+            link.download = 'bordered-image.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Graph Generator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Open Graph Tag Generator</h1>
+                    <p>Create social media preview tags (Facebook, LinkedIn) for your site.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr; gap:1rem; margin-bottom: 2rem;">
+                        <input type="text" id="og-url" class="tool-input" style="min-height:unset;" placeholder="Website URL">
+                        <input type="text" id="og-title" class="tool-input" style="min-height:unset;" placeholder="Page Title">
+                        <textarea id="og-desc" class="tool-input" style="min-height:100px;" placeholder="Page Description"></textarea>
+                        <input type="text" id="og-image" class="tool-input" style="min-height:unset;" placeholder="Preview Image URL">
+                    </div>
+
+                    <button class="btn w-full" onclick="genOG()" style="width:100%;">Generate OG Tags</button>
+
+                    <textarea id="og-output" class="tool-input" style="margin-top:2rem; font-family:monospace;" readonly></textarea>
+                    
+                    <button class="btn" onclick="copyResult()" style="background:#10b981;">Copy Tags</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function genOG() {
+            const url = document.getElementById('og-url').value;
+            const title = document.getElementById('og-title').value;
+            const desc = document.getElementById('og-desc').value;
+            const img = document.getElementById('og-image').value;
+            
+            const tags = `<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="${url}">
+<meta property="og:title" content="${title}">
+<meta property="og:description" content="${desc}">
+<meta property="og:image" content="${img}">`;
+
+            document.getElementById('og-output').value = tags;
+        }
+
+        function copyResult() {
+            const out = document.getElementById('og-output');
+            out.select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>

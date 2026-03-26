@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Card Generator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Twitter Card Generator</h1>
+                    <p>Generate meta tags specifically for Twitter previews.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr; gap:1rem; margin-bottom: 2rem;">
+                        <input type="text" id="tw-title" class="tool-input" style="min-height:unset;" placeholder="Card Title">
+                        <textarea id="tw-desc" class="tool-input" style="min-height:100px;" placeholder="Card Description"></textarea>
+                        <input type="text" id="tw-image" class="tool-input" style="min-height:unset;" placeholder="Image URL">
+                    </div>
+
+                    <button class="btn w-full" onclick="genTwitter()">Generate Tags</button>
+
+                    <textarea id="tw-output" class="tool-input" style="margin-top:2rem; font-family:monospace;" readonly></textarea>
+                    
+                    <button class="btn" onclick="copyResult()" style="background:#10b981;">Copy Code</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function genTwitter() {
+            const title = document.getElementById('tw-title').value;
+            const desc = document.getElementById('tw-desc').value;
+            const img = document.getElementById('tw-image').value;
+            
+            const tags = `<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${title}">
+<meta name="twitter:description" content="${desc}">
+<meta name="twitter:image" content="${img}">`;
+
+            document.getElementById('tw-output').value = tags;
+        }
+
+        function copyResult() {
+            const out = document.getElementById('tw-output');
+            out.select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>

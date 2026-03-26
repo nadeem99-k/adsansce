@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Percentage Calculator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Percentage Calculator</h1>
+                    <p>What is X% of Y? Find percentages instantly.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1.5rem;">
+                        <span>What is</span>
+                        <input type="number" id="perc-val" value="10" style="width:80px; padding:0.5rem; border:1px solid var(--border); border-radius:4px;">
+                        <span>% of</span>
+                        <input type="number" id="total-val" value="100" style="width:120px; padding:0.5rem; border:1px solid var(--border); border-radius:4px;">
+                    </div>
+
+                    <button class="btn w-full" onclick="calcPerc()" style="width:100%;">Calculate</button>
+
+                    <div id="perc-result" class="card" style="margin-top:2rem; text-align:center; display:none;">
+                        <h3 style="font-size:2rem; color:var(--primary);" id="result-val">10</h3>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function calcPerc() {
+            const p = document.getElementById('perc-val').value;
+            const t = document.getElementById('total-val').value;
+            if(p && t) {
+                const res = (p / 100) * t;
+                document.getElementById('result-val').textContent = res;
+                document.getElementById('perc-result').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

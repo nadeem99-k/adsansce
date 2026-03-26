@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NATO Phonetic Alphabet Converter | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>NATO Phonetic Converter</h1>
+                    <p>Convert any text into the standard NATO phonetic alphabet (Alpha, Bravo, Charlie...).</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="text-input" class="tool-input" placeholder="Type text here..." oninput="convert()"></textarea>
+                    
+                    <div id="nato-out" class="card mt-8" style="min-height:100px; background:var(--bg-alt); font-size:1.1rem; line-height:1.6; margin-top:2rem;">
+                        Waiting for input...
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const nato = { "a": "Alpha", "b": "Bravo", "c": "Charlie", "d": "Delta", "e": "Echo", "f": "Foxtrot", "g": "Golf", "h": "Hotel", "i": "India", "j": "Juliett", "k": "Kilo", "l": "Lima", "m": "Mike", "n": "November", "o": "Oscar", "p": "Papa", "q": "Quebec", "r": "Romeo", "s": "Sierra", "t": "Tango", "u": "Uniform", "v": "Victor", "w": "Whiskey", "x": "X-ray", "y": "Yankee", "z": "Zulu" };
+        function convert() {
+            const text = document.getElementById('text-input').value.toLowerCase();
+            const res = text.split('').map(char => nato[char] || char).join(' ');
+            document.getElementById('nato-out').textContent = res || "Waiting for input...";
+        }
+    </script>
+</body>
+</html>

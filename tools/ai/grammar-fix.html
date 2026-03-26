@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Grammar Fixer | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Grammar Fixer</h1>
+                    <p>Fix spelling, grammar, and style instantly with ChatGPT-4's advanced language model.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="text-in" class="tool-input" style="height:200px;" placeholder="He dont know nothing..."></textarea>
+                    <button class="btn w-full mt-4" onclick="fix()">Fix Writing</button>
+
+                    <div id="res-area" class="card mt-6" style="display:none; background:var(--glass-heavy);">
+                        <div style="font-size:0.75rem; color:var(--text-dim); margin-bottom:1rem;">CORRECTED TEXT</div>
+                        <div id="res-val" style="line-height:1.6; white-space: pre-wrap;"></div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function fix() {
+            const text = document.getElementById('text-in').value;
+            const res = document.getElementById('res-area');
+            const val = document.getElementById('res-val');
+
+            if(!text) return;
+            res.style.display = 'block';
+            try {
+                val.classList.add('shimmer');
+                val.style.minHeight = "60px";
+
+                const prompt = `Correct the grammar and spelling of this text, returning ONLY the corrected version: ${text}`;
+                const url = `https://vern-rest-api.vercel.app/api/chatgpt4?prompt=${encodeURIComponent(prompt)}`;
+                const data = await OmniAPI.fetch(url);
+                const response = (data.response || "No correction suggested.").replace(/'/g, "\\'");
+                
+                val.classList.remove('shimmer');
+                val.innerHTML = `
+                    <div style="margin-bottom:1rem;">${data.response || "No correction suggested."}</div>
+                    <button class="btn" onclick="OmniUI.copyToClipboard('${response}', this)">Copy Corrected 📋</button>
+                `;
+            } catch(e) {
+                val.classList.remove('shimmer');
+                val.textContent = "Error.";
+            }
+        }
+    </script>
+</body>
+</html>

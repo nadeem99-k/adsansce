@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI OCR Reader | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI OCR Reader</h1>
+                    <p>Convert images of text into editable content using Optical Character Recognition. Fast and private.</p>
+                </div>
+
+                <div class="tool-body">
+                    <input type="file" id="ocr-in" class="tool-input" accept="image/*" onchange="runOCR(event)">
+                    
+                    <div id="ocr-status" class="mt-4" style="text-align:center; color:var(--text-dim); display:none;">Initializing Tesseract...</div>
+
+                    <div id="ocr-res" class="card mt-6" style="display:none; background:var(--glass-heavy);">
+                        <div style="font-size:0.75rem; color:var(--text-dim); margin-bottom:1rem;">EXTRACTED TEXT</div>
+                        <textarea id="res-text" class="tool-input" style="height:300px;"></textarea>
+                        <button class="btn mt-4" onclick="copyText()">Copy to Clipboard</button>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function runOCR(e) {
+            const file = e.target.files[0];
+            const status = document.getElementById('ocr-status');
+            const res = document.getElementById('ocr-res');
+            const resText = document.getElementById('res-text');
+
+            if(!file) return;
+            status.style.display = 'block';
+            res.style.display = 'none';
+
+            try {
+                const worker = await Tesseract.createWorker('eng', 1, {
+                    logger: m => status.textContent = `Processing: ${Math.round(m.progress * 100)}%`
+                });
+                const { data: { text } } = await worker.recognize(file);
+                await worker.terminate();
+
+                resText.value = text;
+                res.style.display = 'block';
+                status.style.display = 'none';
+            } catch(e) {
+                status.textContent = "OCR Failed. Try a clearer image.";
+            }
+        }
+
+        function copyText() {
+            const txt = document.getElementById('res-text');
+            txt.select();
+            document.execCommand('copy');
+            alert('Copied!');
+        }
+    </script>
+</body>
+</html>

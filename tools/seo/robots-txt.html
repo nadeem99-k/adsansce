@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robots.txt Generator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Robots.txt Generator</h1>
+                    <p>Create a custom robots.txt file to guide search engine crawlers.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:flex; flex-direction:column; gap:1rem; margin-bottom: 2rem;">
+                        <label>Crawler Type: 
+                            <select id="user-agent" class="tool-input" style="min-height:unset;">
+                                <option value="*">All Crawlers (*)</option>
+                                <option value="Googlebot">Googlebot</option>
+                                <option value="Bingbot">Bingbot</option>
+                            </select>
+                        </label>
+                        <input type="text" id="disallow-path" class="tool-input" style="min-height:unset;" placeholder="/admin or /private-path">
+                        <button class="btn" onclick="addPath()">Add Disallow Path</button>
+                    </div>
+
+                    <textarea id="robots-output" class="tool-input" readonly>User-agent: *
+Disallow: </textarea>
+                    
+                    <button class="btn" onclick="copyResult()" style="background:#10b981;">Copy File Content</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const output = document.getElementById('robots-output');
+
+        function addPath() {
+            const agent = document.getElementById('user-agent').value;
+            const path = document.getElementById('disallow-path').value;
+            if(path) {
+                output.value += `\nUser-agent: ${agent}\nDisallow: ${path}`;
+            }
+        }
+
+        function copyResult() {
+            output.select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Resizer | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Image Resizer</h1>
+                    <p>Resize your images locally in your browser with no quality loss.</p>
+                </div>
+
+                <div class="tool-body">
+                    <input type="file" id="image-input" accept="image/*" class="tool-input" style="min-height:unset;">
+                    
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom: 2rem;">
+                        <div>
+                            <label>Width (px)</label>
+                            <input type="number" id="img-width" class="tool-input" style="min-height:unset;">
+                        </div>
+                        <div>
+                            <label>Height (px)</label>
+                            <input type="number" id="img-height" class="tool-input" style="min-height:unset;">
+                        </div>
+                    </div>
+
+                    <button class="btn w-full" onclick="resizeImage()" style="width:100%;">Resize Image</button>
+
+                    <div id="result-area" style="margin-top:2rem; text-align:center; display:none;">
+                        <canvas id="qr-canvas" style="max-width:100%; border-radius:8px; border:1px solid var(--border);"></canvas>
+                        <div style="margin-top:1rem;">
+                            <a id="download-link" class="btn" style="background:#10b981; text-decoration:none; display:inline-block;">Download Resized Image</a>
+                        </div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const input = document.getElementById('image-input');
+        const canvas = document.getElementById('qr-canvas');
+        const ctx = canvas.getContext('2d');
+        let originalImg = new Image();
+
+        input.onchange = (e) => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                originalImg.src = event.target.result;
+                originalImg.onload = () => {
+                    document.getElementById('img-width').value = originalImg.width;
+                    document.getElementById('img-height').value = originalImg.height;
+                };
+            };
+            reader.readAsDataURL(file);
+        };
+
+        function resizeImage() {
+            const w = document.getElementById('img-width').value;
+            const h = document.getElementById('img-height').value;
+            canvas.width = w;
+            canvas.height = h;
+            ctx.drawImage(originalImg, 0, 0, w, h);
+            
+            const link = document.getElementById('download-link');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'resized-image.png';
+            document.getElementById('result-area').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

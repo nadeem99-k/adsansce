@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Object Detection | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Object Detection</h1>
+                    <p>Point your camera or upload an image to identify objects in real-time. Processed 100% locally on your device.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="position:relative; max-width: 600px; margin: 0 auto;">
+                        <video id="webcam" autoplay muted playsinline style="width:100%; border-radius:12px; display:none;"></video>
+                        <canvas id="overlay" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;"></canvas>
+                    </div>
+
+                    <div style="display:flex; justify-content:center; gap:1rem; margin-top:2rem;">
+                        <button class="btn" onclick="startCamera()">Start Camera</button>
+                        <input type="file" id="img-in" accept="image/*" style="display:none;" onchange="detectImage(event)">
+                        <button class="btn" style="background:var(--bg-accent);" onclick="document.getElementById('img-in').click()">Upload Image</button>
+                    </div>
+
+                    <div id="status" class="mt-4" style="text-align:center; color:var(--text-dim);">Loading AI Model...</div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <!-- TensorFlow.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        let model;
+        const video = document.getElementById('webcam');
+        const canvas = document.getElementById('overlay');
+        const ctx = canvas.getContext('2d');
+        const status = document.getElementById('status');
+
+        cocoSsd.load().then(m => {
+            model = m;
+            status.textContent = "AI Model Ready.";
+        });
+
+        async function startCamera() {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
+            video.style.display = 'block';
+            video.onloadedmetadata = () => {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                predictLoop();
+            };
+        }
+
+        async function predictLoop() {
+            const predictions = await model.detect(video);
+            drawPredictions(predictions);
+            requestAnimationFrame(predictLoop);
+        }
+
+        function drawPredictions(predictions) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            predictions.forEach(p => {
+                ctx.strokeStyle = "#38bdf8";
+                ctx.lineWidth = 4;
+                ctx.strokeRect(...p.bbox);
+                ctx.fillStyle = "#38bdf8";
+                ctx.font = "18px Arial";
+                ctx.fillText(`${p.class} (${Math.round(p.score * 100)}%)`, p.bbox[0], p.bbox[1] > 20 ? p.bbox[1] - 5 : 20);
+            });
+        }
+
+        function detectImage(e) {
+            const file = e.target.files[0];
+            const img = new Image();
+            img.onload = async () => {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const predictions = await model.detect(img);
+                ctx.drawImage(img, 0, 0);
+                drawPredictions(predictions);
+                video.style.display = 'none';
+            };
+            img.src = URL.createObjectURL(file);
+        }
+    </script>
+</body>
+</html>

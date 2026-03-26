@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Face Landmark Detector | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Face Landmark Tracker</h1>
+                    <p>Detect 68 unique facial keypoints including eyes, eyebrows, nose, and jawline in real-time.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="position:relative; max-width: 500px; margin: 0 auto;">
+                        <video id="video" autoplay muted playsinline style="width:100%; border-radius:12px; display:none;"></video>
+                        <canvas id="overlay" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;"></canvas>
+                    </div>
+
+                    <div style="display:flex; justify-content:center; gap:1rem; margin-top:2rem;">
+                        <button class="btn" onclick="startCamera()">Start Face Tracking</button>
+                    </div>
+
+                    <div id="status" class="mt-4" style="text-align:center; color:var(--text-dim);">Loading Models...</div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const MODEL_URL = 'https://justadudewhohacks.github.io/face-api.js/models';
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('overlay');
+        const ctx = canvas.getContext('2d');
+        const status = document.getElementById('status');
+
+        async function init() {
+            await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+            await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+            status.textContent = "AI Ready.";
+        }
+        init();
+
+        async function startCamera() {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
+            video.style.display = 'block';
+            video.onplay = () => {
+                const loop = async () => {
+                    const detections = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks();
+                    if(detections) {
+                        const resized = faceapi.resizeResults(detections, { width: video.videoWidth, height: video.videoHeight });
+                        ctx.clearRect(0,0,canvas.width,canvas.height);
+                        faceapi.draw.drawFaceLandmarks(canvas, resized);
+                    }
+                    requestAnimationFrame(loop);
+                };
+                loop();
+            };
+        }
+    </script>
+</body>
+</html>

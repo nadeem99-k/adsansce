@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crontab Generator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Crontab Schedule Generator</h1>
+                    <p>Quickly generate cron job schedules for Linux servers.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap:1rem; margin-bottom: 2rem;">
+                        <input type="text" id="c-min" value="*" class="tool-input" style="min-height:unset;" title="Minute">
+                        <input type="text" id="c-hour" value="*" class="tool-input" style="min-height:unset;" title="Hour">
+                        <input type="text" id="c-day" value="*" class="tool-input" style="min-height:unset;" title="Day">
+                        <input type="text" id="c-month" value="*" class="tool-input" style="min-height:unset;" title="Month">
+                        <input type="text" id="c-dow" value="*" class="tool-input" style="min-height:unset;" title="Day of Week">
+                    </div>
+
+                    <div class="card" style="background:#1e293b; color:#fff; font-family:monospace; text-align:center; padding:1.5rem;">
+                        <span id="cron-output">* * * * *</span>
+                    </div>
+                    
+                    <button class="btn mt-8 w-full" style="width:100%; margin-top:1rem;" onclick="copyCron()">Copy Crontab Line</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const inputs = ['c-min', 'c-hour', 'c-day', 'c-month', 'c-dow'];
+        function updateCron() {
+            const vals = inputs.map(id => document.getElementById(id).value || '*');
+            document.getElementById('cron-output').textContent = vals.join(' ');
+        }
+        inputs.forEach(id => document.getElementById(id).oninput = updateCron);
+        
+        function copyCron() {
+            navigator.clipboard.writeText(document.getElementById('cron-output').textContent);
+        }
+    </script>
+</body>
+</html>

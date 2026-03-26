@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics Calculator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Statistics Calculator</h1>
+                    <p>Calculate Mean, Median, Mode, Range, and Standard Deviation.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="data-input" class="tool-input" placeholder="Enter numbers separated by commas (e.g. 1, 2, 5, 10, 20)..."></textarea>
+                    
+                    <button class="btn w-full" onclick="calc()">Analyze Data</button>
+
+                    <div id="stat-result" class="mt-8" style="display:none; margin-top:2rem; display:grid; grid-template-columns: repeat(2, 1fr); gap:1rem;">
+                        <div class="card" style="text-align:center;">
+                            <div style="font-size:0.8rem; color:var(--text-dim);">Mean (Average)</div>
+                            <h3 id="mean-val" style="font-size:1.5rem; color:var(--primary);">0</h3>
+                        </div>
+                        <div class="card" style="text-align:center;">
+                            <div style="font-size:0.8rem; color:var(--text-dim);">Median</div>
+                            <h3 id="median-val" style="font-size:1.5rem; color:var(--primary);">0</h3>
+                        </div>
+                        <div class="card" style="text-align:center;">
+                            <div style="font-size:0.8rem; color:var(--text-dim);">Mode</div>
+                            <h3 id="mode-val" style="font-size:1.5rem; color:var(--primary);">0</h3>
+                        </div>
+                        <div class="card" style="text-align:center;">
+                            <div style="font-size:0.8rem; color:var(--text-dim);">Range</div>
+                            <h3 id="range-val" style="font-size:1.5rem; color:var(--primary);">0</h3>
+                        </div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function calc() {
+            const val = document.getElementById('data-input').value;
+            const nums = val.split(',').map(n => parseFloat(n.trim())).filter(n => !isNaN(n)).sort((a,b) => a-b);
+            
+            if(nums.length === 0) return;
+
+            // Mean
+            const mean = nums.reduce((a,b) => a+b, 0) / nums.length;
+            
+            // Median
+            const mid = Math.floor(nums.length / 2);
+            const median = nums.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
+
+            // Mode
+            const counts = {};
+            nums.forEach(n => counts[n] = (counts[n] || 0) + 1);
+            let mode = nums[0], maxCount = 0;
+            for(const n in counts) { if(counts[n] > maxCount) { maxCount = counts[n]; mode = n; } }
+
+            // Range
+            const range = nums[nums.length - 1] - nums[0];
+
+            document.getElementById('mean-val').textContent = mean.toFixed(2);
+            document.getElementById('median-val').textContent = median;
+            document.getElementById('mode-val').textContent = mode;
+            document.getElementById('range-val').textContent = range;
+            document.getElementById('stat-result').style.display = 'grid';
+        }
+    </script>
+</body>
+</html>

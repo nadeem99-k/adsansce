@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to Base64 | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Image to Base64</h1>
+                    <p>Convert your image files into Base64 strings for CSS or HTML embedding.</p>
+                </div>
+
+                <div class="tool-body">
+                    <input type="file" id="img-file" class="tool-input" style="min-height:unset;" accept="image/*">
+                    
+                    <textarea id="base64-output" class="tool-input" style="margin-top:2rem; font-size:0.8rem; word-break:break-all;" placeholder="Base64 result will appear here..." readonly></textarea>
+                    
+                    <button class="btn" onclick="copyResult()" style="background:#10b981;">Copy Base64</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        document.getElementById('img-file').onchange = (e) => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                document.getElementById('base64-output').value = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        };
+
+        function copyResult() {
+            const out = document.getElementById('base64-output');
+            out.select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>

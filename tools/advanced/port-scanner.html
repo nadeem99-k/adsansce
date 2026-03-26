@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Port Scanner (Local-Only) | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Port Scanner</h1>
+                    <p>Scan your localhost (127.0.0.1) for common open ports (80, 8080, 3000, 5000).</p>
+                </div>
+
+                <div class="tool-body">
+                    <button class="btn w-full" onclick="scan()" style="width:100%; margin-bottom:2rem;">Start Scanning Localhost</button>
+
+                    <div id="scan-res" class="card" style="display:none; background:var(--glass-heavy);">
+                        <ul id="res-list" style="list-style:none; padding:1rem;"></ul>
+                    </div>
+
+                    <p style="font-size:0.8rem; color:var(--text-dim); margin-top:2rem;">Note: This uses the Fetch API to detect timing differences. It may not detect all services due to CORS restrictions.</p>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const ports = [80, 443, 3000, 3306, 5000, 8000, 8080, 27017];
+        
+        async function scan() {
+            const list = document.getElementById('res-list');
+            const area = document.getElementById('scan-res');
+            area.style.display = 'block';
+            list.innerHTML = "";
+
+            for(const port of ports) {
+                const li = document.createElement('li');
+                li.style.padding = "0.25rem 0";
+                li.textContent = `Testing Port ${port}...`;
+                list.appendChild(li);
+
+                const start = performance.now();
+                try {
+                    await fetch(`http://127.0.0.1:${port}`, { mode: 'no-cors' });
+                    li.innerHTML = `Port ${port}: <span style="color:#10b981;">POTENTIALLY OPEN</span>`;
+                } catch(e) {
+                    li.innerHTML = `Port ${port}: <span style="color:var(--text-dim);">CLOSED/TIMEOUT</span>`;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

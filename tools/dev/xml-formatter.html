@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML Formatter & Beautifier | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>XML Formatter</h1>
+                    <p>Pretty print and format your messy XML code.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="xml-input" class="tool-input" placeholder="Paste XML here..." style="font-family:monospace;"></textarea>
+                    
+                    <button class="btn" onclick="format()">Format XML</button>
+                    <button class="btn" onclick="copyResult()" style="background:#10b981;">Copy Result</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const input = document.getElementById('xml-input');
+        function format() {
+            let xml = input.value.replace(/>\s*</g, '><');
+            let formatted = '';
+            let indent = 0;
+            xml.split(/>(?=<)/).forEach(node => {
+                if (node.match(/^\/\w+/)) indent--;
+                formatted += '  '.repeat(indent) + node + '>\n';
+                if (node.match(/^<?\w+[^/]*[^-]$/)) indent++;
+            });
+            input.value = formatted.trim();
+        }
+        function copyResult() {
+            input.select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>

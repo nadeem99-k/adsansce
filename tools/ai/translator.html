@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Translator Pro | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Translator Pro</h1>
+                    <p>Translate text between dozens of languages instantly. Now powered by Vern AI Translate.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem;">
+                        <div>
+                            <select id="lang-from" class="tool-input" style="min-height:unset; margin-bottom:1rem;">
+                                <option value="en">English</option>
+                                <option value="es">Spanish</option>
+                                <option value="fr">French</option>
+                                <option value="de">German</option>
+                                <option value="it">Italian</option>
+                                <option value="pt">Portuguese</option>
+                                <option value="ru">Russian</option>
+                                <option value="zh">Chinese</option>
+                                <option value="ja">Japanese</option>
+                                <option value="ar">Arabic</option>
+                            </select>
+                            <textarea id="text-in" class="tool-input" style="height:200px;" placeholder="Enter text to translate..."></textarea>
+                        </div>
+                        <div>
+                            <select id="lang-to" class="tool-input" style="min-height:unset; margin-bottom:1rem;">
+                                <option value="es">Spanish</option>
+                                <option value="en">English</option>
+                                <option value="fr">French</option>
+                                <option value="de">German</option>
+                                <option value="it">Italian</option>
+                                <option value="pt">Portuguese</option>
+                                <option value="ru">Russian</option>
+                                <option value="zh">Chinese</option>
+                                <option value="ja">Japanese</option>
+                                <option value="ar">Arabic</option>
+                            </select>
+                            <div id="text-out" class="card" style="height:200px; background:var(--glass-heavy); overflow-y:auto; padding:1rem;">...</div>
+                        </div>
+                    </div>
+
+                    <button class="btn w-full mt-6" onclick="translateText()">Translate Now</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function translateText() {
+            const text = document.getElementById('text-in').value;
+            const from = document.getElementById('lang-from').value;
+            const to = document.getElementById('lang-to').value;
+            const out = document.getElementById('text-out');
+
+            if(!text) return;
+            out.classList.add('shimmer');
+            try {
+                const url = `https://vern-rest-api.vercel.app/api/translate?sl=${from}&tl=${to}&q=${encodeURIComponent(text)}`;
+                const data = await OmniAPI.fetch(url);
+                
+                out.classList.remove('shimmer');
+                if(data.status && data.translation) {
+                    const result = data.translation[0];
+                    out.innerHTML = `
+                        <div style="margin-bottom:1rem;">${result}</div>
+                        <button class="pill" style="font-size:0.75rem; padding:0.2rem 0.6rem;" onclick="OmniUI.copyToClipboard('${result.replace(/'/g, "\\'")}', this)">Copy Translation 📋</button>
+                    `;
+                } else {
+                    out.textContent = "Translation failed.";
+                }
+            } catch(e) {
+                out.classList.remove('shimmer');
+                out.textContent = "Connection error.";
+            }
+        }
+    </script>
+</body>
+</html>

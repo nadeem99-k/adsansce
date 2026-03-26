@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upside Down Text Generator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Upside Down Text</h1>
+                    <p>Flip your text upside down for social media or fun messages.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="text-input" class="tool-input" placeholder="Type something to flip..."></textarea>
+                    
+                    <button class="btn w-full" onclick="flip()" style="width:100%;">Flip Text</button>
+
+                    <button class="btn mt-4" onclick="copyResult()" style="background:#10b981; margin-top:1rem;">Copy Result</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const map = { "a" : "\u0250", "b" : "q", "c" : "\u0254", "d" : "p", "e" : "\u01DD", "f" : "\u025F", "g" : "\u0183", "h" : "\u0265", "i" : "\u0131", "j" : "\u027E", "k" : "\u029E", "l" : "\u0287", "m" : "\u026F", "n" : "u", "o" : "o", "p" : "d", "q" : "b", "r" : "\u0279", "s" : "s", "t" : "\u0287", "u" : "n", "v" : "\u028C", "w" : "\u028D", "x" : "x", "y" : "\u028E", "z" : "z", "[" : "]", "]" : "[", "(" : ")", ")" : "(", "{" : "}", "}" : "{", "?" : "\u00BF", "\u00BF" : "?", "!" : "\u00A1", "\'" : ",", "," : "\'", "." : "\u02D9", "\u02D9" : ".", " " : " " };
+        const input = document.getElementById('text-input');
+        function flip() {
+            let res = "";
+            const text = input.value.toLowerCase();
+            for (let i = text.length - 1; i >= 0; i--) {
+                res += map[text[i]] || text[i];
+            }
+            input.value = res;
+        }
+        function copyResult() {
+            input.select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>

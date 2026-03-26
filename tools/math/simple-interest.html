@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Interest Calculator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Simple Interest Calculator</h1>
+                    <p>Calculate interest earnings over time for loans or investments.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:1rem; margin-bottom: 2rem;">
+                        <div>
+                            <label>Principal ($)</label>
+                            <input type="number" id="p" value="1000" class="tool-input" style="min-height:unset;" oninput="calc()">
+                        </div>
+                        <div>
+                            <label>Rate (%)</label>
+                            <input type="number" id="r" value="5" class="tool-input" style="min-height:unset;" oninput="calc()">
+                        </div>
+                        <div>
+                            <label>Time (Yrs)</label>
+                            <input type="number" id="t" value="1" class="tool-input" style="min-height:unset;" oninput="calc()">
+                        </div>
+                    </div>
+
+                    <div class="card" style="background:var(--bg-alt); text-align:center;">
+                        <div style="font-size:0.9rem; color:var(--text-dim);">Interest Earned</div>
+                        <h2 id="int-val" style="font-size:2.5rem; color:var(--primary);">$50.00</h2>
+                        <div style="font-size:0.8rem;">Total: <span id="tot-val">$1050.00</span></div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function calc() {
+            const p = parseFloat(document.getElementById('p').value);
+            const r = parseFloat(document.getElementById('r').value) / 100;
+            const t = parseFloat(document.getElementById('t').value);
+            if(!isNaN(p) && !isNaN(r) && !isNaN(t)) {
+                const interest = p * r * t;
+                document.getElementById('int-val').textContent = `$${interest.toFixed(2)}`;
+                document.getElementById('tot-val').textContent = `$${(p + interest).toFixed(2)}`;
+            }
+        }
+        calc();
+    </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Background Blur | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Background Blur</h1>
+                    <p>Apply a professional portrait blur to your photos instantly using browser-side AI.</p>
+                </div>
+
+                <div class="tool-body">
+                    <input type="file" id="img-in" class="tool-input" accept="image/*" onchange="runBlur(event)">
+                    
+                    <div id="status" class="mt-4" style="text-align:center; color:var(--text-dim); display:none;">Blurring Image...</div>
+
+                    <div id="res-area" style="display:none; text-align:center; margin-top:2rem;">
+                        <canvas id="cvs" style="max-width:100%; border-radius:12px; border: 2px solid var(--primary);"></canvas>
+                        <button class="btn mt-4" onclick="download()">Download Blurred Image</button>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix"></script>
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        let net;
+        const status = document.getElementById('status');
+        const resArea = document.getElementById('res-area');
+        const canvas = document.getElementById('cvs');
+
+        async function init() {
+            net = await bodyPix.load();
+        }
+        init();
+
+        async function runBlur(e) {
+            const file = e.target.files[0];
+            const img = new Image();
+            img.onload = async () => {
+                status.style.display = 'block';
+                const segmentation = await net.segmentPerson(img);
+                const backgroundBlurAmount = 10;
+                const edgeBlurAmount = 3;
+                const flipHorizontal = false;
+
+                bodyPix.drawBokehEffect(
+                    canvas, img, segmentation, backgroundBlurAmount,
+                    edgeBlurAmount, flipHorizontal
+                );
+                
+                status.style.display = 'none';
+                resArea.style.display = 'block';
+            };
+            img.src = URL.createObjectURL(file);
+        }
+
+        function download() {
+            const link = document.createElement('a');
+            link.download = 'blurred-portrait.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html>

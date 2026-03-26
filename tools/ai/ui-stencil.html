@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI UI Stencil | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <style>
+        .stencil-grid { display: grid; grid-template-columns: 350px 1fr; gap: 2rem; }
+        #canvas-preview { background: #fff; border-radius: 8px; position: sticky; top: 100px; height: 600px; overflow: auto; border: 4px solid var(--border); }
+        .code-output { background: #0f172a; color: #a855f7; padding: 1rem; border-radius: 8px; font-family: monospace; height: 300px; overflow: auto; margin-top: 1rem; position: relative; }
+        .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; font-size: 0.7rem; }
+        @media (max-width: 1024px) { .stencil-grid { grid-template-columns: 1fr; } #canvas-preview { position: static; height: 400px; } }
+    </style>
+</head>
+<body>
+    <header></header>
+    <main class="container">
+        <div class="tool-header">
+            <h1>AI UI Stencil 🎨</h1>
+            <p style="color:var(--text-dim);">Describe your UI sketch or layout idea, and let AI generate modern HTML/Tailwind code ready for use.</p>
+        </div>
+
+        <div class="stencil-grid">
+            <div class="card">
+                <h3 style="margin-bottom: 1rem;">Describe Your Vision 📝</h3>
+                <textarea id="stencil-prompt" class="tool-input" placeholder="e.g. A sleek glassmorphism login page with a purple gradient background and rounded inputs..." style="min-height: 200px;"></textarea>
+                
+                <div style="margin-top: 1.5rem;">
+                    <label style="font-size: 0.9rem; color: var(--text-dim);">Template Presets:</label>
+                    <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.5rem;">
+                        <button class="pill" onclick="setPreset('Dashboard Card with Chart')">Dashboard</button>
+                        <button class="pill" onclick="setPreset('Modern Navbar with Dropdown')">Navbar</button>
+                        <button class="pill" onclick="setPreset('Glassmorphic Login Form')">Login</button>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="generateCode()" id="gen-btn" style="width: 100%; margin-top: 2rem;">Generate Stencil ⚡</button>
+                
+                <div class="code-output" id="code-container" style="display:none;">
+                    <button class="pill copy-btn" onclick="OmniUI.copyToClipboard(document.getElementById('raw-code').innerText, this)">Copy Code</button>
+                    <pre id="raw-code" style="white-space: pre-wrap; font-size: 0.8rem;"></pre>
+                </div>
+            </div>
+
+            <div id="canvas-preview">
+                <div style="padding: 2rem; text-align:center; color: var(--text-dim); margin-top: 10rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🖼️</div>
+                    Live Preview will appear here
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function setPreset(p) {
+            document.getElementById('stencil-prompt').value = p;
+        }
+
+        async function generateCode() {
+            const prompt = document.getElementById('stencil-prompt').value;
+            const btn = document.getElementById('gen-btn');
+            const preview = document.getElementById('canvas-preview');
+            const codeBox = document.getElementById('code-container');
+            const codeText = document.getElementById('raw-code');
+
+            if (!prompt) return OmniUI.showToast('Please describe your UI idea.', 'error');
+
+            btn.innerHTML = 'Analyzing Sketch...';
+            btn.disabled = true;
+            preview.innerHTML = '<div class="shimmer" style="height:100%"></div>';
+
+            try {
+                const response = await OmniAPI.fetch(`https://vern-rest-api.vercel.app/api/chatgpt4?prompt=Generate ONLY clean HTML and Tailwind CSS code for this UI description: ${prompt}. Return ONLY the code inside a single block. No talk.`);
+                let html = response.answer || "Error generating code.";
+                
+                // Clean markdown artifacts if any
+                html = html.replace(/```html|```css|```/g, '').trim();
+
+                codeText.innerText = html;
+                codeBox.style.display = 'block';
+                
+                // Inject for preview - need Tailwind CDN for it to work
+                preview.innerHTML = `
+                    <script src="https://cdn.tailwindcss.com"><\/script>
+                    <div style="background: white; min-height:100%; color: black;">${html}</div>
+                `;
+                
+                OmniUI.showToast('Stencil generated! ✨');
+            } catch (e) {
+                OmniUI.showToast('Generation failed.', 'error');
+            } finally {
+                btn.innerHTML = 'Generate Stencil ⚡';
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

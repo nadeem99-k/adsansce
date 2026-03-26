@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmniToolbox | 120+ Professional AI & Web Tools</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="tool-header py-10" style="text-align:center; padding: 6rem 0 4rem;">
+            <h1 style="font-size: clamp(2.5rem, 8vw, 4rem); line-height: 1.1; margin-bottom: 1.5rem;">The Ultimate <span style="color:var(--primary);">Toolbox</span></h1>
+            <p style="font-size: 1.25rem; max-width: 700px; margin: 0 auto 3rem; color: var(--text-dim);">100+ professional tools for developers, content creators, and mathematicians. Completely free and browser-based.</p>
+            
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="tool-search" placeholder="Search 120+ tools... (Press '/' to search)" style="flex:1; padding:1.25rem 2rem; background:transparent; border:none; color:#fff; font-size:1.1rem; outline:none;">
+                    <button onclick="OmniVoice.start('tool-search')" class="voice-btn" style="margin-right:0.5rem;" title="Voice Search">🎤</button>
+                    <div style="margin-right:1.5rem; opacity: 0.5;">🔍</div>
+                </div>
+                <button onclick="OmniUI.randomTool()" class="btn surprise-btn">Surprise Me ✨</button>
+            </div>
+
+            <div style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-dim); display: flex; align-items: center; justify-content: center; gap: 1rem;">
+                <span>🔥 Trending Now:</span>
+                <a href="/tools/ai/image-gen.html" class="pill" style="padding: 0.2rem 0.8rem; font-size: 0.75rem;">AI Image</a>
+                <a href="/tools/ai/chatbot.html" class="pill" style="padding: 0.2rem 0.8rem; font-size: 0.75rem;">AI Buddy</a>
+
+            <div class="category-pills" style="margin-top: 2rem; display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap;">
+                <a href="#ai-lab" class="pill">AI Magic Lab ✨</a>
+                <a href="/tools/text/index.html" class="pill">Text Tools ✍️</a>
+                <a href="/tools/dev/index.html" class="pill">Developer 👨‍💻</a>
+                <a href="/tools/math/index.html" class="pill">Math 🔢</a>
+                <a href="/tools/seo/index.html" class="pill">SEO 📈</a>
+            </div>
+        </div>
+
+        <div class="ad-banner mb-12" style="background:var(--glass-heavy); height:90px; display:flex; align-items:center; justify-content:center; border:1px dashed var(--border); border-radius:8px;">
+            Top Ad Wrapper
+        </div>
+
+        <div class="main-wrapper">
+            <div class="tools-grid">
+                <!-- Favorites Section (Dynamic) -->
+                <section id="favorites-section" style="display:none; margin-bottom: 3rem;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1.5rem;">
+                        <h2 style="color:#ff69b4;">Your Favorites ❤️</h2>
+                    </div>
+                    <div id="favorites-grid" class="tool-list-grid"></div>
+                </section>
+
+                <!-- AI Magic Lab -->
+                <section class="mb-12" id="ai-lab">
+                    <h2 style="margin-bottom: 2rem; background: linear-gradient(90deg, #38bdf8, #a855f7); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-size: 2.2rem; text-align: center;">AI Magic Lab</h2>
+                    <div class="tool-list-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                        <a href="/tools/ai/image-gen.html" class="tool-link ai-neon">AI Image Generator 🎨</a>
+                        <a href="/tools/ai/chatbot.html" class="tool-link ai-neon">AI Buddy Chatbot 🤖</a>
+                        <a href="/tools/ai/ai-companion.html" class="tool-link ai-neon" style="border-color:#ff69b4 !important;">AI Companion ❤️</a>
+                        <a href="/tools/ai/face-swap.html" class="tool-link ai-neon">AI Face Swapper 🎭</a>
+                        <a href="/tools/ai/ai-detector.html" class="tool-link ai-neon">AI Content Detector 🔍</a>
+                        <a href="/tools/online/social-dl.html" class="tool-link ai-neon">Social Video Downloader 📥</a>
+                        <a href="/tools/tricky/sms-sim.html" class="tool-link ai-neon">SMS Simulator 📱</a>
+                        <a href="/tools/tricky/temp-mail.html" class="tool-link ai-neon">Temp Mail Suite 📧</a>
+                        <a href="/tools/image/billboard.html" class="tool-link ai-neon">Billboard Designer 🏗️</a>
+                        <a href="/tools/ai/translator.html" class="tool-link ai-neon">AI Translator Pro 🌐</a>
+                        <a href="/tools/ai/story-gen.html" class="tool-link ai-neon">AI Story Teller 📚</a>
+                        <a href="/tools/ai/ocr-reader.html" class="tool-link ai-neon">AI OCR Reader 👁️</a>
+                        <a href="/tools/ai/summarizer.html" class="tool-link ai-neon">AI Text Summarizer 📝</a>
+                        <a href="/tools/ai/article-rewriter.html" class="tool-link ai-neon">AI Article Rewriter ✍️</a>
+                        <a href="/tools/ai/mood-detector.html" class="tool-link ai-neon">AI Mood Detector 😊</a>
+                        <a href="/tools/ai/code-explain.html" class="tool-link ai-neon">AI Code Explainer 💻</a>
+                        <a href="/tools/ai/pose-estimator.html" class="tool-link ai-neon">AI Pose Estimator 🏃</a>
+                        <a href="/tools/ai/bg-blur.html" class="tool-link ai-neon">AI Background Blur 🌫️</a>
+                        <a href="/tools/ai/sentiment.html" class="tool-link ai-neon">AI Sentiment Analysis 📊</a>
+                        <a href="/tools/ai/grammar-fix.html" class="tool-link ai-neon">AI Grammar Fixer ✍️</a>
+                        <a href="/tools/ai/poem-gen.html" class="tool-link ai-neon">AI Poem Generator 📜</a>
+                        <a href="/tools/ai/email-draft.html" class="tool-link ai-neon">AI Email Drafter ✉️</a>
+                        <a href="/tools/ai/ai-terminal.html" class="tool-link ai-neon" style="border-color:#4ade80 !important;">AI Linux Cloud Terminal 🐧</a>
+                        <a href="/tools/ai/voice-cmd.html" class="tool-link ai-neon">AI Voice Commander 🎙️</a>
+                        <a href="/tools/ai/resume-ai.html" class="tool-link ai-neon">AI Resume Polish 💎</a>
+                        <a href="/tools/ai/keyword-ai.html" class="tool-link ai-neon">AI Keyword Extractor 🔑</a>
+                        <a href="/tools/ai/face-landmarks.html" class="tool-link ai-neon">AI Face Landmark 📐</a>
+                        <a href="/tools/ai/nickname-ai.html" class="tool-link ai-neon">AI Nickname Gen 📛</a>
+                        <a href="/tools/ai/color-ai.html" class="tool-link ai-neon">AI Color Picker 🌈</a>
+                        <a href="/tools/ai/ui-stencil.html" class="tool-link ai-neon" style="border-color:#4ade80 !important;">AI UI Stencil 🎨</a>
+                    </div>
+                </section>
+
+                <!-- Text Tools -->
+                <section class="mb-12">
+                    <h2 style="margin-bottom: 1.5rem; color:var(--primary);">Text & Content</h2>
+                    <div class="tool-list-grid">
+                        <a href="/tools/text/case-converter.html" class="tool-link">Case Converter 🔠</a>
+                        <a href="/tools/text/word-counter.html" class="tool-link">Word Counter 🔢</a>
+                        <a href="/tools/text/lorem-ipsum.html" class="tool-link">Lorem Ipsum Gen 📝</a>
+                        <a href="/tools/text/remove-spaces.html" class="tool-link">Remove Extra Spaces ␣</a>
+                        <a href="/tools/text/alphabetizer.html" class="tool-link">List Alphabetizer 🔤</a>
+                        <a href="/tools/text/text-to-slug.html" class="tool-link">Text to Slug 🔗</a>
+                        <a href="/tools/text/remove-lines.html" class="tool-link">Remove Blank Lines 📋</a>
+                        <a href="/tools/text/text-reverser.html" class="tool-link">Text Reverser ◀️</a>
+                        <a href="/tools/text/text-to-binary.html" class="tool-link">Text to Binary 0️⃣1️⃣</a>
+                        <a href="/tools/text/morse-code.html" class="tool-link">Morse Code Conv 📻</a>
+                        <a href="/tools/text/random-picker.html" class="tool-link">Random Picker 🎲</a>
+                        <a href="/tools/text/text-diff.html" class="tool-link">Text Diff Checker ↔️</a>
+                        <a href="/tools/text/text-to-hex.html" class="tool-link">Text to Hex 0x</a>
+                        <a href="/tools/text/hex-to-text.html" class="tool-link">Hex to Text 🔡</a>
+                        <a href="/tools/text/remove-duplicates.html" class="tool-link">Duplicate Remover 👯</a>
+                        <a href="/tools/text/word-frequency.html" class="tool-link">Word Frequency 📈</a>
+                        <a href="/tools/text/text-to-ascii.html" class="tool-link">Text to ASCII 🔣</a>
+                        <a href="/tools/text/ascii-to-text.html" class="tool-link">ASCII to Text 🔠</a>
+                        <a href="/tools/text/line-counter.html" class="tool-link">Line Counter 📏</a>
+                        <a href="/tools/text/word-replacer.html" class="tool-link">Word Replacer 🔄</a>
+                        <a href="/tools/text/upside-down-text.html" class="tool-link">Upside Down 🙃</a>
+                        <a href="/tools/text/strikethrough-text.html" class="tool-link">Strikethrough ̶S̶</a>
+                        <a href="/tools/text/nato-phonetic.html" class="tool-link">NATO Phonetic 🚁</a>
+                        <a href="/tools/text/word-scrambler.html" class="tool-link">Word Scrambler 🌪️</a>
+                        <a href="/tools/text/find-replace-regex.html" class="tool-link">Regex Word Replacer 🧩</a>
+                    </div>
+                </section>
+
+                <!-- Developer Tools -->
+                <section class="mb-12" style="margin-top: 3rem;">
+                    <h2 style="margin-bottom: 1.5rem; color:var(--primary);">Developer Utilities</h2>
+                    <div class="tool-list-grid">
+                        <a href="/tools/dev/json-formatter.html" class="tool-link">JSON Formatter { }</a>
+                        <a href="/tools/dev/password-gen.html" class="tool-link">Password Generator 🔑</a>
+                        <a href="/tools/dev/url-encode.html" class="tool-link">URL Encode/Decode 🌐</a>
+                        <a href="/tools/dev/base64-encode.html" class="tool-link">Base64 Encode 📦</a>
+                        <a href="/tools/dev/html-minifier.html" class="tool-link">HTML Minifier 📉</a>
+                        <a href="/tools/dev/css-minifier.html" class="tool-link">CSS Minifier 🎨</a>
+                        <a href="/tools/dev/regex-tester.html" class="tool-link">Regex Tester 🧪</a>
+                        <a href="/tools/dev/sql-formatter.html" class="tool-link">SQL Formatter 💾</a>
+                        <a href="/tools/dev/xml-to-json.html" class="tool-link">XML to JSON 🔄</a>
+                        <a href="/tools/dev/json-to-csv.html" class="tool-link">JSON to CSV 📊</a>
+                        <a href="/tools/dev/csv-to-json.html" class="tool-link">CSV to JSON 📋</a>
+                        <a href="/tools/dev/markdown-previewer.html" class="tool-link">MD Previewer 📝</a>
+                        <a href="/tools/dev/html-entity.html" class="tool-link">HTML Entities 🔣</a>
+                        <a href="/tools/dev/jwt-decoder.html" class="tool-link">JWT Decoder 🔐</a>
+                        <a href="/tools/dev/crontab-generator.html" class="tool-link">Cron Gen ⏰</a>
+                        <a href="/tools/dev/base64-to-image.html" class="tool-link">Base64 to Image 🖼️</a>
+                        <a href="/tools/dev/yaml-to-json.html" class="tool-link">YAML to JSON 🏗️</a>
+                        <a href="/tools/dev/xml-formatter.html" class="tool-link">XML Formatter 📄</a>
+                        <a href="/tools/dev/sql-minifier.html" class="tool-link">SQL Minifier 📉</a>
+                        <a href="/tools/dev/css-unit-converter.html" class="tool-link">CSS Units 📏</a>
+                        <a href="/tools/dev/json-to-xml.html" class="tool-link">JSON to XML 🔄</a>
+                        <a href="/tools/dev/escape-html.html" class="tool-link">Escape HTML 🛡️</a>
+                        <a href="/tools/dev/unescape-html.html" class="tool-link">Unescape HTML 🔓</a>
+                        <a href="/tools/dev/json-to-yaml.html" class="tool-link">JSON to YAML 🏗️</a>
+                        <a href="/tools/dev/js-minifier.html" class="tool-link">JS Minifier ⚡</a>
+                        <a href="/tools/dev/hex-to-rgb.html" class="tool-link">Hex to RGB 🎨</a>
+                    </div>
+                </section>
+
+                <!-- SEO Tools -->
+                <section class="mb-12" style="margin-top: 3rem;">
+                    <h2 style="margin-bottom: 1.5rem; color:var(--primary);">SEO & Marketing</h2>
+                    <div class="tool-list-grid">
+                        <a href="/tools/seo/meta-tag-gen.html" class="tool-link">Meta Tag Gen 🏷️</a>
+                        <a href="/tools/seo/keyword-density.html" class="tool-link">Keyword Density 📊</a>
+                        <a href="/tools/seo/robots-txt.html" class="tool-link">Robots.txt Gen 🤖</a>
+                        <a href="/tools/seo/sitemap-gen.html" class="tool-link">Sitemap Gen 🗺️</a>
+                        <a href="/tools/seo/ip-lookup.html" class="tool-link">IP Lookup 📍</a>
+                        <a href="/tools/seo/twitter-card.html" class="tool-link">Twitter Card Gen 🐦</a>
+                        <a href="/tools/seo/open-graph-gen.html" class="tool-link">Open Graph Gen 📈</a>
+                        <a href="/tools/seo/keyword-research.html" class="tool-link">Keyword Ideas 💡</a>
+                        <a href="/tools/seo/serp-preview.html" class="tool-link">SERP Preview 🖥️</a>
+                        <a href="/tools/seo/keyword-combiner.html" class="tool-link">Keyword Combiner 🔗</a>
+                        <a href="/tools/seo/url-parser.html" class="tool-link">URL Parser 📑</a>
+                        <a href="/tools/seo/ad-revenue-calc.html" class="tool-link">Ad Revenue Calc 💰</a>
+                    </div>
+                </section>
+
+                <!-- Math & Unit Tools -->
+                <section class="mb-12" style="margin-top: 3rem;">
+                    <h2 style="margin-bottom: 1.5rem; color:var(--primary);">Calculators & Unit Converters</h2>
+                    <div class="tool-list-grid">
+                        <a href="/tools/math/bmi-calculator.html" class="tool-link">BMI Calculator ⚖️</a>
+                        <a href="/tools/math/age-calculator.html" class="tool-link">Age Calculator 📅</a>
+                        <a href="/tools/math/percentage-calc.html" class="tool-link">Percentage Calc 🔢</a>
+                        <a href="/tools/math/percentage-difference.html" class="tool-link">Perc Difference 📉</a>
+                        <a href="/tools/math/loan-calculator.html" class="tool-link">Loan Calculator 💸</a>
+                        <a href="/tools/math/unit-converter.html" class="tool-link">Unit Converter 📏</a>
+                        <a href="/tools/math/currency-converter.html" class="tool-link">Currency Conv 💱</a>
+                        <a href="/tools/math/base-converter.html" class="tool-link">Base Converter 🔢</a>
+                        <a href="/tools/math/scientific-calculator.html" class="tool-link">Scientific Calc 🧪</a>
+                        <a href="/tools/math/vat-tax.html" class="tool-link">VAT & Tax Calc 💰</a>
+                        <a href="/tools/math/prime-checker.html" class="tool-link">Prime Checker 🔢</a>
+                        <a href="/tools/math/gcd-lcm.html" class="tool-link">GCD/LCM Finder ➗</a>
+                        <a href="/tools/math/random-number.html" class="tool-link">Random Number 🎲</a>
+                        <a href="/tools/math/fibonacci-gen.html" class="tool-link">Fibonacci Gen 🔢</a>
+                        <a href="/tools/math/statistics-calc.html" class="tool-link">Stat Calculator 📊</a>
+                        <a href="/tools/math/quadratic-solver.html" class="tool-link">Quadratic Solver 📉</a>
+                        <a href="/tools/math/simple-interest.html" class="tool-link">Simple Interest 💰</a>
+                        <a href="/tools/math/area-calculator.html" class="tool-link">Area Calculator 📐</a>
+                        <a href="/tools/math/modulo-calc.html" class="tool-link">Modulo Finder ➗</a>
+                        <a href="/tools/math/exponent-calc.html" class="tool-link">Exponent Calc 🔢</a>
+                        <a href="/tools/math/pythagorean-solver.html" class="tool-link">Pythagorean Theorem 📐</a>
+                        <a href="/tools/math/hex-to-decimal.html" class="tool-link">Hex to Dec 🔡</a>
+                        <a href="/tools/math/decimal-to-hex.html" class="tool-link">Dec to Hex 🔡</a>
+                        <a href="/tools/math/binary-to-decimal.html" class="tool-link">Bin to Dec 0️⃣1️⃣</a>
+                        <a href="/tools/math/decimal-to-binary.html" class="tool-link">Dec to Bin 0️⃣1️⃣</a>
+                        <a href="/tools/math/log-calc.html" class="tool-link">Log Calculator 🔢</a>
+                        <a href="/tools/math/percentage-increase.html" class="tool-link">Perc Increase 📈</a>
+                        <a href="/tools/math/root-calc.html" class="tool-link">Root Calculator 🔢</a>
+                    </div>
+                </section>
+
+                <!-- Advanced & Tricky Tools -->
+                <section class="mb-12" style="margin-top: 3rem;">
+                    <h2 style="margin-bottom: 1.5rem; color:#a855f7;">Tricky & Advanced</h2>
+                    <div class="tool-list-grid">
+                        <a href="/tools/advanced/device-info.html" class="tool-link">Device Deep-Dive 💻</a>
+                        <a href="/tools/advanced/fingerprint.html" class="tool-link">Browser Fingerprinter 👤</a>
+                        <a href="/tools/advanced/steganography.html" class="tool-link">Steganography Tool 🕵️</a>
+                        <a href="/tools/advanced/webrtc-leak.html" class="tool-link">WebRTC Leak Test 🛡️</a>
+                        <a href="/tools/advanced/url-obfuscator.html" class="tool-link">URL Obfuscator 🎭</a>
+                        <a href="/tools/advanced/fake-id-gen.html" class="tool-link">Fake Identity Gen 🆔</a>
+                        <a href="/tools/advanced/deep-link.html" class="tool-link">Deep Link Gen 🔗</a>
+                        <a href="/tools/image/exif-stripper.html" class="tool-link">EXIF Data Stripper 📸</a>
+                        <a href="/tools/dev/js-obfuscator.html" class="tool-link">JS Obfuscator 🛡️</a>
+                        <a href="/tools/advanced/port-scanner.html" class="tool-link">Port Scanner 📡</a>
+                        <a href="/tools/advanced/deep-steganography.html" class="tool-link" style="border-color:#a855f7 !important;">Deep Steganography 🕵️</a>
+                        <a href="/tools/advanced/omnichannel.html" class="tool-link ai-neon" style="border-color:#38bdf8 !important;">OmniChannel P2P 🔗</a>
+                    </div>
+                </section>
+
+                <!-- Image Tools -->
+                <section class="mb-12" style="margin-top: 3rem;">
+                    <h2 style="margin-bottom: 1.5rem; color:var(--primary);">Image & Visualization</h2>
+                    <div class="tool-list-grid">
+                        <a href="/tools/image/qr-generator.html" class="tool-link">QR Code Generator 🔳</a>
+                        <a href="/tools/image/image-resizer.html" class="tool-link">Image Resizer 🖼️</a>
+                        <a href="/tools/image/image-to-base64.html" class="tool-link">Image to Base64 📦</a>
+                        <a href="/tools/image/color-palette.html" class="tool-link">Color Palette 🎨</a>
+                        <a href="/tools/image/grayscale.html" class="tool-link">Image Grayscale 🌫️</a>
+                        <a href="/tools/image/sepia-filter.html" class="tool-link">Sepia Filter 🎞️</a>
+                        <a href="/tools/image/image-border-gen.html" class="tool-link">Image Border Gen 🖼️</a>
+                    </div>
+                </section>
+
+                <!-- Miscellaneous -->
+                 <section class="mb-12" style="margin-top: 3rem;">
+                    <h2 style="margin-bottom: 1.5rem; color:var(--primary);">Miscellaneous</h2>
+                    <div class="tool-list-grid">
+                        <a href="/tools/misc/stopwatch.html" class="tool-link">Online Stopwatch ⏱️</a>
+                        <a href="/tools/misc/countdown-timer.html" class="tool-link">Countdown Timer ⏳</a>
+                    </div>
+                </section>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <button id="backToTop" style="position:fixed; bottom:2rem; right:2rem; width:50px; height:50px; border-radius:50%; background:var(--primary); color:#0f172a; border:none; cursor:pointer; display:none; align-items:center; justify-content:center; font-size:1.5rem; z-index:1000; box-shadow:0 10px 20px rgba(0,0,0,0.3);">↑</button>
+
+    <script src="assets/js/core.js"></script>
+    <script>
+        // Init Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            injectFavoriteButtons();
+            renderFavorites();
+        });
+
+        function injectFavoriteButtons() {
+            const favs = JSON.parse(localStorage.getItem('omni_favs') || '[]');
+            document.querySelectorAll('.tool-link').forEach(link => {
+                const id = link.getAttribute('href');
+                const isFav = favs.includes(id);
+                
+                const heart = document.createElement('span');
+                heart.className = `fav-heart ${isFav ? 'active' : ''}`;
+                heart.innerHTML = isFav ? '❤️' : '🤍';
+                heart.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    OmniStorage.toggleFavorite(id);
+                    heart.classList.toggle('active');
+                    heart.innerHTML = heart.classList.contains('active') ? '❤️' : '🤍';
+                    renderFavorites();
+                };
+                link.appendChild(heart);
+            });
+        }
+
+        function renderFavorites() {
+            const favs = JSON.parse(localStorage.getItem('omni_favs') || '[]');
+            const container = document.getElementById('favorites-section');
+            const grid = document.getElementById('favorites-grid');
+            
+            if (favs.length === 0) {
+                container.style.display = 'none';
+                return;
+            }
+
+            container.style.display = 'block';
+            grid.innerHTML = '';
+            
+            favs.forEach(href => {
+                const original = document.querySelector(`.tool-link[href="${href}"]`);
+                if (original) {
+                    const clone = original.cloneNode(true);
+                    // Remove the heart from clone to prevent nested events, or re-setup
+                    clone.querySelector('.fav-heart').remove();
+                    grid.appendChild(clone);
+                }
+            });
+        }
+
+        // Search functionality
+        const searchInput = document.getElementById('tool-search');
+        searchInput.addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase();
+            document.querySelectorAll('.tool-link').forEach(link => {
+                const text = link.textContent.toLowerCase();
+                link.style.display = text.includes(val) ? 'flex' : 'none';
+            });
+            
+            // Hide sections with no visible tools
+            document.querySelectorAll('section').forEach(section => {
+                if (section.id === 'favorites-section') return; 
+                const hasVisibleTools = Array.from(section.querySelectorAll('.tool-link')).some(l => l.style.display !== 'none');
+                section.style.display = hasVisibleTools ? 'block' : 'none';
+            });
+        });
+
+        // Keyboard shortcut /
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/' && document.activeElement !== searchInput) {
+                e.preventDefault();
+                searchInput.focus();
+            }
+        });
+
+        // Back to top
+        const btt = document.getElementById('backToTop');
+        window.onscroll = () => {
+            if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+                btt.style.display = "flex";
+            } else {
+                btt.style.display = "none";
+            }
+        };
+        btt.onclick = () => window.scrollTo({top: 0, behavior: 'smooth'});
+    </script>
+</body>
+</html>

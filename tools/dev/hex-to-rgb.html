@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hex to RGB Converter | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Hex to RGB</h1>
+                    <p>Convert hex color codes to RGB and HSL formats.</p>
+                </div>
+
+                <div class="tool-body">
+                    <input type="text" id="hex" value="#38bdf8" class="tool-input" style="min-height:unset;" oninput="conv()">
+                    
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-top:2rem;">
+                        <div class="card" style="background:var(--bg-alt); text-align:center;">
+                            <div style="font-size:0.8rem; color:var(--text-dim);">RGB</div>
+                            <h2 id="rgb" style="font-size:1.5rem; color:var(--primary);">rgb(56, 189, 248)</h2>
+                        </div>
+                        <div class="card" style="background:var(--bg-alt); text-align:center;">
+                            <div style="font-size:0.8rem; color:var(--text-dim);">Preview</div>
+                            <div id="preview" style="height:50px; border-radius:8px; background:#38bdf8;"></div>
+                        </div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function conv() {
+            let h = document.getElementById('hex').value.replace('#','');
+            if(h.length === 3) h = h.split('').map(x => x+x).join('');
+            if(h.length === 6) {
+                const r = parseInt(h.substring(0,2), 16);
+                const g = parseInt(h.substring(2,4), 16);
+                const b = parseInt(h.substring(4,6), 16);
+                document.getElementById('rgb').textContent = `rgb(${r}, ${g}, ${b})`;
+                document.getElementById('preview').style.background = `#${h}`;
+            }
+        }
+        conv();
+    </script>
+</body>
+</html>

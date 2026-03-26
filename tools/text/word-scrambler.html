@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Scrambler & Shuffler | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Word Scrambler</h1>
+                    <p>Randomly shuffle the characters in every word of your text.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="text-input" class="tool-input" placeholder="Paste your text here..."></textarea>
+                    
+                    <button class="btn w-full" onclick="scramble()" style="width:100%;">Scramble Text</button>
+
+                    <button class="btn mt-4" onclick="copyResult()" style="background:#10b981; margin-top:1rem;">Copy Result</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const input = document.getElementById('text-input');
+        function scramble() {
+            const words = input.value.split(/\s+/);
+            const scrambled = words.map(w => {
+                let a = w.split(""), n = a.length;
+                for(let i = n - 1; i > 0; i--) {
+                    let j = Math.floor(Math.random() * (i + 1));
+                    [a[i], a[j]] = [a[j], a[i]];
+                }
+                return a.join("");
+            });
+            input.value = scrambled.join(" ");
+        }
+        function copyResult() {
+            input.select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>

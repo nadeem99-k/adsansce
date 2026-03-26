@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmniChannel P2P | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <style>
+        .channel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .session-box { font-family: monospace; font-size: 0.8rem; background: #000; color: #4ade80; padding: 1rem; border-radius: 8px; border: 1px solid var(--border); width: 100%; height: 150px; overflow: auto; margin-top: 1rem; }
+        .chat-window { height: 300px; background: rgba(0,0,0,0.2); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 1rem; overflow: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+        .msg { padding: 0.5rem 1rem; border-radius: 12px; max-width: 80%; font-size: 0.9rem; }
+        .msg.sent { background: var(--primary); color: #0f172a; align-self: flex-end; }
+        .msg.received { background: var(--glass-heavy); color: #fff; align-self: flex-start; }
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; background: #f87171; }
+        .status-dot.online { background: #4ade80; box-shadow: 0 0 10px #4ade80; }
+        @media (max-width: 768px) { .channel-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <header></header>
+    <main class="container">
+        <div class="tool-header">
+            <h1>OmniChannel P2P 🔗</h1>
+            <p style="color:var(--text-dim);">Establish a 100% private, serverless direct connection between two devices using WebRTC. No middle-man, no logs.</p>
+        </div>
+
+        <div class="card" style="margin-bottom: 2rem;">
+            <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom: 1.5rem;">
+                <span id="p2p-status" class="status-dot"></span>
+                <span id="status-text" style="font-weight:600;">Disconnected</span>
+            </div>
+
+            <div class="channel-grid" id="setup-view">
+                <div>
+                    <h3 style="margin-bottom: 1rem; color: var(--primary);">Step 1: Create Connection</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-dim);">Click 'Generate Invite' and send the code to your friend.</p>
+                    <button class="btn" onclick="P2P.createOffer()" style="width:100%; margin-top: 1rem;">Generate Invite ✉️</button>
+                    <textarea id="offer-sdp" class="session-box" placeholder="Your invite code will appear here..." readonly></textarea>
+                    <button class="pill" style="margin-top: 0.5rem; width:100%;" onclick="OmniUI.copyToClipboard(document.getElementById('offer-sdp').value, this)">Copy Invite</button>
+                </div>
+                <div>
+                    <h3 style="margin-bottom: 1rem; color: #a855f7;">Step 2: Join Connection</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-dim);">Paste the invite code from your friend and click 'Connect'.</p>
+                    <textarea id="remote-sdp" class="session-box" placeholder="Paste invite code here..."></textarea>
+                    <button class="btn" onclick="P2P.acceptInvite()" style="width:100%; margin-top: 1rem; background: #a855f7;">Connect & Accept 🤝</button>
+                </div>
+            </div>
+
+            <div id="chat-view" style="display:none;">
+                <div class="chat-window" id="chat-window"></div>
+                <div style="display:flex; gap:0.5rem;">
+                    <input type="text" id="chat-input" class="tool-input" placeholder="Type a secure message..." style="min-height:50px;" onkeyup="if(event.key==='Enter') P2P.send()">
+                    <button class="btn" onclick="P2P.send()">Send 🚀</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" id="answer-view" style="display:none;">
+            <h3 style="margin-bottom: 1rem;">Final Step: Send Confirmation Back</h3>
+            <p style="font-size: 0.85rem; color: var(--text-dim);">If you generated the invite, you must paste the 'Confirmation' code from your friend below.</p>
+            <textarea id="final-sdp" class="session-box" placeholder="Paste confirmation code here..."></textarea>
+            <button class="btn" onclick="P2P.finalize()" style="width:100%; margin-top: 1rem;">Finalize Connection ✅</button>
+        </div>
+    </main>
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const P2P = {
+            pc: null,
+            dc: null,
+            config: { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] },
+
+            init() {
+                this.pc = new RTCPeerConnection(this.config);
+                this.pc.onicecandidate = (e) => {
+                    if (e.candidate) return; // Wait for end of candidates
+                    const sdp = btoa(JSON.stringify(this.pc.localDescription));
+                    document.getElementById('offer-sdp').value = sdp;
+                    if (this.pc.remoteDescription) {
+                         document.getElementById('offer-sdp').value = sdp; // This is the answer
+                    }
+                };
+
+                this.pc.ondatachannel = (e) => {
+                    this.dc = e.channel;
+                    this.setupChannel();
+                };
+            },
+
+            async createOffer() {
+                this.init();
+                this.dc = this.pc.createDataChannel('chat');
+                this.setupChannel();
+                const offer = await this.pc.createOffer();
+                await this.pc.setLocalDescription(offer);
+            },
+
+            async acceptInvite() {
+                this.init();
+                const invite = document.getElementById('remote-sdp').value;
+                if (!invite) return OmniUI.showToast('Paste the invite code first!', 'error');
+                
+                try {
+                    const desc = new RTCSessionDescription(JSON.parse(atob(invite)));
+                    await this.pc.setRemoteDescription(desc);
+                    const answer = await this.pc.createAnswer();
+                    await this.pc.setLocalDescription(answer);
+                    OmniUI.showToast('Invite accepted! Copy the confirmation code below.');
+                    document.getElementById('offer-sdp').value = btoa(JSON.stringify(this.pc.localDescription));
+                } catch (e) {
+                    OmniUI.showToast('Invalid invite code.', 'error');
+                }
+            },
+
+            async finalize() {
+                const conf = document.getElementById('final-sdp').value;
+                if (!conf) return;
+                try {
+                    const desc = new RTCSessionDescription(JSON.parse(atob(conf)));
+                    await this.pc.setRemoteDescription(desc);
+                    OmniUI.showToast('Connection Finalized!');
+                } catch (e) {
+                    OmniUI.showToast('Invalid confirmation code.', 'error');
+                }
+            },
+
+            setupChannel() {
+                this.dc.onopen = () => {
+                    document.getElementById('p2p-status').classList.add('online');
+                    document.getElementById('status-text').innerText = 'Connected';
+                    document.getElementById('setup-view').style.display = 'none';
+                    document.getElementById('answer-view').style.display = 'none';
+                    document.getElementById('chat-view').style.display = 'block';
+                    OmniUI.showToast('P2P Channel Securely Established! 🔒', 'success');
+                };
+                this.dc.onmessage = (e) => this.appendMsg(e.data, 'received');
+            },
+
+            send() {
+                const input = document.getElementById('chat-input');
+                const val = input.value;
+                if (!val || !this.dc) return;
+                this.dc.send(val);
+                this.appendMsg(val, 'sent');
+                input.value = '';
+            },
+
+            appendMsg(txt, type) {
+                const win = document.getElementById('chat-window');
+                const div = document.createElement('div');
+                div.className = `msg ${type}`;
+                div.innerText = txt;
+                win.appendChild(div);
+                win.scrollTop = win.scrollHeight;
+            }
+        };
+    </script>
+</body>
+</html>

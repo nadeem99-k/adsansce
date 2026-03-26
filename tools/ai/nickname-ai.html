@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Nickname Generator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Nickname Gen</h1>
+                    <p>Enter your name or interests, and the AI will generate unique, cool nicknames for your profiles using ChatGPT-4.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
+                        <input type="text" id="name" class="tool-input" placeholder="Name or Interests...">
+                        <select id="vibe" class="tool-input">
+                            <option value="Aggressive">Aggressive (Gaming)</option>
+                            <option value="Cute">Cute / Soft</option>
+                            <option value="Technical">Technical</option>
+                            <option value="Mysterious">Mysterious</option>
+                        </select>
+                    </div>
+
+                    <button class="btn w-full" onclick="gen()">Generate Nicknames</button>
+
+                    <div id="res-area" class="mt-6" style="display:none; text-align:center;">
+                        <div id="res-list" style="display:flex; flex-wrap:wrap; gap:1rem; justify-content:center;"></div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function gen() {
+            const name = document.getElementById('name').value;
+            const vibe = document.getElementById('vibe').value;
+            const resArea = document.getElementById('res-area');
+            const list = document.getElementById('res-list');
+
+            if(!name) return;
+            resArea.style.display = 'block';
+            list.innerHTML = "Generating cool names with ChatGPT-4...";
+
+            try {
+                const prompt = `Generate 10 ${vibe} nicknames for: ${name}. Return ONLY as a comma-separated list.`;
+                const url = `https://vern-rest-api.vercel.app/api/chatgpt4?prompt=${encodeURIComponent(prompt)}`;
+                const resp = await fetch(url);
+                const data = await resp.json();
+                
+                list.innerHTML = data.response.split(',').map(n => `
+                    <div class="card" style="padding:1rem; min-width:120px; font-weight:bold; color:var(--primary);">${n.trim()}</div>
+                `).join('');
+            } catch(e) {
+                list.textContent = "Error.";
+            }
+        }
+    </script>
+</body>
+</html>

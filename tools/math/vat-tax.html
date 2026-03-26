@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAT & Sales Tax Calculator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>VAT & Tax Calculator</h1>
+                    <p>Calculate VAT, Sales Tax, and Total prices easily.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom: 2rem;">
+                        <div>
+                            <label>Net Amount ($)</label>
+                            <input type="number" id="net" value="100" class="tool-input" style="min-height:unset;" oninput="calc()">
+                        </div>
+                        <div>
+                            <label>Tax Rate (%)</label>
+                            <input type="number" id="tax" value="20" class="tool-input" style="min-height:unset;" oninput="calc()">
+                        </div>
+                    </div>
+
+                    <div class="card" style="background:var(--bg-alt); text-align:center;">
+                        <div style="font-size:0.9rem; color:var(--text-dim);">Total Amount</div>
+                        <h2 id="total-val" style="font-size:2.5rem; color:var(--primary);">$120.00</h2>
+                        <div style="font-size:0.8rem;">Tax: <span id="tax-val">$20.00</span></div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function calc() {
+            const net = parseFloat(document.getElementById('net').value);
+            const rate = parseFloat(document.getElementById('tax').value) / 100;
+            if(!isNaN(net) && !isNaN(rate)) {
+                const tax = net * rate;
+                document.getElementById('tax-val').textContent = `$${tax.toFixed(2)}`;
+                document.getElementById('total-val').textContent = `$${(net + tax).toFixed(2)}`;
+            }
+        }
+        calc();
+    </script>
+</body>
+</html>

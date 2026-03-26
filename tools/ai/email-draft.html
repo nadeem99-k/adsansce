@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Email Drafter | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Email Drafter</h1>
+                    <p>Professional emails written by ChatGPT-4. Just provide the purpose and recipient.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
+                        <input type="text" id="to" class="tool-input" placeholder="Recipient (e.g. Boss, Client)">
+                        <select id="tone" class="tool-input">
+                            <option value="Professional">Professional</option>
+                            <option value="Friendly">Friendly</option>
+                            <option value="Urgent">Urgent</option>
+                        </select>
+                    </div>
+                    <textarea id="goal" class="tool-input" style="height:100px; margin-bottom:1.5rem;" placeholder="What is the email about?"></textarea>
+
+                    <button class="btn w-full" onclick="draft()">Draft Email</button>
+
+                    <div id="res-area" class="card mt-6" style="display:none; background:var(--glass-heavy);">
+                        <textarea id="res-val" class="tool-input" style="height:300px;"></textarea>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function draft() {
+            const to = document.getElementById('to').value;
+            const tone = document.getElementById('tone').value;
+            const goal = document.getElementById('goal').value;
+            const res = document.getElementById('res-area');
+            const val = document.getElementById('res-val');
+
+            if(!to || !goal) return;
+            res.style.display = 'block';
+            val.value = "Drafting with ChatGPT-4...";
+
+            try {
+                const prompt = `Draft a ${tone} email to ${to} about: ${goal}`;
+                const url = `https://vern-rest-api.vercel.app/api/chatgpt4?prompt=${encodeURIComponent(prompt)}`;
+                const resp = await fetch(url);
+                const data = await resp.json();
+                val.value = data.response;
+            } catch(e) {
+                val.value = "Draft failed.";
+            }
+        }
+    </script>
+</body>
+</html>

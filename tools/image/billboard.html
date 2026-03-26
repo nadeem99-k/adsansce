@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Billboard Designer | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Billboard Designer</h1>
+                    <p>Put your message on a massive digital billboard. Just type and generate.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:flex; gap:1rem; margin-bottom:1.5rem;">
+                        <input type="text" id="text" class="tool-input" style="min-height:unset;" placeholder="Hello World!">
+                        <button class="btn" onclick="gen()">Create Billboard</button>
+                    </div>
+
+                    <div id="res-area" style="text-align:center; display:none;">
+                        <img id="res-img" style="max-width:100%; border-radius:12px; border:2px solid var(--primary);" src="" alt="Billboard">
+                        <button class="btn mt-4" onclick="download()">Download</button>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function gen() {
+            const text = document.getElementById('text').value;
+            const resArea = document.getElementById('res-area');
+            const img = document.getElementById('res-img');
+
+            if(!text) return;
+            resArea.style.display = 'none';
+
+            try {
+                const api = `https://vern-rest-api.vercel.app/api/billboard?text=${encodeURIComponent(text)}`;
+                // The API likely returns binary image or a JSON with URL.
+                // Common billboard APIs return the image directly.
+                img.onload = () => resArea.style.display = 'block';
+                img.src = api;
+            } catch(e) {
+                alert('Generation failed.');
+            }
+        }
+
+        function download() {
+            const link = document.createElement('a');
+            link.href = document.getElementById('res-img').src;
+            link.download = 'my-billboard.jpg';
+            link.click();
+        }
+    </script>
+</body>
+</html>

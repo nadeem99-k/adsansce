@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Obfuscator & Stealth Link | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>URL Obfuscator</h1>
+                    <p>Generate tricky-looking URLs for security research, bypass testing, or stealth links.</p>
+                </div>
+
+                <div class="tool-body">
+                    <input type="text" id="target-url" class="tool-input" style="min-height:unset;" placeholder="https://google.com">
+                    
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-top:1.5rem;">
+                        <button class="btn" onclick="obfuscate('b64')">Base64 Redirect</button>
+                        <button class="btn" onclick="obfuscate('at')">@ Auth Bypass</button>
+                        <button class="btn" onclick="obfuscate('hex')">Hex Encoding</button>
+                        <button class="btn" onclick="obfuscate('puny')">Punycode Trick</button>
+                    </div>
+
+                    <div id="obf-res" class="card mt-6" style="display:none; background:var(--glass-heavy); margin-top:2rem; word-break: break-all;">
+                        <div style="font-size:0.75rem; color:var(--text-dim); margin-bottom:0.5rem;">RESULTING URL</div>
+                        <code id="res-val" style="color:var(--primary);"></code>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function obfuscate(type) {
+            const url = document.getElementById('target-url').value || "https://example.com";
+            const resArea = document.getElementById('obf-res');
+            const resVal = document.getElementById('res-val');
+            resArea.style.display = 'block';
+
+            let result = "";
+            switch(type) {
+                case 'b64':
+                    result = `data:text/html;base64,${btoa('<script>location.href="'+url+'"<\/script>')}`;
+                    break;
+                case 'at':
+                    result = `https://trusted-site.com@${url.replace('https://','')}`;
+                    break;
+                case 'hex':
+                    result = url.split('').map(c => '%' + c.charCodeAt(0).toString(16)).join('');
+                    break;
+                case 'puny':
+                    result = `https://ɡoogle.com`.replace('g', 'ɡ'); // Cyrillic g
+                    break;
+            }
+            resVal.textContent = result;
+        }
+    </script>
+</body>
+</html>

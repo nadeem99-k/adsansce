@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Replacer & Text Finder | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Word Replacer</h1>
+                    <p>Find specific words or phrases and replace them with something else.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="text-input" class="tool-input" placeholder="Paste text here..."></textarea>
+                    
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-top:1rem;">
+                        <input type="text" id="find-w" class="tool-input" style="min-height:unset;" placeholder="Find what?">
+                        <input type="text" id="replace-w" class="tool-input" style="min-height:unset;" placeholder="Replace with?">
+                    </div>
+
+                    <button class="btn w-full" onclick="replaceText()" style="width:100%; margin-top:1rem;">Replace All</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function replaceText() {
+            const text = document.getElementById('text-input');
+            const find = document.getElementById('find-w').value;
+            const replace = document.getElementById('replace-w').value;
+            if(find) {
+                text.value = text.value.split(find).join(replace);
+            }
+        }
+    </script>
+</body>
+</html>

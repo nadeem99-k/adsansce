@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Keyword Extractor | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Keyword Extractor</h1>
+                    <p>Extract top SEO keywords from your content using the intelligence of ChatGPT-4.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="kw-in" class="tool-input" style="height:200px;" placeholder="Paste text here..."></textarea>
+                    <button class="btn w-full mt-4" onclick="extract()">Extract Keywords</button>
+
+                    <div id="res-area" class="mt-6" style="display:none;">
+                        <div id="res-tags" style="display:flex; flex-wrap:wrap; gap:0.5rem;"></div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function extract() {
+            const input = document.getElementById('kw-in').value;
+            const res = document.getElementById('res-area');
+            const tags = document.getElementById('res-tags');
+
+            if(!input) return;
+            res.style.display = 'block';
+            tags.innerHTML = "...";
+
+            try {
+                const prompt = `Extract top 10 SEO keywords from this text as a comma-separated list: ${input}`;
+                const url = `https://vern-rest-api.vercel.app/api/chatgpt4?prompt=${encodeURIComponent(prompt)}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                tags.innerHTML = data.response.split(',').map(kw => `
+                    <span class="card" style="padding:0.25rem 0.75rem; background:var(--bg-alt); color:var(--primary);">${kw.trim()}</span>
+                `).join('');
+            } catch(e) {
+                tags.textContent = "Error.";
+            }
+        }
+    </script>
+</body>
+</html>

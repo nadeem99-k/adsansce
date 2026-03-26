@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strikethrough Text Generator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Strikethrough Text</h1>
+                    <p>Create cross-out text effects instantly for social media.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="text-input" class="tool-input" placeholder="Type text to strike..."></textarea>
+                    
+                    <button class="btn w-full" onclick="strike()" style="width:100%;">Apply Strikethrough</button>
+
+                    <button class="btn mt-4" onclick="copyResult()" style="background:#10b981; margin-top:1rem;">Copy Result</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const input = document.getElementById('text-input');
+        function strike() {
+            let res = "";
+            for (let char of input.value) {
+                res += char + "\u0336";
+            }
+            input.value = res;
+        }
+        function copyResult() {
+            input.select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>

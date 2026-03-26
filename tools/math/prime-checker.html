@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Number Checker | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Prime Number Checker</h1>
+                    <p>Instantly find out if a number is prime.</p>
+                </div>
+
+                <div class="tool-body">
+                    <input type="number" id="prime-num" class="tool-input" style="min-height:unset;" placeholder="Enter number...">
+                    
+                    <button class="btn w-full" onclick="check()">Check Primality</button>
+
+                    <div id="prime-result" class="card mt-8" style="display:none; text-align:center; margin-top:2rem;">
+                        <h2 id="prime-status" style="font-size:2rem;">Prime!</h2>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function isPrime(n) {
+            if (n <= 1) return false;
+            for (let i = 2; i <= Math.sqrt(n); i++) if (n % i === 0) return false;
+            return true;
+        }
+
+        function check() {
+            const n = parseInt(document.getElementById('prime-num').value);
+            if(!isNaN(n)) {
+                const res = isPrime(n);
+                document.getElementById('prime-status').textContent = res ? `${n} is Prime ✨` : `${n} is not Prime`;
+                document.getElementById('prime-status').style.color = res ? 'var(--primary)' : '#ef4444';
+                document.getElementById('prime-result').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

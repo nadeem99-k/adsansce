@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decimal to Binary Converter | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Decimal to Binary</h1>
+                    <p>Convert base-10 numbers into binary (base-2) strings.</p>
+                </div>
+
+                <div class="tool-body">
+                    <input type="number" id="dec-v" class="tool-input" style="min-height:unset;" placeholder="Decimal value..." oninput="conv()">
+                    
+                    <div class="card mt-8" style="background:var(--bg-alt); text-align:center; margin-top:2rem;">
+                        <h2 id="bin-res" style="font-size:2.5rem; color:var(--primary);">0</h2>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function conv() {
+            const dec = parseInt(document.getElementById('dec-v').value);
+            document.getElementById('bin-res').textContent = isNaN(dec) ? '0' : dec.toString(2);
+        }
+    </script>
+</body>
+</html>

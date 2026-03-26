@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Story Teller | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Story Teller</h1>
+                    <p>Enter a theme or character and let ChatGPT-4 weave a unique tale for you.</p>
+                </div>
+
+                <div class="tool-body">
+                    <input type="text" id="topic" class="tool-input" placeholder="A knight on a dragon in space...">
+                    <button class="btn w-full mt-4" onclick="writeStory()">Generate Story</button>
+
+                    <div id="story-res" class="card mt-6" style="display:none; background:var(--glass-heavy); line-height:1.6; white-space: pre-wrap;">
+                        <div id="story-content"></div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function writeStory() {
+            const topic = document.getElementById('topic').value;
+            const res = document.getElementById('story-res');
+            const content = document.getElementById('story-content');
+            
+            if(!topic) return;
+            res.style.display = 'block';
+            content.textContent = "Spinning tales with ChatGPT-4...";
+
+            try {
+                const prompt = `Write a creative short story about: ${topic}`;
+                const url = `https://vern-rest-api.vercel.app/api/chatgpt4?prompt=${encodeURIComponent(prompt)}`;
+                const data = await OmniAPI.fetch(url);
+                content.textContent = data.response || "The story storyteller is sleepy today.";
+            } catch(e) {
+                content.textContent = "The story was lost in the void.";
+            }
+        }
+    </script>
+</body>
+</html>

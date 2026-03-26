@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyword Combiner Tool | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Keyword Combiner</h1>
+                    <p>Combine multiple lists of words to generate bulk keyword variations.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+                        <textarea id="l1" class="tool-input" placeholder="List 1 (e.g. Best, Top)"></textarea>
+                        <textarea id="l2" class="tool-input" placeholder="List 2 (e.g. Agency, Services)"></textarea>
+                    </div>
+                    
+                    <button class="btn w-full" onclick="combine()" style="width:100%; margin-top:1rem;">Combine Lists</button>
+
+                    <textarea id="res-out" class="tool-input" style="margin-top:2rem;" readonly placeholder="Results..."></textarea>
+                    
+                    <button class="btn" onclick="copyResult()" style="background:#10b981;">Copy Keywords</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function combine() {
+            const l1 = document.getElementById('l1').value.split('\n').filter(x => x.trim());
+            const l2 = document.getElementById('l2').value.split('\n').filter(x => x.trim());
+            const res = [];
+            l1.forEach(a => {
+                l2.forEach(b => {
+                    res.push(a.trim() + " " + b.trim());
+                });
+            });
+            document.getElementById('res-out').value = res.join('\n');
+        }
+        function copyResult() {
+            document.getElementById('res-out').select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>

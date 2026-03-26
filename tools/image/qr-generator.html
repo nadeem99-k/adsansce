@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>QR Code Generator</h1>
+                    <p>Generate high-quality QR codes for any text or URL.</p>
+                </div>
+
+                <div class="tool-body">
+                    <input type="text" id="qr-input" class="tool-input" style="min-height:unset;" placeholder="Enter URL or text...">
+                    
+                    <button class="btn w-full" onclick="generateQR()" style="width:100%;">Generate QR Code</button>
+
+                    <div id="qr-result" style="margin-top:2rem; text-align:center; display:none;">
+                        <div style="background:#fff; padding:1.5rem; display:inline-block; border-radius:12px; border:1px solid var(--border);">
+                            <img id="qr-img" src="" alt="QR Code">
+                        </div>
+                        <div style="margin-top:1rem;">
+                            <button class="btn" onclick="downloadQR()" style="background:#10b981;">Download PNG</button>
+                        </div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function generateQR() {
+            const val = document.getElementById('qr-input').value.trim();
+            if(val) {
+                const url = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(val)}`;
+                document.getElementById('qr-img').src = url;
+                document.getElementById('qr-result').style.display = 'block';
+            }
+        }
+
+        function downloadQR() {
+            const link = document.createElement('a');
+            link.href = document.getElementById('qr-img').src;
+            link.download = 'qr-code.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>

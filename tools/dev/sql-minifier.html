@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Minifier & Compressor | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>SQL Minifier</h1>
+                    <p>Compress your SQL queries by removing comments and extra whitespace.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="sql-input" class="tool-input" placeholder="SELECT * FROM users -- comment..."></textarea>
+                    
+                    <button class="btn" onclick="minify()">Minify SQL</button>
+                    <button class="btn" onclick="copyResult()" style="background:#10b981;">Copy Result</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const input = document.getElementById('sql-input');
+        function minify() {
+            let sql = input.value;
+            sql = sql.replace(/\/\*[\s\S]*?\*\/|--.*?\n/g, ''); // comments
+            sql = sql.replace(/\n/g, ' '); // newlines
+            sql = sql.replace(/\s+/g, ' '); // spaces
+            input.value = sql.trim();
+        }
+        function copyResult() {
+            input.select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>

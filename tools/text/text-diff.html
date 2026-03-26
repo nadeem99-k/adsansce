@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Diff Checker | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Text Difference Checker</h1>
+                    <p>Compare two pieces of text and find the differences line by line.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+                        <textarea id="t1" class="tool-input" placeholder="Original Text..."></textarea>
+                        <textarea id="t2" class="tool-input" placeholder="New Text..."></textarea>
+                    </div>
+                    
+                    <button class="btn w-full" onclick="diff()" style="width:100%;">Compare Text</button>
+
+                    <div id="diff-out" class="card mt-8" style="display:none; font-family:monospace; white-space:pre-wrap; margin-top:2rem;"></div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function diff() {
+            const lines1 = document.getElementById('t1').value.split('\n');
+            const lines2 = document.getElementById('t2').value.split('\n');
+            const out = document.getElementById('diff-out');
+            out.innerHTML = '';
+            
+            const max = Math.max(lines1.length, lines2.length);
+            for(let i=0; i<max; i++) {
+                if(lines1[i] === lines2[i]) {
+                    out.innerHTML += `<div>  ${lines1[i] || ''}</div>`;
+                } else {
+                    if(lines1[i]) out.innerHTML += `<div style="background:#fee2e2; color:#b91c1c;">- ${lines1[i]}</div>`;
+                    if(lines2[i]) out.innerHTML += `<div style="background:#dcfce7; color:#15803d;">+ ${lines2[i]}</div>`;
+                }
+            }
+            out.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

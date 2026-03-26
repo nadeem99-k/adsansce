@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Polish | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Resume Polish</h1>
+                    <p>Make your resume experience sound 10x more impactful with ChatGPT-4's expert rewriting.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="res-in" class="tool-input" style="height:200px;" placeholder="Paste resume points..."></textarea>
+                    <button class="btn w-full mt-4" onclick="polish()">Polish Points</button>
+
+                    <div id="res-area" class="card mt-6" style="display:none; background:var(--glass-heavy); border-left: 4px solid #10b981;">
+                        <div id="res-val" style="line-height:1.6; white-space: pre-wrap;"></div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function polish() {
+            const input = document.getElementById('res-in').value;
+            const res = document.getElementById('res-area');
+            const val = document.getElementById('res-val');
+
+            if(!input) return;
+            res.style.display = 'block';
+            val.textContent = "Rewriting with AI precision...";
+
+            try {
+                const prompt = `Rewrite these resume points to sound professional and impact-driven: ${input}`;
+                const url = `https://vern-rest-api.vercel.app/api/chatgpt4?prompt=${encodeURIComponent(prompt)}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                val.textContent = data.response;
+            } catch(e) {
+                val.textContent = "Polish failed.";
+            }
+        }
+    </script>
+</body>
+</html>

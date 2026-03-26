@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Steganography Studio | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Steganography Tool</h1>
+                    <p>Hide secret messages inside any image. The message is embedded in the pixel data and is invisible to the eye.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:2rem;">
+                        <div>
+                            <h3>1. Encode Message</h3>
+                            <input type="file" id="encode-img" class="tool-input" style="min-height:unset;" accept="image/*">
+                            <textarea id="secret-text" class="tool-input" style="min-height:100px;" placeholder="Message to hide..."></textarea>
+                            <button class="btn w-full" onclick="encode()">Hide Message & Download</button>
+                        </div>
+                        <div>
+                            <h3>2. Decode Message</h3>
+                            <input type="file" id="decode-img" class="tool-input" style="min-height:unset;" accept="image/*">
+                            <button class="btn w-full" onclick="decode()" style="background:var(--bg-accent);">Read Hidden Message</button>
+                            <div id="decoded-res" class="card mt-4" style="display:none; background:var(--glass-heavy); margin-top:1rem;"></div>
+                        </div>
+                    </div>
+
+                    <canvas id="canvas" style="display:none;"></canvas>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const cvs = document.getElementById('canvas');
+        const ctx = cvs.getContext('2d');
+
+        function encode() {
+            const file = document.getElementById('encode-img').files[0];
+            const text = document.getElementById('secret-text').value + "\0"; // null terminator
+            if(!file) return alert('Select image');
+
+            const img = new Image();
+            img.onload = () => {
+                cvs.width = img.width;
+                cvs.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                const imgData = ctx.getImageData(0,0,cvs.width,cvs.height);
+                const pixels = imgData.data;
+
+                for(let i=0; i<text.length; i++) {
+                    const charCode = text.charCodeAt(i);
+                    for(let bit=0; bit<8; bit++) {
+                        const bitVal = (charCode >> bit) & 1;
+                        const pixelIdx = (i * 8 + bit) * 4;
+                        pixels[pixelIdx] = (pixels[pixelIdx] & 0xFE) | bitVal;
+                    }
+                }
+                ctx.putImageData(imgData, 0, 0);
+                const link = document.createElement('a');
+                link.download = 'hidden-msg.png';
+                link.href = cvs.toDataURL();
+                link.click();
+            };
+            img.src = URL.createObjectURL(file);
+        }
+
+        function decode() {
+            const file = document.getElementById('decode-img').files[0];
+            if(!file) return alert('Select image');
+
+            const img = new Image();
+            img.onload = () => {
+                cvs.width = img.width;
+                cvs.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                const imgData = ctx.getImageData(0,0,cvs.width,cvs.height);
+                const pixels = imgData.data;
+
+                let secret = "";
+                for(let i=0; i<cvs.width * cvs.height; i++) {
+                    let charCode = 0;
+                    for(let bit=0; bit<8; bit++) {
+                        const pixelIdx = (i * 8 + bit) * 4;
+                        const bitVal = pixels[pixelIdx] & 1;
+                        charCode |= (bitVal << bit);
+                    }
+                    if(charCode === 0) break;
+                    secret += String.fromCharCode(charCode);
+                    if(secret.length > 2000) break;
+                }
+                const res = document.getElementById('decoded-res');
+                res.textContent = "Extracted Message: " + secret;
+                res.style.display = 'block';
+            };
+            img.src = URL.createObjectURL(file);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logarithm Calculator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Log Calculator</h1>
+                    <p>Calculate logarithms for any base (e.g. log10(100) = 2).</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom: 2rem;">
+                        <input type="number" id="base" value="10" placeholder="Base" class="tool-input" style="min-height:unset;" oninput="calc()">
+                        <input type="number" id="val" value="100" placeholder="Value" class="tool-input" style="min-height:unset;" oninput="calc()">
+                    </div>
+
+                    <div class="card" style="background:var(--bg-alt); text-align:center;">
+                        <h2 id="log-res" style="font-size:2.5rem; color:var(--primary);">2.00</h2>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function calc() {
+            const b = parseFloat(document.getElementById('base').value);
+            const v = parseFloat(document.getElementById('val').value);
+            if(b > 0 && v > 0) {
+                document.getElementById('log-res').textContent = (Math.log(v) / Math.log(b)).toFixed(2);
+            }
+        }
+        calc();
+    </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Calculator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Loan Calculator</h1>
+                    <p>Calculate your monthly payments, total interest, and total cost of a loan.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom: 2rem;">
+                        <div>
+                            <label style="display:block; margin-bottom:0.5rem;">Principal Amount ($)</label>
+                            <input type="number" id="principal" value="10000" class="tool-input" style="min-height:unset;">
+                        </div>
+                        <div>
+                            <label style="display:block; margin-bottom:0.5rem;">Interest Rate (%)</label>
+                            <input type="number" id="interest" value="5" class="tool-input" style="min-height:unset;">
+                        </div>
+                        <div>
+                            <label style="display:block; margin-bottom:0.5rem;">Loan Term (Years)</label>
+                            <input type="number" id="years" value="5" class="tool-input" style="min-height:unset;">
+                        </div>
+                    </div>
+
+                    <button class="btn w-full" onclick="calcLoan()" style="width:100%;">Calculate Loan</button>
+
+                    <div id="loan-result" class="card" style="margin-top:2rem; text-align:center; display:none;">
+                        <h3 style="font-size:2rem; color:var(--primary);" id="monthly-payment">$0.00</h3>
+                        <p style="color:var(--text-dim);">Monthly Payment</p>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function calcLoan() {
+            const p = parseFloat(document.getElementById('principal').value);
+            const r = parseFloat(document.getElementById('interest').value) / 100 / 12;
+            const n = parseFloat(document.getElementById('years').value) * 12;
+            
+            if(p && r && n) {
+                const x = Math.pow(1 + r, n);
+                const monthly = (p * x * r) / (x - 1);
+                document.getElementById('monthly-payment').textContent = `$${monthly.toFixed(2)}`;
+                document.getElementById('loan-result').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

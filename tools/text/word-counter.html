@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Counter | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Word Counter</h1>
+                    <p>Count words, characters, and sentences in real-time.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="text-input" class="tool-input" placeholder="Start typing or paste text..."></textarea>
+                    
+                    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                        <div class="card" style="text-align:center; padding:1rem;">
+                            <div id="word-count" style="font-size:1.5rem; font-weight:700;">0</div>
+                            <div style="font-size:0.8rem; color:var(--text-dim);">Words</div>
+                        </div>
+                        <div class="card" style="text-align:center; padding:1rem;">
+                            <div id="char-count" style="font-size:1.5rem; font-weight:700;">0</div>
+                            <div style="font-size:0.8rem; color:var(--text-dim);">Characters</div>
+                        </div>
+                        <div class="card" style="text-align:center; padding:1rem;">
+                            <div id="sentence-count" style="font-size:1.5rem; font-weight:700;">0</div>
+                            <div style="font-size:0.8rem; color:var(--text-dim);">Sentences</div>
+                        </div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const input = document.getElementById('text-input');
+        const wordCount = document.getElementById('word-count');
+        const charCount = document.getElementById('char-count');
+        const sentenceCount = document.getElementById('sentence-count');
+
+        input.addEventListener('input', () => {
+            const val = input.value.trim();
+            const words = val ? val.split(/\s+/).length : 0;
+            const chars = input.value.length;
+            const sentences = val ? val.split(/[.!?]+/).length - 1 : 0;
+
+            wordCount.textContent = words;
+            charCount.textContent = chars;
+            sentenceCount.textContent = sentences;
+        });
+    </script>
+</body>
+</html>

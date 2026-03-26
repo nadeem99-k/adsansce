@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>JSON Formatter</h1>
+                    <p>Beautify, minify, and validate your JSON code.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="json-input" class="tool-input" placeholder="Paste your raw JSON here..." style="font-family:monospace;"></textarea>
+                    
+                    <div style="display:flex; gap:0.5rem; margin-bottom: 2rem;">
+                        <button class="btn" onclick="formatJSON(2)">Beautify (2 Spaces)</button>
+                        <button class="btn" onclick="formatJSON(0)">Minify</button>
+                        <button class="btn" onclick="copyJSON()" style="background:#10b981;">Copy</button>
+                    </div>
+
+                    <div id="error-msg" style="color:#ef4444; margin-top: -1rem; margin-bottom: 1rem; font-size: 0.9rem;"></div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const input = document.getElementById('json-input');
+        const errorMsg = document.getElementById('error-msg');
+
+        function formatJSON(space) {
+            errorMsg.textContent = '';
+            try {
+                const parsed = JSON.parse(input.value);
+                input.value = JSON.stringify(parsed, null, space ? space : null);
+            } catch (e) {
+                errorMsg.textContent = 'Invalid JSON: ' + e.message;
+            }
+        }
+
+        function copyJSON() {
+            input.select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>

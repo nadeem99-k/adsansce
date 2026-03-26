@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Name/Choice Picker | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Random Choice Picker</h1>
+                    <p>Enter a list of options and let AI (Randomness) pick one for you.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="options-input" class="tool-input" placeholder="Enter options, one per line (e.g., Pizza, Burger, Salad)..."></textarea>
+                    
+                    <button class="btn w-full" onclick="pickRandom()" style="width:100%;">Pick a Winner!</button>
+
+                    <div id="winner-result" class="card mt-8" style="display:none; text-align:center; background: var(--primary); color:#fff; border:none; margin-top:2rem;">
+                        <h2 id="winner-name" style="font-size:2.5rem;">The Winner!</h2>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function pickRandom() {
+            const lines = document.getElementById('options-input').value.split('\n').filter(l => l.trim() !== '');
+            if(lines.length > 0) {
+                const winner = lines[Math.floor(Math.random() * lines.length)];
+                document.getElementById('winner-name').textContent = winner;
+                document.getElementById('winner-result').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

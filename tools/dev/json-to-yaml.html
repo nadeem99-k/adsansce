@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON to YAML Converter | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>JSON to YAML</h1>
+                    <p>Convert JSON objects into clean, readable YAML format.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="json-input" class="tool-input" placeholder='{"name": "John", "roles": ["admin", "user"]}'></textarea>
+                    
+                    <button class="btn" onclick="convert()">Convert to YAML</button>
+                    <button class="btn" onclick="copyResult()" style="background:#10b981;">Copy Result</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const input = document.getElementById('json-input');
+        function convert() {
+            try {
+                const json = JSON.parse(input.value);
+                function toYaml(obj, indent = 0) {
+                    let yaml = '';
+                    const spaces = '  '.repeat(indent);
+                    for (let key in obj) {
+                        if (Array.isArray(obj[key])) {
+                            yaml += `${spaces}${key}:\n`;
+                            obj[key].forEach(item => yaml += `${spaces}- ${item}\n`);
+                        } else if (typeof obj[key] === 'object') {
+                            yaml += `${spaces}${key}:\n${toYaml(obj[key], indent + 1)}`;
+                        } else {
+                            yaml += `${spaces}${key}: ${obj[key]}\n`;
+                        }
+                    }
+                    return yaml;
+                }
+                input.value = toYaml(json);
+            } catch(e) {
+                alert('Invalid JSON');
+            }
+        }
+        function copyResult() {
+            input.select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>

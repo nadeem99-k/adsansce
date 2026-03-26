@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Converter | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Case Converter</h1>
+                    <p>Convert your text to UPPERCASE, lowercase, Title Case, and more.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="text-input" class="tool-input" placeholder="Paste your text here..."></textarea>
+                    
+                    <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom: 2rem;">
+                        <button class="btn" onclick="transform('upper')">UPPERCASE</button>
+                        <button class="btn" onclick="transform('lower')">lowercase</button>
+                        <button class="btn" onclick="transform('title')">Title Case</button>
+                        <button class="btn" onclick="transform('sentence')">Sentence case</button>
+                        <button class="btn" onclick="copyText()" style="background:#10b981;">Copy Result</button>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const input = document.getElementById('text-input');
+
+        function transform(type) {
+            let val = input.value;
+            if (type === 'upper') val = val.toUpperCase();
+            if (type === 'lower') val = val.toLowerCase();
+            if (type === 'sentence') val = val.charAt(0).toUpperCase() + val.slice(1).toLowerCase();
+            if (type === 'title') val = val.replace(/\w\S*/g, (t) => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase());
+            input.value = val;
+        }
+
+        function copyText() {
+            input.select();
+            document.execCommand('copy');
+            alert('Text copied to clipboard!');
+        }
+    </script>
+</body>
+</html>

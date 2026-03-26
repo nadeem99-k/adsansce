@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Sentiment Analysis | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Sentiment Analysis</h1>
+                    <p>Analyze text tone and emotion using high-precision ChatGPT-4 models.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="text-in" class="tool-input" style="height:150px;" placeholder="Paste text here..."></textarea>
+                    <button class="btn w-full mt-4" onclick="analyze()">Analyze Emotion</button>
+
+                    <div id="res-area" class="card mt-6" style="display:none; background:var(--glass-heavy); text-align:center;">
+                        <div id="mood-label" style="font-size:1.5rem; font-weight:bold; color:var(--primary);">Analyzing...</div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function analyze() {
+            const text = document.getElementById('text-in').value;
+            const res = document.getElementById('res-area');
+            const label = document.getElementById('mood-label');
+
+            if(!text) return;
+            res.style.display = 'block';
+            label.textContent = "Analyzing tone...";
+
+            try {
+                const prompt = `Tell me the sentiment of this text (Positive/Negative/Neutral) and why in one sentence: ${text}`;
+                const url = `https://vern-rest-api.vercel.app/api/chatgpt4?prompt=${encodeURIComponent(prompt)}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                label.textContent = data.response;
+            } catch(e) {
+                label.textContent = "Analysis failed.";
+            }
+        }
+    </script>
+</body>
+</html>

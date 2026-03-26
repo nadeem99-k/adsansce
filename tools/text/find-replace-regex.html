@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regex Find & Replace Tool | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Regex Find & Replace</h1>
+                    <p>Use powerful Regular Expressions to find and replace text patterns.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="text-input" class="tool-input" placeholder="Paste text here..."></textarea>
+                    
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-top:1rem;">
+                        <input type="text" id="regex-p" class="tool-input" style="min-height:unset;" placeholder="Regex Pattern (e.g. \d+)">
+                        <input type="text" id="replace-v" class="tool-input" style="min-height:unset;" placeholder="Replace value">
+                    </div>
+
+                    <div style="margin-top:0.5rem; font-size:0.8rem; color:var(--text-dim);">
+                        <label><input type="checkbox" id="reg-g" checked> Global (g)</label>
+                        <label style="margin-left:1rem;"><input type="checkbox" id="reg-i"> Case Insensitive (i)</label>
+                    </div>
+
+                    <button class="btn w-full" onclick="applyRegex()" style="width:100%; margin-top:1.5rem;">Apply Regex Replace</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function applyRegex() {
+            const input = document.getElementById('text-input');
+            const pattern = document.getElementById('regex-p').value;
+            const replace = document.getElementById('replace-v').value;
+            const flags = (document.getElementById('reg-g').checked ? 'g' : '') + (document.getElementById('reg-i').checked ? 'i' : '');
+            
+            if(pattern) {
+                try {
+                    const re = new RegExp(pattern, flags);
+                    input.value = input.value.replace(re, replace);
+                } catch(e) {
+                    alert('Invalid Regex Pattern');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

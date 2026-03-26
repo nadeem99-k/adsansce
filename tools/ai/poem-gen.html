@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Poem Generator | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Poem Generator</h1>
+                    <p>Pure poetry created by ChatGPT-4. Choose a topic and let the AI compose.</p>
+                </div>
+
+                <div class="tool-body">
+                    <input type="text" id="topic" class="tool-input" placeholder="Sunset, old library, rainy days...">
+                    <button class="btn w-full mt-4" onclick="genPoem()">Compose Poem</button>
+
+                    <div id="poem-res" class="card mt-6" style="display:none; background:var(--glass-heavy); font-style:italic; text-align:center; padding:3rem; line-height:2;">
+                        <div id="val" style="white-space: pre-wrap;"></div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function genPoem() {
+            const t = document.getElementById('topic').value;
+            const res = document.getElementById('poem-res');
+            const val = document.getElementById('val');
+
+            if(!t) return;
+            res.style.display = 'block';
+            val.textContent = "Writing verses...";
+
+            try {
+                const prompt = `Write a beautiful poem about: ${t}`;
+                const url = `https://vern-rest-api.vercel.app/api/chatgpt4?prompt=${encodeURIComponent(prompt)}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                val.textContent = data.response;
+            } catch(e) {
+                val.textContent = "The poem was lost.";
+            }
+        }
+    </script>
+</body>
+</html>

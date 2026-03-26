@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Article Rewriter | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>AI Article Rewriter</h1>
+                    <p>Rewrite any article or blog post to avoid plagiarism while maintaining the original meaning. Powered by Vern AI.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="text-in" class="tool-input" style="height:250px;" placeholder="Paste article here..."></textarea>
+                    
+                    <button class="btn w-full mt-4" onclick="rewrite()">Rewrite Article</button>
+
+                    <div id="res-area" class="card mt-6" style="display:none; background:var(--glass-heavy);">
+                        <div style="font-size:0.75rem; color:var(--text-dim); margin-bottom:1rem;">REWRITTEN CONTENT</div>
+                        <textarea id="res-val" class="tool-input" style="height:300px;"></textarea>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function rewrite() {
+            const text = document.getElementById('text-in').value;
+            const res = document.getElementById('res-area');
+            const val = document.getElementById('res-val');
+
+            if(!text) return;
+            res.style.display = 'block';
+            val.value = "Rewriting article...";
+
+            try {
+                const url = `https://vern-rest-api.vercel.app/api/rewrite-article?text=${encodeURIComponent(text)}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                val.value = data.response || "No response.";
+            } catch(e) {
+                val.value = "Error during rewrite.";
+            }
+        }
+    </script>
+</body>
+</html>

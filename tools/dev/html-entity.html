@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Entity Encoder/Decoder | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>HTML Entity Encoder/Decoder</h1>
+                    <p>Convert special characters into HTML entities (e.g. &lt; to &amp;lt;).</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="ent-input" class="tool-input" placeholder="Paste HTML or special text..."></textarea>
+                    
+                    <div style="display:flex; gap:0.5rem; margin-bottom: 2rem;">
+                        <button class="btn" onclick="encode()">Encode</button>
+                        <button class="btn" onclick="decode()">Decode</button>
+                        <button class="btn" onclick="copyResult()" style="background:#10b981;">Copy</button>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        const input = document.getElementById('ent-input');
+
+        function encode() {
+            const div = document.createElement('div');
+            div.textContent = input.value;
+            input.value = div.innerHTML;
+        }
+        function decode() {
+            const div = document.createElement('div');
+            div.innerHTML = input.value;
+            input.value = div.textContent;
+        }
+        function copyResult() {
+            input.select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>

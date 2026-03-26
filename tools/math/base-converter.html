@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Base Converter | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Number Base Converter</h1>
+                    <p>Convert decimal numbers to binary, hexadecimal, and octal.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr; gap:1.5rem;">
+                        <div>
+                            <label>Decimal (Base 10)</label>
+                            <input type="number" id="num-dec" class="tool-input" style="min-height:unset;" oninput="convert(10)">
+                        </div>
+                        <div>
+                            <label>Binary (Base 2)</label>
+                            <input type="text" id="num-bin" class="tool-input" style="min-height:unset;" oninput="convert(2)">
+                        </div>
+                        <div>
+                            <label>Hexadecimal (Base 16)</label>
+                            <input type="text" id="num-hex" class="tool-input" style="min-height:unset;" oninput="convert(16)">
+                        </div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function convert(base) {
+            const decInput = document.getElementById('num-dec');
+            const binInput = document.getElementById('num-bin');
+            const hexInput = document.getElementById('num-hex');
+
+            let decimalValue;
+            if(base === 10) decimalValue = parseInt(decInput.value, 10);
+            else if(base === 2) decimalValue = parseInt(binInput.value, 2);
+            else if(base === 16) decimalValue = parseInt(hexInput.value, 16);
+
+            if(!isNaN(decimalValue)) {
+                if(base !== 10) decInput.value = decimalValue;
+                if(base !== 2) binInput.value = decimalValue.toString(2);
+                if(base !== 16) hexInput.value = decimalValue.toString(16).toUpperCase();
+            }
+        }
+    </script>
+</body>
+</html>

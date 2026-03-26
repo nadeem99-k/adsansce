@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Lookup & Geolocation | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>IP Lookup Utility</h1>
+                    <p>Find your IP address and detailed geolocation data.</p>
+                </div>
+
+                <div class="tool-body">
+                    <button class="btn w-full" onclick="lookupIP()" style="width:100%;">Show My IP Information</button>
+
+                    <div id="ip-result" class="card mt-8" style="display:none; margin-top: 2rem;">
+                        <table style="width:100%; border-collapse:collapse;">
+                            <tbody id="ip-table"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function lookupIP() {
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                const tbody = document.getElementById('ip-table');
+                tbody.innerHTML = '';
+                
+                const fields = {
+                    'IP Address': data.ip,
+                    'City': data.city,
+                    'Region': data.region,
+                    'Country': data.country_name,
+                    'ISP': data.org,
+                    'Latitude': data.latitude,
+                    'Longitude': data.longitude
+                };
+
+                for(const [k, v] of Object.entries(fields)) {
+                    tbody.innerHTML += `<tr style="border-bottom:1px solid var(--border);"><td style="padding:0.75rem; font-weight:600;">${k}</td><td style="padding:0.75rem;">${v}</td></tr>`;
+                }
+                document.getElementById('ip-result').style.display = 'block';
+            } catch(e) {
+                alert('IP Lookup failed. Please disable ad-blockers for this test.');
+            }
+        }
+    </script>
+</body>
+</html>

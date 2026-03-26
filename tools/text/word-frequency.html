@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Frequency Analyzer | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Word Frequency Analyzer</h1>
+                    <p>Detailed breakdown of word occurrences in your text.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="text-input" class="tool-input" placeholder="Paste bulk text here..."></textarea>
+                    
+                    <button class="btn w-full" onclick="analyze()">Analyze Frequency</button>
+
+                    <div id="freq-result" class="mt-8" style="display:none; margin-top:2rem;">
+                        <table style="width:100%; border-collapse:collapse;">
+                            <thead>
+                                <tr style="border-bottom:2px solid var(--border); text-align:left;">
+                                    <th style="padding:0.5rem;">Word</th>
+                                    <th style="padding:0.5rem;">Frequency</th>
+                                </tr>
+                            </thead>
+                            <tbody id="freq-table"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function analyze() {
+            const text = document.getElementById('text-input').value.toLowerCase();
+            const words = text.match(/\b\w+\b/g);
+            if(!words) return;
+
+            const freq = {};
+            words.forEach(w => freq[w] = (freq[w] || 0) + 1);
+
+            const sorted = Object.entries(freq).sort((a,b) => b[1] - a[1]).slice(0, 20);
+            const tbody = document.getElementById('freq-table');
+            tbody.innerHTML = '';
+            
+            sorted.forEach(([w, f]) => {
+                tbody.innerHTML += `<tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem;">${w}</td><td style="padding:0.5rem;">${f}</td></tr>`;
+            });
+            document.getElementById('freq-result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

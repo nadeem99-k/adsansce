@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YAML to JSON Converter | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>YAML to JSON</h1>
+                    <p>Convert YAML configurations into JSON data structures.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="y-input" class="tool-input" placeholder="name: john\nage: 30..."></textarea>
+                    
+                    <button class="btn" onclick="convert()">Convert to JSON</button>
+                    <button class="btn" onclick="copyResult()" style="background:#10b981;">Copy Result</button>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        // Simple YAML to JSON logic for basic key-value pairs
+        function convert() {
+            const input = document.getElementById('y-input');
+            const lines = input.value.split('\n');
+            const obj = {};
+            lines.forEach(l => {
+                const parts = l.split(':');
+                if(parts.length === 2) obj[parts[0].trim()] = parts[1].trim();
+            });
+            input.value = JSON.stringify(obj, null, 2);
+        }
+
+        function copyResult() {
+            document.getElementById('y-input').select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>

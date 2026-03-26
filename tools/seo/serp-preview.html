@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google SERP Preview Tool | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <style>
+        .serp-box { max-width: 600px; padding: 1.5rem; border: 1px solid #dfe1e5; border-radius: 8px; margin-top: 2rem; background: #fff; }
+        .serp-title { color: #1a0dab; font-size: 20px; text-decoration: none; display: block; margin-bottom: 3px; cursor: pointer; }
+        .serp-url { color: #202124; font-size: 14px; margin-bottom: 3px; }
+        .serp-desc { color: #4d5156; font-size: 14px; line-height: 1.58; }
+    </style>
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>SERP Preview Tool</h1>
+                    <p>Visualize how your webpage will appear in Google Search results.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div style="display:grid; grid-template-columns: 1fr; gap:1rem; margin-bottom: 2rem;">
+                        <input type="text" id="s-title" class="tool-input" style="min-height:unset;" placeholder="Page Title (60 chars max)" oninput="update()">
+                        <input type="text" id="s-url" class="tool-input" style="min-height:unset;" placeholder="Website URL" oninput="update()">
+                        <textarea id="s-desc" class="tool-input" style="min-height:100px;" placeholder="Meta Description (160 chars max)" oninput="update()"></textarea>
+                    </div>
+
+                    <div class="serp-box">
+                        <div class="serp-url" id="p-url">https://example.com › ...</div>
+                        <div class="serp-title" id="p-title">Page Title Preview...</div>
+                        <div class="serp-desc" id="p-desc">Your meta description will appear here, showing how it looks to potential visitors in Google's organic search results.</div>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function update() {
+            document.getElementById('p-title').textContent = document.getElementById('s-title').value || "Page Title Preview...";
+            document.getElementById('p-url').textContent = (document.getElementById('s-url').value || "https://example.com") + " › ...";
+            document.getElementById('p-desc').textContent = document.getElementById('s-desc').value || "Your meta description will appear here...";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Device Deep-Dive | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <style>
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem; }
+        .info-item { background: var(--glass-heavy); padding: 1rem; border-radius: 12px; border: 1px solid var(--border); }
+        .info-label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; margin-bottom: 0.25rem; }
+        .info-value { font-size: 1.1rem; font-weight: 600; color: var(--primary); }
+    </style>
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>Device Deep-Dive</h1>
+                    <p>Discover exactly what information your browser can capture about your hardware and environment.</p>
+                </div>
+
+                <div class="tool-body">
+                    <div class="info-grid" id="device-results">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        async function initInfo() {
+            const container = document.getElementById('device-results');
+            const data = [
+                { label: 'Platform', value: navigator.platform },
+                { label: 'Cores', value: navigator.hardwareConcurrency + ' Threads' },
+                { label: 'Memory', value: (navigator.deviceMemory || 'Unknown') + ' GB' },
+                { label: 'User Agent', value: navigator.userAgent.split(' ')[0] },
+                { label: 'Screen', value: `${screen.width}x${screen.height} (${screen.colorDepth}-bit)` },
+                { label: 'Language', value: navigator.language },
+                { label: 'Cookies Enabled', value: navigator.cookieEnabled ? 'Yes' : 'No' },
+                { label: 'Online Status', value: navigator.onLine ? 'Online' : 'Offline' }
+            ];
+
+            // Battery API
+            if (navigator.getBattery) {
+                const b = await navigator.getBattery();
+                data.push({ label: 'Battery Level', value: (b.level * 100).toFixed(0) + '%' });
+                data.push({ label: 'Charging', value: b.charging ? 'Yes' : 'No' });
+            }
+
+            // Connection API
+            if (navigator.connection) {
+                data.push({ label: 'Net Type', value: navigator.connection.effectiveType || 'Unknown' });
+                data.push({ label: 'Downlink', value: (navigator.connection.downlink || 0) + ' Mbps' });
+            }
+
+            container.innerHTML = data.map(item => `
+                <div class="info-item">
+                    <div class="info-label">${item.label}</div>
+                    <div class="info-value">${item.value}</div>
+                </div>
+            `).join('');
+        }
+        initInfo();
+    </script>
+</body>
+</html>

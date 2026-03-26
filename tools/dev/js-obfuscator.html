@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Obfuscator (Lvl 1) | OmniToolbox</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+    <header></header>
+
+    <main class="container">
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="tool-header">
+                    <h1>JS Obfuscator</h1>
+                    <p>Protect your frontend logic with basic Hex encoding and Eval-wrappers.</p>
+                </div>
+
+                <div class="tool-body">
+                    <textarea id="js-in" class="tool-input" placeholder="console.log('secret code');"></textarea>
+                    
+                    <button class="btn w-full" onclick="obfuscate()" style="width:100%;">Obfuscate Code</button>
+
+                    <div style="margin-top:2rem;">
+                        <p style="font-size:0.8rem; color:var(--text-dim);">Warning: This makes code harder to read but is not foolproof security. Use for basic protection only.</p>
+                    </div>
+
+                    <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
+                </div>
+            </div>
+
+            <aside></aside>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../assets/js/core.js"></script>
+    <script>
+        function obfuscate() {
+            const input = document.getElementById('js-in');
+            let code = input.value;
+            if(!code) return;
+
+            let hex = "";
+            for(let i=0; i<code.length; i++) {
+                hex += "\\x" + code.charCodeAt(i).toString(16).padStart(2, '0');
+            }
+            
+            input.value = `eval("${hex}");`;
+        }
+    </script>
+</body>
+</html>
