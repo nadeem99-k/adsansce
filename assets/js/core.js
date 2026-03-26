@@ -5,8 +5,17 @@ const OmniCore = {
         this.renderSidebar();
         this.setupEvents();
         this.initLogic();
+        this.registerSW();
         OmniSEO.init();
         console.log('OmniToolbox Elite Loaded');
+    },
+
+    registerSW() {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(() => console.log('OmniServiceWorker Active 🌐'))
+                .catch(err => console.error('SW Registration Failed:', err));
+        }
     },
 
     initLogic() {
@@ -16,6 +25,33 @@ const OmniCore = {
             const title = document.title.split('|')[0].trim();
             OmniStorage.addHistory(title, path);
         }
+        this.renderBreadcrumbs();
+    },
+
+    renderBreadcrumbs() {
+        const container = document.getElementById('omni-breadcrumbs');
+        if (!container) return;
+        
+        const path = window.location.pathname;
+        if (path === '/' || path.endsWith('index.html')) {
+            container.parentElement.parentElement.style.display = 'none';
+            return;
+        }
+
+        const parts = path.split('/').filter(p => p && !p.endsWith('.html'));
+        let breadcrumbHTML = `<a href="/index.html">Home</a>`;
+        
+        let currentPath = '';
+        parts.forEach((part, index) => {
+            currentPath += `/${part}`;
+            const label = part.charAt(0).toUpperCase() + part.slice(1);
+            breadcrumbHTML += ` <span class="sep">/</span> <a href="${currentPath}/index.html">${label}</a>`;
+        });
+
+        const pageTitle = document.title.split('|')[0].trim();
+        breadcrumbHTML += ` <span class="sep">/</span> <span class="current">${pageTitle}</span>`;
+        
+        container.innerHTML = breadcrumbHTML;
     },
 
     renderHeader() {
@@ -35,6 +71,11 @@ const OmniCore = {
                             <li><a href="/tools/text/index.html" style="text-decoration:none; color:var(--text-dim);">Text</a></li>
                         </ul>
                     </nav>
+                </div>
+            </div>
+            <div class="breadcrumbs-container">
+                <div class="container">
+                    <nav class="breadcrumbs" id="omni-breadcrumbs"></nav>
                 </div>
             </div>
             <div id="mobileMenu" class="card" style="display:none; position:fixed; top:70px; left:1.5rem; right:1.5rem; z-index:900; background:var(--glass-heavy);">
