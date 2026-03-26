@@ -282,6 +282,20 @@ const OmniSEO = {
             meta.content = document.title + " - Professional browser-based utility by OmniToolbox.";
             document.head.appendChild(meta);
         }
+        // Favicon Injection
+        if (!document.querySelector('link[rel="icon"]')) {
+            const favicon = document.createElement('link');
+            favicon.rel = 'icon';
+            favicon.href = 'https://cdn-icons-png.flaticon.com/512/2092/2092040.png';
+            document.head.appendChild(favicon);
+        }
+        // Apple Touch Icon
+        if (!document.querySelector('link[rel="apple-touch-icon"]')) {
+            const appleIcon = document.createElement('link');
+            appleIcon.rel = 'apple-touch-icon';
+            appleIcon.href = 'https://cdn-icons-png.flaticon.com/512/2092/2092040.png';
+            document.head.appendChild(appleIcon);
+        }
         // Inject JSON-LD
         const script = document.createElement('script');
         script.type = 'application/ld+json';
