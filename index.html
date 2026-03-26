@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>OmniToolbox | 120+ Professional AI & Web Tools</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="manifest" href="manifest.json">
@@ -21,15 +21,15 @@
     <header></header>
 
     <main class="container">
-        <div class="tool-header py-10" style="text-align:center; padding: 6rem 0 4rem;">
+        <div class="tool-header py-10" style="text-align:center;">
             <h1 style="font-size: clamp(2.5rem, 8vw, 4rem); line-height: 1.1; margin-bottom: 1.5rem;">The Ultimate <span style="color:var(--primary);">Toolbox</span></h1>
             <p style="font-size: 1.25rem; max-width: 700px; margin: 0 auto 3rem; color: var(--text-dim);">100+ professional tools for developers, content creators, and mathematicians. Completely free and browser-based.</p>
             
             <div class="search-container">
                 <div class="search-box">
-                    <input type="text" id="tool-search" placeholder="Search 120+ tools... (Press '/' to search)" style="flex:1; padding:1.25rem 2rem; background:transparent; border:none; color:#fff; font-size:1.1rem; outline:none;">
-                    <button onclick="OmniVoice.start('tool-search')" class="voice-btn" style="margin-right:0.5rem;" title="Voice Search">🎤</button>
-                    <div style="margin-right:1.5rem; opacity: 0.5;">🔍</div>
+                    <input type="text" id="tool-search" placeholder="Search 120+ tools..." style="flex:1; background:transparent; border:none; color:#fff; outline:none;">
+                    <button onclick="OmniVoice.start('tool-search')" class="voice-btn" title="Voice Search">🎤</button>
+                    <div class="search-icon" style="margin-right:1rem; opacity: 0.5;">🔍</div>
                 </div>
                 <button onclick="OmniUI.randomTool()" class="btn surprise-btn">Surprise Me ✨</button>
             </div>

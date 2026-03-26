@@ -25,6 +25,12 @@ body {
         radial-gradient(at 0% 0%, hsla(210, 100%, 15%, 1) 0, transparent 50%), 
         radial-gradient(at 100% 100%, hsla(200, 100%, 10%, 1) 0, transparent 50%);
     background-attachment: fixed;
+    overflow-x: hidden;
+}
+
+html {
+    overflow-x: hidden;
+    width: 100%;
 }
 
 /* API Status Pulse */
@@ -108,6 +114,11 @@ html { scroll-behavior: smooth; }
     margin-top: 3rem; 
 }
 
+.tool-header { 
+    padding: 6rem 0 4rem; 
+    transition: padding 0.3s ease;
+}
+
 .tool-header h1 { 
     font-size: 2.5rem; 
     font-weight: 800; 
@@ -177,7 +188,34 @@ html { scroll-behavior: smooth; }
 }
 
 .search-container { max-width: 600px; margin: 0 auto; display: flex; gap: 0.75rem; align-items: stretch; }
-.search-box { flex: 1; display:flex; align-items:center; background: var(--glass-heavy); border: 1px solid var(--border); border-radius:100px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+.search-box { 
+    flex: 1; 
+    display:flex; 
+    align-items:center; 
+    background: var(--glass-heavy); 
+    border: 1px solid var(--border); 
+    border-radius:100px; 
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2); 
+    overflow: hidden; 
+    position: relative;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 1.25rem 2rem;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.1rem;
+    outline: none;
+}
+
+.search-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 1.5rem;
+}
 .surprise-btn { border-radius: 100px; padding: 0 1.5rem; white-space: nowrap; background: linear-gradient(135deg, #a855f7, #ec4899); font-size: 0.95rem; }
 
 /* Mobile Adjustments */
@@ -196,18 +234,22 @@ html { scroll-behavior: smooth; }
 @media (max-width: 640px) {
     .search-container { flex-direction: column; }
     .surprise-btn { padding: 1rem; text-align: center; justify-content: center; width: 100%; }
+    .search-box input { padding: 1rem 1.25rem !important; font-size: 1rem !important; }
+    .voice-btn { padding: 0.4rem; font-size: 1.1rem; }
 }
 
 @media (max-width: 480px) {
-    .tool-list-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
-    .tool-link { padding: 1rem; font-size: 0.85rem; flex-direction: column; text-align: center; gap: 0.5rem; }
-    .tool-link span { margin-left: 0; }
-    .card { padding: 1rem; }
+    .tool-list-grid { grid-template-columns: repeat(1, 1fr); gap: 0.75rem; }
+    .tool-link { padding: 1.25rem; font-size: 0.95rem; flex-direction: row; text-align: left; gap: 0.75rem; }
+    .tool-link span { margin-left: auto; }
+    .card { padding: 1.25rem; }
+    .tool-header { padding: 3rem 0 2rem !important; }
     .tool-header h1 { font-size: 1.8rem; }
     .btn { width: 100%; padding: 0.75rem; }
-    .category-pills { gap: 0.5rem !important; }
+    .category-pills { gap: 0.4rem !important; }
     .pill { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
-    .search-box input { padding: 1rem 1.5rem !important; font-size: 1rem !important; }
+    .search-box input { padding: 0.875rem 1rem !important; font-size: 1rem !important; }
+    .logo-text { font-size: 1.2rem; }
 }
 
 .nav-toggle {
