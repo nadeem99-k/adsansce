@@ -106,7 +106,7 @@ const OmniCore = {
                 <p style="color:var(--text-dim); max-width:600px; margin: 0 auto 2rem;">Every tool you see here is processed entirely in your browser. We never see your data, ensuring ultimate privacy and performance.</p>
                 <div style="display:flex; justify-content:center; gap:1.5rem; margin-bottom:1.5rem;">
                     <div id="api-status" style="font-size:0.8rem; color:var(--text-dim); display:flex; align-items:center; gap:0.5rem;">
-                        <span style="width:8px; height:8px; background:#4ade80; border-radius:50%; display:inline-block;"></span> 
+                        <span class="status-pulse"></span> 
                         Vern API: <span id="status-text">Checking...</span>
                     </div>
                 </div>
