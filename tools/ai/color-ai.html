@@ -5,6 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Color Picker & Palette | OmniToolbox</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
+    <style>
+        .input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        #res-area {
+            display: none;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .color-swatch {
+            height: 80px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.05);
+        }
+
+        .hex-code {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            font-family: monospace;
+        }
+
+        @media (max-width: 768px) {
+            #res-area {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .input-group {
+                flex-direction: column;
+            }
+            .btn {
+                width: 100%;
+            }
+            #res-area {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
 </head>
 <body>
     <header></header>
@@ -14,16 +64,16 @@
             <div class="card">
                 <div class="tool-header">
                     <h1>AI Color Artist</h1>
-                    <p>Describe a theme and let ChatGPT-4 design a perfect HEX color palette for you.</p>
+                    <p>Describe a theme and let AI design a perfect HEX color palette for you.</p>
                 </div>
 
                 <div class="tool-body">
-                    <div style="display:flex; gap:1rem; margin-bottom:1.5rem;">
+                    <div class="input-group">
                         <input type="text" id="theme" class="tool-input" style="min-height:unset;" placeholder="Cyberpunk Night...">
                         <button class="btn" onclick="gen()">Generate</button>
                     </div>
 
-                    <div id="res-area" style="display:grid; grid-template-columns: repeat(5, 1fr); gap:1rem; display:none;">
+                    <div id="res-area">
                     </div>
 
                     <div class="ad-placeholder" style="margin-top:2rem;">In-Content Ad Slot</div>
@@ -55,8 +105,8 @@
                 const hexes = data.response.match(/#[A-Fa-f0-9]{6}/g);
                 res.innerHTML = hexes.map(hex => `
                     <div style="text-align:center;">
-                        <div style="height:80px; background:${hex}; border-radius:8px; border:1px solid var(--border);" onclick="navigator.clipboard.writeText('${hex}'); alert('Copied!')"></div>
-                        <div style="font-size:0.8rem; margin-top:0.5rem;">${hex}</div>
+                        <div class="color-swatch" style="background:${hex};" onclick="navigator.clipboard.writeText('${hex}'); alert('Copied!')"></div>
+                        <div class="hex-code">${hex}</div>
                     </div>
                 `).join('');
             } catch(e) {
