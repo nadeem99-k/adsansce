@@ -324,6 +324,15 @@ const OmniData = {
 
 const OmniSEO = {
     init() {
+        // Inject Premium Typography
+        if (!document.getElementById('omni-fonts')) {
+            const fonts = document.createElement('link');
+            fonts.id = 'omni-fonts';
+            fonts.rel = 'stylesheet';
+            fonts.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap';
+            document.head.appendChild(fonts);
+        }
+
         if (!document.querySelector('meta[name="description"]')) {
             const meta = document.createElement('meta');
             meta.name = "description";
